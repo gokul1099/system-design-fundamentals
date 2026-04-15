@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to CAP Theorem — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 052 of 103 &middot; 50% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:50%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › CAP & Consistency › Introduction to CAP Theorem
+  </div>
+  <h1 class="hero-title">Introduction to CAP Theorem</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">CAP Theorem</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>The CAP theorem is a fundamental concept in distributed system architecture that describes an unavoidable trade-off between three core requirements: Consistency, Availability, and Partition Tolerance. In simple terms, it states that a distributed system cannot guarantee all three at the same time. This principle, introduced by computer scientist Eric Brewer, matters because it guides how we design reliable systems. If you’ve ever wondered why a banking app would rather go offline than show incorrect data, or why a social media feed might show slightly stale posts during outages, the CAP theorem provides the answer. It’s a must-know concept for system design interviews and real-world technical decision-making.</p>
+<h2 id=h2-overview-of-the-cap-theorem>Overview of the CAP theorem</h2>
+<p>The CAP theorem states that it is impossible for a distributed system to simultaneously provide all three properties: consistency, availability, and partition tolerance. In other words, a distributed system can only guarantee two out of these three properties at any given time. The theorem highlights the inherent trade-offs that system designers must consider when building distributed systems.</p>
+<ul>
+<li>
+<p><strong>Consistency (C):</strong> In the context of CAP, consistency means that <strong>all nodes see the same data at the same time</strong>. More formally, every read receives the result of the most recent write – no matter which replica node it connects to. This is often referred to as <em>strong consistency</em> or <em>linearizability</em>. (Note: This is different from the “consistency” in ACID databases, which refers to validity of transactions. Here, we mean consistency across distributed replicas.) If you write some data, a consistent system ensures any subsequent read (on any node) will return that data.</p>
+</li>
+<li>
+<p><strong>Availability (A):</strong> Availability means the system <strong>always responds to requests</strong>. Every request to a non-failing node must result in <em>some</em> response (either the latest data or possibly stale data, but it cannot ignore you or error out). In practice, this means even if parts of the system go down, the service as a whole is still accessible. An available system can tolerate node failures – clients can always read or write <em>something</em>.</p>
+</li>
+<li>
+<p><strong>Partition Tolerance (P):</strong> Partition tolerance means the system <strong>continues to operate despite network partitions</strong> or communication failures between nodes. A <em>partition</em> is a break in connectivity that splits the network into disjoint parts. In a partition-tolerant system, even if nodes are cut off from each other due to network issues, each part can keep working (possibly in a degraded mode). Essentially, the system can lose arbitrarily many messages between nodes (or even whole nodes) and still keep going. In modern distributed systems, <strong>network partitions <em>will</em> happen</strong> (due to outages, delays, etc.), so tolerance to partitions is a must.</p>
+</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Imagine a group of friends trying to agree on dinner plans over a patchy cell connection. The CAP theorem is the universe's rule that says: if your connection drops (a network partition), you must choose between waiting until everyone agrees before acting (consistency) or letting each friend make a decision independently and possibly ending up at different restaurants (availability). You can never perfectly guarantee both at the same time when the network is unreliable.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon's early shopping cart design chose availability over consistency, allowing users to add items to their cart even during network partitions. This meant two sessions might briefly show different cart contents, but the system would eventually reconcile — a classic AP choice that prioritized user experience.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's Spanner database was designed to provide strong consistency across globally distributed nodes using atomic clocks and the TrueTime API. This CP approach ensures that all reads reflect the most recent writes, accepting occasional latency increases to maintain correctness.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│                   CAP Theorem                        │
+│                                                     │
+│              Consistency (C)                        │
+│                   /\                                │
+│                  /  \                               │
+│                 / CP \                              │
+│                /      \                             │
+│               /────────\                            │
+│              / CA   AP  \                           │
+│             /            \                          │
+│  Availability (A) ─────── Partition Tolerance (P)  │
+│                                                     │
+│  Note: P is always required in distributed systems  │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Lead with the key insight that partition tolerance is non-negotiable in real distributed systems — so the real choice is always between C and A during a partition.</li>
+<li><span class="tip-icon">💡</span> Avoid stating that a system is simply 'CP' or 'AP' without context — most modern systems tune these properties per operation or per data type.</li>
+<li><span class="tip-icon">💡</span> Reference concrete databases when discussing CAP: HBase and Zookeeper for CP; Cassandra and DynamoDB for AP.</li>
+<li><span class="tip-icon">💡</span> Mention that CAP was formalized by Eric Brewer in 2000 and proved by Gilbert and Lynch in 2002 — this shows academic awareness and often impresses interviewers.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CAP theorem states a distributed system can guarantee at most two of: Consistency, Availability, and Partition Tolerance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Network partitions are inevitable in distributed systems, making partition tolerance a practical requirement.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The real tradeoff in distributed systems is between consistency and availability during a partition event.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CAP is a useful mental model but oversimplifies real systems — use it as a starting point, not the final answer.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">The definitive Wikipedia article on CAP theorem including its history, formal proof, and criticism.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's SRE book discusses distributed systems consistency and availability tradeoffs in production environments.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS NoSQL Database Guide</a></div>
+      <div class="reading-desc">AWS explains NoSQL database types and their consistency/availability tradeoffs in the context of CAP theorem.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="051-data-backup-vs-disaster-recovery.html" class="nav-btn nav-prev">← Data Backup vs Disaster Recovery</a>
+  <a href="053-components-of-cap-theorem.html" class="nav-btn nav-next">Components of CAP Theorem →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

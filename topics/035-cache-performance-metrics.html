@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cache Performance Metrics — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 035 of 103 &middot; 34% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:34%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Cache Performance Metrics
+  </div>
+  <h1 class="hero-title">Cache Performance Metrics</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Metrics</span> <span class="hero-tag">Performance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>When implementing caching, it’s important to measure the performance of the cache to ensure that it is effective in reducing latency and improving system performance. Here are some of the most common cache performance metrics:</p>
+<h2 id=h2-hit-rate>Hit rate</h2>
+<p>The hit rate is the percentage of requests that are served by the cache without accessing the original source. A high hit rate indicates that the cache is effective in reducing the number of requests to the original source, while a low hit rate indicates that the cache may not be providing significant performance benefits.</p>
+<h2 id=h2-miss-rate>Miss rate</h2>
+<p>The miss rate is the percentage of requests that are not served by the cache and need to be fetched from the original source. A high miss rate indicates that the cache may not be caching the right data or that the cache size may not be large enough to store all frequently accessed data.</p>
+<h2 id=h2-cache-size>Cache size</h2>
+<p>The cache size is the amount of memory or storage allocated for the cache. The cache size can impact the hit rate and miss rate of the cache. A larger cache size can result in a higher hit rate, but it may also increase the cost and complexity of the caching solution.</p>
+<h2 id=h2-cache-latency>Cache latency</h2>
+<p>The cache latency is the time it takes to access data from the cache. A lower cache latency indicates that the cache is faster and more effective in reducing latency and improving system performance. The cache latency can be impacted by the caching technology used, the cache size, and the cache replacement and invalidation policies.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache performance metrics are like the stats a store manager tracks for their stockroom. Cache hit ratio is how often a customer finds what they want on the shelf versus having to wait for a warehouse order. Latency is how long that shelf lookup takes. Eviction rate tells you how often items are being removed to make room for new ones. Together these metrics tell you whether your stockroom strategy is actually working.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix monitors cache hit ratio per content type — popular current season episodes should achieve 95%+ hit rates on CDN edges, while long-tail catalog items may hit only 40-50%. When hit ratios drop unexpectedly, it signals either a cache misconfiguration or a traffic pattern shift. SREs use these metrics to tune TTLs and cache capacity.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare publishes aggregate cache hit ratios as part of their performance dashboards for customers. A customer with a low hit ratio is coached to add cache-control headers, increase TTLs, or restructure URLs to improve cacheability. Hit ratio improvements directly reduce origin load and improve response times.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│       Key Cache Metrics              │
+│                                      │
+│  Hit Rate = Hits / (Hits + Misses)   │
+│  ► Target: > 90% for hot data        │
+│                                      │
+│  Miss Rate = 1 - Hit Rate            │
+│                                      │
+│  Cache Latency (avg response time)   │
+│  ► Target: 1-5ms for in-memory       │
+│                                      │
+│  Eviction Rate (evictions/sec)       │
+│  ► High rate → cache too small       │
+│                                      │
+│  Memory Utilization (% full)         │
+│  ► Target: 70-80% to allow headroom  │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Lead with hit ratio as the primary health metric — a high hit ratio means the cache is effectively serving traffic and reducing backend load.</li>
+<li><span class="tip-icon">💡</span> Explain that a hit ratio below 70-80% often signals that the cache is too small, TTLs are too short, or the data being cached is not frequently accessed.</li>
+<li><span class="tip-icon">💡</span> Discuss eviction rate: high eviction rates suggest the cache is at capacity and items are being removed before they can be reused — a signal to increase cache size.</li>
+<li><span class="tip-icon">💡</span> Mention that both hit ratio and latency should be tracked per cache segment (hot vs. warm data) rather than as a single average, since averages can hide problems in specific data categories.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache hit ratio is the most important metric: it measures what percentage of requests are served from cache.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A high eviction rate signals that the cache is undersized for the working set of data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache latency should be consistently low (1-5ms for in-memory caches); spikes indicate contention or memory pressure.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Memory utilization should be maintained below 80% to prevent thrashing and allow for traffic spikes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Monitoring cache metrics per data type or endpoint reveals which content is well-cached and which needs tuning.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Monitoring and Metrics</a></div>
+      <div class="reading-desc">Redis documentation on INFO command and monitoring cache hit rates, memory, and eviction statistics.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_(computing)" target="_blank" rel="noopener">Cache (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">Explains hit rate, miss rate, and other fundamental cache performance concepts.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">AWS Caching Performance</a></div>
+      <div class="reading-desc">AWS guidance on measuring and optimizing caching performance in cloud architectures.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="034-caching-challenges.html" class="nav-btn nav-prev">← Caching Challenges</a>
+  <a href="036-what-is-cdn.html" class="nav-btn nav-next">What is CDN →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

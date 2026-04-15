@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event-Driven vs Polling Architecture — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 103 of 103 &middot; 100% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:100%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Processing & Architecture › Event-Driven vs Polling Architecture
+  </div>
+  <h1 class="hero-title">Event-Driven vs Polling Architecture</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Event-Driven</span> <span class="hero-tag">Polling</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Event-Driven and Polling architectures represent two different approaches to monitoring and responding to changes or new data in software systems. Each has its characteristics, benefits, and best use cases.</p>
+<h2 id=h2-event-driven-architecture>Event-Driven Architecture</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Event-Driven Architecture</strong> is a design pattern in which a component executes in response to receiving one or more event notifications. Events are emitted by a source (like user actions or system triggers), and event listeners or handlers react to these events.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Reactive</strong>: The system reacts to events as they occur.</li>
+<li><strong>Asynchronous</strong>: Event handling is typically non-blocking and asynchronous.</li>
+<li><strong>Loose Coupling</strong>: The event producers and consumers are loosely coupled, enhancing flexibility and scalability.</li>
+<li><strong>Real-Time Processing</strong>: Ideal for scenarios requiring immediate action in response to changes.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Real-time user interfaces, where user actions trigger immediate system responses.</li>
+<li>Complex event processing in distributed systems.</li>
+<li>Implementing microservices communication via message brokers like Kafka or RabbitMQ.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>In a smart home system, a temperature sensor detects a change in room temperature and emits an event. The heating system subscribes to these events and reacts by adjusting the temperature.</li>
+</ul>
+<h2 id=h2-polling-architecture>Polling Architecture</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Polling Architecture</strong> involves a design where a component frequently checks (polls) a source to detect if any new data or change in state has occurred, and then acts on the change.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Active Checking</strong>: The system regularly queries or checks a source for changes.</li>
+<li><strong>Synchronous</strong>: Polling is often a synchronous and blocking operation.</li>
+<li><strong>Simple to Implement</strong>: Easier to implement than event-driven systems but can be less efficient.</li>
+<li><strong>Predictable Load</strong>: The polling interval sets a predictable load on the system.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Checking for new emails or updates in applications where real-time processing is not critical.</li>
+<li>Monitoring system status or performing routine checks where events are infrequent.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A backup software that checks every 24 hours to see if new files need to be backed up.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Response to Changes</strong>:</p>
+<ul>
+<li><strong>Event-Driven</strong>: Responds immediately to events as they occur.</li>
+<li><strong>Polling</strong>: Checks for changes at regular intervals.</li>
+</ul>
+</li>
+<li>
+<p><strong>Resource Utilization</strong>:</p>
+<ul>
+<li><strong>Event-Driven</strong>: Generally more efficient with system resources, as it only reacts to changes.</li>
+<li><strong>Polling</strong>: Can be resource-intensive, especially with frequent polling intervals.</li>
+</ul>
+</li>
+<li>
+<p><strong>Complexity</strong>:</p>
+<ul>
+<li><strong>Event-Driven</strong>: Can be more complex to implement, requiring robust event handling and management.</li>
+<li><strong>Polling</strong>: Simpler to implement but may not be as responsive or efficient.</li>
+</ul>
+</li>
+<li>
+<p><strong>Real-Time Capability</strong>:</p>
+<ul>
+<li><strong>Event-Driven</strong>: Suitable for real-time applications.</li>
+<li><strong>Polling</strong>: More suitable for applications where real-time response is not critical.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scalability</strong>:</p>
+<ul>
+<li><strong>Event-Driven</strong>: Scales well, especially in distributed systems with many events.</li>
+<li><strong>Polling</strong>: Scaling can be challenging, particularly if the polling frequency is high.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>Choosing between event-driven and polling architectures depends on the specific requirements of the application. Event-driven architectures are ideal for systems where immediate responsiveness to changes is critical, and efficiency and scalability are important. Polling architectures, while simpler, are best suited for scenarios where events are less frequent or real-time responsiveness is not a necessity.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Event-driven architecture is like a smoke detector — when smoke is detected (event), the alarm triggers (reaction) immediately. Polling is like a security guard who checks every room every 10 minutes. The smoke detector reacts instantly; the guard wastes most checks finding nothing. Events are efficient and timely; polling is simple but wasteful.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe (Event-Driven)</div>
+      <div class="example-text">Stripe's entire platform is event-driven. When a charge is created, events like 'charge.succeeded' or 'charge.failed' fire and fan out to webhooks, internal microservices, analytics, and fraud detection — all reacting independently.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS S3 + Lambda</div>
+      <div class="example-text">When a file is uploaded to S3 (event), Lambda functions react immediately — resizing images, extracting text, sending notifications. Without event-driven design, a polling Lambda would check S3 every minute, wasting compute and adding latency.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏭 IoT Systems</div>
+      <div class="example-text">Industrial IoT systems use event-driven architecture to react to sensor readings. A temperature spike (event) immediately triggers cooling systems, alerts operators, and logs to a time-series database — milliseconds of latency vs seconds for polling.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Event-Driven vs Polling
+
+  POLLING:
+  Service ──"any events?"──▶ Source  (every N seconds)
+  Source  ──"yes/no"───────▶ Service
+  ❌ Wasted requests  ❌ Latency = poll interval
+
+  EVENT-DRIVEN:
+  Source ──"event!"──▶ Event Bus ──▶ Handler A
+                                ──▶ Handler B
+                                ──▶ Handler C
+  ✅ Immediate  ✅ No wasted checks
+  ✅ Loose coupling  ❌ Hard to trace
+  ❌ Eventual consistency
+
+  Event Brokers: Kafka, SNS, EventBridge,
+                 RabbitMQ, Pub/Sub
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Event-driven systems are loosely coupled — adding a new consumer doesn't require changing the producer.</li>
+<li><span class="tip-icon">💡</span> Event sourcing (storing events as the source of truth) is a natural extension — you can rebuild any state by replaying events.</li>
+<li><span class="tip-icon">💡</span> Idempotent event handlers are critical — events may be delivered more than once (at-least-once delivery).</li>
+<li><span class="tip-icon">💡</span> Use correlation IDs to trace a request across multiple event-driven services in logs and traces.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Event-driven: react to events as they happen — immediate, loosely coupled, efficient.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Polling: check for changes on a schedule — simple but wasteful and adds latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Event-driven systems are harder to debug — use distributed tracing and correlation IDs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Idempotency is essential — handlers must safely process the same event multiple times.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/201701-event-driven.html" target="_blank" rel="noopener">Martin Fowler: Event-Driven Architecture</a></div>
+      <div class="reading-desc">Martin Fowler's nuanced take on event-driven systems and their complexity.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/what-is-amazon-eventbridge.html" target="_blank" rel="noopener">AWS EventBridge Documentation</a></div>
+      <div class="reading-desc">AWS's managed event bus — a practical implementation of event-driven architecture.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Event-driven_architecture" target="_blank" rel="noopener">Wikipedia: Event-Driven Architecture</a></div>
+      <div class="reading-desc">Overview of EDA principles, patterns, and trade-offs.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="102-stateful-vs-stateless-architecture.html" class="nav-btn nav-prev">← Stateful vs Stateless Architecture</a>
+  <a href="#" class="nav-btn nav-next nav-disabled">Last topic →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

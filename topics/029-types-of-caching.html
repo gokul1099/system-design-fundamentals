@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Types of Caching — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 029 of 103 &middot; 28% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:28%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Types of Caching
+  </div>
+  <h1 class="hero-title">Types of Caching</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Caching can be implemented in various ways, depending on the specific use case and the type of data being cached. Here are some of the most common types of caching:</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Different types of caching are like different levels of a food delivery system. The food at your desk (CPU cache) is immediate but tiny. The office kitchen (application cache) holds more but takes a short walk. The restaurant down the street (CDN) has your neighborhood's favorites. The central warehouse (database) has everything but takes a long time to get from. Each level trades capacity for speed.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix employs multiple caching layers simultaneously: CDN edge caches hold popular video chunks near viewers, application caches hold metadata and user preferences, and database query caches handle session data. Each layer serves a distinct purpose and together they prevent most traffic from reaching origin servers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💬 Discord</div>
+      <div class="example-text">Discord uses in-memory application caches for active guild and channel data, browser caches for static assets, and CDN caches for media files. Message history is cached at the application layer while emoji and avatars are cached at the CDN layer. This tiered approach matches cache type to data access pattern.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────┐
+│  Browser Cache (Client-Side)        │
+│  Stores: HTML, CSS, JS, images      │
+├─────────────────────────────────────┤
+│  CDN Edge Cache (Network Layer)     │
+│  Stores: Static assets, responses   │
+├─────────────────────────────────────┤
+│  Application Cache (Server-Side)    │
+│  Stores: DB query results, sessions │
+├─────────────────────────────────────┤
+│  Database Cache (Query Cache)       │
+│  Stores: Frequent query results     │
+├─────────────────────────────────────┤
+│  CPU / Hardware Cache (L1/L2/L3)    │
+│  Stores: Processor instructions     │
+└─────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Be ready to name and describe at least four distinct caching layers: CPU/hardware, browser/client, CDN/network, and application/server-side.</li>
+<li><span class="tip-icon">💡</span> Explain when each type is appropriate — CDN for static content, application cache for computed results, database cache for expensive queries.</li>
+<li><span class="tip-icon">💡</span> Discuss object caching vs. fragment caching vs. full-page caching and when each makes sense in a web application.</li>
+<li><span class="tip-icon">💡</span> Mention distributed vs. local caching: local caches are faster but inconsistent across nodes; distributed caches (Redis) are consistent but have network overhead.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching exists at multiple layers: hardware, OS, browser, CDN, application, and database.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Client-side caches (browser, local) eliminate network round-trips entirely for cached content.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CDN caches serve static and semi-static content from geographically distributed edge locations.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Application-level caches (Redis, Memcached) store computed results to avoid expensive backend calls.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Choosing the right cache type for each data category is key to an efficient caching strategy.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">HTTP Caching — MDN Web Docs</a></div>
+      <div class="reading-desc">Detailed reference for browser and HTTP-level cache types and their controlling headers.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">Caching Best Practices — AWS</a></div>
+      <div class="reading-desc">AWS describes different caching layers and best practices for each in cloud architectures.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Documentation</a></div>
+      <div class="reading-desc">Official Redis docs for understanding in-memory application caching patterns and data structures.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="028-why-is-caching-important.html" class="nav-btn nav-prev">← Why is Caching Important</a>
+  <a href="030-cache-replacement-policies.html" class="nav-btn nav-next">Cache Replacement Policies →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

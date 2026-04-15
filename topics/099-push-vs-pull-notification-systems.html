@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Push vs Pull Notification Systems — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 099 of 103 &middot; 96% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:96%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Communication Patterns › Push vs Pull Notification Systems
+  </div>
+  <h1 class="hero-title">Push vs Pull Notification Systems</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Push</span> <span class="hero-tag">Pull</span> <span class="hero-tag">Notifications</span> <span class="hero-tag">Real-time</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Push and pull notification systems are two distinct methods used in software and web applications for updating users with new information. Understanding the differences between them is crucial for designing effective and user-friendly notification mechanisms.</p>
+<h2 id=h2-push-notification-system>Push Notification System</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Push Notifications</strong> involve sending information to users proactively from a server. The server initiates the data transmission.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Proactive</strong>: The server sends notifications without the user requesting them.</li>
+<li><strong>Real-Time</strong>: Offers near-instant delivery of messages, making it suitable for timely alerts.</li>
+<li><strong>User Engagement</strong>: Can enhance user engagement but requires careful management to avoid overwhelming users.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>New email or instant message alerts.</li>
+<li>Social media updates (like new posts or interactions).</li>
+<li>App-specific alerts, like a ride-sharing app notifying users of ride status.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A weather app sends a push notification about a sudden weather change.</li>
+</ul>
+<h3 id=h3-pros-and-cons>Pros and Cons</h3>
+<ul>
+<li><strong>Pros</strong>: Immediate information delivery; no action required from users to receive updates.</li>
+<li><strong>Cons</strong>: Can be intrusive; relies on users granting permission to receive notifications.</li>
+</ul>
+<h2 id=h2-pull-notification-system>Pull Notification System</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Pull Notifications</strong> require the user or client to actively request or check for new information.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Reactive</strong>: The user must initiate the process to check for new updates.</li>
+<li><strong>Manual Refresh</strong>: Users may need to refresh or query the server for the latest updates.</li>
+<li><strong>Control</strong>: Users have more control over when they receive information.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Checking for new emails by refreshing the email client.</li>
+<li>Manually updating a news app to see the latest articles.</li>
+<li>Polling a server for the latest updates in a collaborative application.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A user opens a social media app to check for new messages or notifications.</li>
+</ul>
+<h3 id=h3-pros-and-cons>Pros and Cons</h3>
+<ul>
+<li><strong>Pros</strong>: Less intrusive; users access information at their convenience.</li>
+<li><strong>Cons</strong>: Not suitable for urgent updates; relies on user action to receive new information.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Initiation</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Server-initiated.</li>
+<li><strong>Pull</strong>: Client/user-initiated.</li>
+</ul>
+</li>
+<li>
+<p><strong>Timeliness</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Notifications are instant and automatic.</li>
+<li><strong>Pull</strong>: Updates are obtained on demand, possibly leading to delays.</li>
+</ul>
+</li>
+<li>
+<p><strong>User Engagement</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Can increase engagement through timely and relevant notifications.</li>
+<li><strong>Pull</strong>: Requires active user engagement to seek out information.</li>
+</ul>
+</li>
+<li>
+<p><strong>Intrusiveness</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Potentially more intrusive, can lead to notification fatigue.</li>
+<li><strong>Pull</strong>: Less intrusive, as users control when they receive updates.</li>
+</ul>
+</li>
+<li>
+<p><strong>Internet Dependency</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Requires a constant internet connection for real-time updates.</li>
+<li><strong>Pull</strong>: Users can check for updates whenever they have internet access.</li>
+</ul>
+</li>
+<li>
+<p><strong>Implementation Complexity</strong>:</p>
+<ul>
+<li><strong>Push</strong>: Generally more complex to implement; requires maintaining connections and managing permissions.</li>
+<li><strong>Pull</strong>: Simpler to implement; typically involves standard request-response models.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>The choice between push and pull notification systems depends on the application's nature, the type of information being disseminated, and user preferences. Push notifications are ideal for critical and time-sensitive updates, while pull notifications are better suited for non-urgent information that users can access at their leisure.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Push notifications are like a waiter who comes to your table when your food is ready. Pull is like going to a buffet counter every 5 minutes to check if anything new appeared. Push is efficient and immediate; pull is simple but wastes effort when nothing is new (polling).</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📱 Apple APNs / Google FCM</div>
+      <div class="example-text">Apple Push Notification Service and Firebase Cloud Messaging deliver push notifications to billions of mobile devices. The OS maintains a persistent connection to these servers; when your app has a notification, the server pushes it down the existing connection.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub Webhooks</div>
+      <div class="example-text">GitHub webhooks push events (push, pull request, release) to a URL you configure whenever they happen. Instead of your CI system polling GitHub's API every minute, GitHub pushes the event the instant it occurs.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X Streaming API</div>
+      <div class="example-text">Twitter's filtered streaming API pushes matching tweets to connected clients in real time. News aggregators and sentiment analysis tools use this instead of polling the REST API — reducing latency from minutes to milliseconds.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Push vs Pull
+
+  PULL (polling):
+  Client ──"anything new?"──▶ Server
+  Client ◀── "nope" ───────── Server   (most calls wasted)
+  Client ──"anything new?"──▶ Server
+  Client ◀── "yes, here"───── Server
+
+  PUSH (server push / webhooks):
+  Server ──"event!"──▶ Client   (only when something happens)
+
+  LONG POLLING (hybrid):
+  Client ──request──▶ Server
+  Server holds request until event occurs
+  Server ──event──▶ Client   (then client immediately re-polls)
+
+  SSE / WebSocket: persistent connection, server pushes
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Pull is simpler to implement but wastes bandwidth. Push is efficient but requires the server to know client addresses (or maintain connections).</li>
+<li><span class="tip-icon">💡</span> Long polling is a push-like approximation over HTTP — used when WebSockets aren't available.</li>
+<li><span class="tip-icon">💡</span> For mobile push, always go through APNs/FCM — direct TCP connections from servers to phones are impractical at scale.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Pull (polling): client repeatedly asks for updates — simple, but wasteful when updates are infrequent.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Push: server proactively sends updates when they happen — efficient, but requires persistent connections or webhooks.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Long polling is a hybrid: client waits, server holds the request, responds when data is available.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> WebSockets and SSE provide full push over persistent connections — best for real-time apps.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events" target="_blank" rel="noopener">MDN: Server-Sent Events</a></div>
+      <div class="reading-desc">How to implement server push using the SSE API.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Push_technology" target="_blank" rel="noopener">Wikipedia: Push Technology</a></div>
+      <div class="reading-desc">Overview of push vs pull paradigms in web communication.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://firebase.google.com/docs/cloud-messaging" target="_blank" rel="noopener">Firebase Cloud Messaging Docs</a></div>
+      <div class="reading-desc">How Google's FCM implements cross-platform mobile push notifications.</div>
+      <div class="reading-url">firebase.google.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="098-synchronous-vs-asynchronous-communication.html" class="nav-btn nav-prev">← Synchronous vs Asynchronous Communication</a>
+  <a href="100-microservices-vs-serverless.html" class="nav-btn nav-next">Microservices vs Serverless Architecture →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

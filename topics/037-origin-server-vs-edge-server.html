@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin Server vs Edge Server — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 037 of 103 &middot; 36% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:36%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Origin Server vs Edge Server
+  </div>
+  <h1 class="hero-title">Origin Server vs Edge Server</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">CDN</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Origin servers and edge servers are key components in the delivery of web content, especially in content delivery networks (CDNs). They serve different roles in ensuring that users access web content quickly and efficiently. Understanding the distinction between the two is crucial in the context of web architecture and CDN functionality.</p>
+<h2 id=h2-origin-server>Origin Server</h2>
+<p>The origin server is the primary source of the original, unmodified content. It hosts the website's content, including HTML files, images, stylesheets, JavaScript, videos, and other digital assets. When a user requests a web resource (like a webpage), the request is directed to the origin server if the content is not cached elsewhere.</p>
+<h3 id=h3-characteristics>Characteristics:</h3>
+<ul>
+<li><strong>Centralized Content Storage</strong>: It is the central repository where all the website's original content is stored and managed.</li>
+<li><strong>Content Source</strong>: It provides the original content to edge servers or directly to users if the content is not cached or when a CDN is not used.</li>
+<li><strong>Performance Limitations</strong>: Directly serving all user requests, especially for sites with a global audience, can lead to slower response times due to geographical distance and increased load.</li>
+</ul>
+<h2 id=h2-edge-server>Edge Server</h2>
+<p>Edge servers, on the other hand, are part of a distributed network of servers, typically provided by a CDN. They cache content from the origin server and deliver it to users from a location closer to the user, thereby reducing latency and improving load times.</p>
+<h3 id=h3-characteristics>Characteristics:</h3>
+<ul>
+<li><strong>Geographical Distribution</strong>: Located in various locations (edge locations) closer to the end-users to reduce the distance that data travels over the network.</li>
+<li><strong>Content Caching</strong>: Stores cached copies of content from the origin server. This caching mechanism allows for faster delivery of content to users and reduces the load on the origin server.</li>
+<li><strong>Load Balancing and Scalability</strong>: Helps in distributing user requests efficiently, handling traffic spikes, and improving the scalability of web content delivery.</li>
+</ul>
+<h2 id=h2-example-scenario>Example Scenario</h2>
+<p>Imagine a user from Paris attempting to access a video hosted on a website whose origin server is located in New York. If the website uses a CDN, the user's request might be routed to an edge server in Paris. If the requested video is cached on the Paris edge server, it is delivered quickly to the user from there, significantly reducing the time it would take to fetch the video directly from the origin server in New York.</p>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>While the origin server is the source of the original content, edge servers play a crucial role in optimizing content delivery to end-users by caching content closer to where users are located. This architecture significantly improves website performance, reduces latency, and enhances user experience, especially for websites with a global audience.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">An origin server is like the main printing press for a newspaper — it creates all the content. An edge server is like the local distribution depot that pre-stocks copies for your neighborhood. Most mornings you pick up the paper from the depot without the press being involved at all. Only when the depot runs out of stock does anyone call the press. The press focuses on creating content; the depots handle the delivery at scale.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's edge servers sit in over 300 locations worldwide and serve cached content directly to users. The customer's origin server only receives requests that are not in the edge cache or that require dynamic content. During a DDoS attack, Cloudflare's edges absorb and filter traffic before it ever reaches the origin.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub uses Fastly as its CDN to serve static assets like JavaScript, CSS, and images from edge servers globally. GitHub's origin servers handle git operations, API requests, and authenticated pages. The split between edge-served static content and origin-served dynamic content dramatically reduces origin server load.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌────────────────────────────────────┐
+│          ORIGIN SERVER             │
+│  - Stores the authoritative data   │
+│  - Generates dynamic responses     │
+│  - Updated by content creators     │
+│  - Higher latency (far from users) │
+└───────────────┬────────────────────┘
+                │ Replicates to edges
+                ▼
+┌────────────────────────────────────┐
+│           EDGE SERVER              │
+│  - Geographically near the user    │
+│  - Caches static/semi-static data  │
+│  - Low latency responses (<20ms)   │
+│  - Forwards cache misses to origin │
+└────────────────────────────────────┘
+        │              │
+        ▼              ▼
+   User (US)       User (EU)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Clearly distinguish origin (authoritative source of truth, generates dynamic content) from edge (distributed cache, serves nearby users).</li>
+<li><span class="tip-icon">💡</span> Explain what happens on a cache miss: the edge server fetches from the origin, caches the response locally, then serves it to the user — this is called origin pull.</li>
+<li><span class="tip-icon">💡</span> Discuss origin shield: an intermediate caching layer between the edge and the origin that consolidates cache misses from all edges into fewer origin requests.</li>
+<li><span class="tip-icon">💡</span> Mention that origin servers benefit from CDN offloading — when 90% of requests are served from edges, the origin can be sized for 10% of total traffic rather than 100%.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The origin server holds the authoritative, up-to-date version of all content and handles dynamic requests.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Edge servers are geographically distributed CDN nodes that cache and serve content close to users.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> On a cache miss, edge servers fetch from the origin, cache the response, then serve subsequent requests locally.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Origin shield is a middle layer that reduces the number of cache misses that actually reach the origin.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Effectively using edge servers can reduce origin traffic by 70-95%, allowing smaller origin infrastructure.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-a-cdn/" target="_blank" rel="noopener">What is a CDN? — Cloudflare</a></div>
+      <div class="reading-desc">Explains edge server architecture and how CDN nodes interact with origin servers.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener">Amazon CloudFront</a></div>
+      <div class="reading-desc">Describes CloudFront edge locations and origin server configuration for CDN deployments.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Content_delivery_network" target="_blank" rel="noopener">Content Delivery Network — Wikipedia</a></div>
+      <div class="reading-desc">Covers the architectural relationship between origin and edge servers in CDN design.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="036-what-is-cdn.html" class="nav-btn nav-prev">← What is CDN</a>
+  <a href="038-cdn-architecture.html" class="nav-btn nav-next">CDN Architecture →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

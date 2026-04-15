@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Security and Privacy — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 080 of 103 &middot; 78% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:78%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › What is Security and Privacy
+  </div>
+  <h1 class="hero-title">What is Security and Privacy</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Security</span> <span class="hero-tag">Privacy</span> <span class="hero-tag">Fundamentals</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Ensuring security and privacy in distributed systems is essential to protect sensitive data, user information, and system integrity. Distributed systems face unique challenges related to security and privacy due to their distributed nature, which makes them more vulnerable to attacks and data breaches. Here's an overview of various aspects of security and privacy in distributed systems:</p>
+<h2 id=h2-a-authentication-and-authorization>A. Authentication and Authorization</h2>
+<p>Authentication and authorization are critical components of security in distributed systems. Authentication is the process of verifying the identity of users, services, or nodes before allowing them access to the system. Authorization, on the other hand, determines what actions or resources the authenticated entity is allowed to access. Implementing strong authentication and authorization mechanisms, such as OAuth, JWT, or Kerberos, can help protect your distributed system from unauthorized access and malicious activities.</p>
+<h2 id=h2-b-data-encryption>B. Data Encryption</h2>
+<p>Data encryption is the process of converting data into an encoded format that can only be decrypted and read by someone with the correct decryption key. In distributed systems, encrypting data both at rest and in transit is crucial to protect sensitive information and ensure privacy. Techniques like symmetric and asymmetric encryption, as well as protocols such as TLS/SSL, can be used to secure data in distributed systems.</p>
+<h2 id=h2-c-secure-communication>C. Secure Communication</h2>
+<p>Secure communication between nodes in a distributed system is vital to prevent eavesdropping, tampering, or forgery of messages. Implementing secure communication protocols, such as TLS/SSL, IPSec, or application-level encryption, can help protect the integrity and confidentiality of data exchanged between nodes.</p>
+<h2 id=h2-d-intrusion-detection-and-prevention>D. Intrusion Detection and Prevention</h2>
+<p>Intrusion detection and prevention systems (IDPS) are designed to monitor network traffic, detect malicious activities or policy violations, and take appropriate actions to mitigate potential threats. By deploying IDPS solutions in your distributed system, you can identify and respond to security incidents more effectively, thus reducing the risk of data breaches and system compromise.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Security is like the locks, alarms, and guards protecting a bank vault. Privacy is the bank's promise not to tell anyone how much money you have or what you spend it on. You can have a very secure bank that gossips about your balance — that's security without privacy. You can also have a very private bank with terrible locks — privacy without security.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🍎 Apple</div>
+      <div class="example-text">Apple's Privacy-first design includes on-device processing for Siri and Face ID (data never leaves your phone) combined with strong security (secure enclave, end-to-end encrypted iMessage).</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💬 WhatsApp</div>
+      <div class="example-text">WhatsApp uses end-to-end encryption (Signal Protocol) for security — only sender and receiver can read messages. However, metadata (who talks to whom, when, how often) is shared with Meta, raising privacy concerns.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🇪🇺 GDPR</div>
+      <div class="example-text">The EU's GDPR formalizes privacy as a right: companies must obtain consent, allow data deletion ('right to be forgotten'), and report breaches within 72 hours. Security controls are required to implement these privacy guarantees.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Security vs Privacy
+  ┌─────────────────┬──────────────────┐
+  │    SECURITY     │     PRIVACY      │
+  ├─────────────────┼──────────────────┤
+  │ Protect from    │ Control over     │
+  │ unauthorized    │ personal data    │
+  │ access          │ collection/use   │
+  ├─────────────────┼──────────────────┤
+  │ Encryption,     │ Consent,         │
+  │ Auth, Firewalls │ Anonymization,   │
+  │ Intrusion Det.  │ Data Minimization│
+  ├─────────────────┼──────────────────┤
+  │ "Keep bad guys  │ "Control who     │
+  │  out"           │  knows what"     │
+  └─────────────────┴──────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> In system design interviews, briefly acknowledge both security (AuthN/AuthZ, encryption) and privacy (data minimization, retention policies) when designing user-facing systems.</li>
+<li><span class="tip-icon">💡</span> GDPR and CCPA compliance often comes up — mention data residency, right to deletion, and audit logs.</li>
+<li><span class="tip-icon">💡</span> Principle of least privilege: give users and services only the permissions they absolutely need.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Security protects systems from unauthorized access; privacy protects personal data from misuse.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Strong security is necessary but not sufficient for privacy.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> GDPR, CCPA, and HIPAA are major regulatory frameworks that mandate both.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Privacy-by-design means building data minimization and consent into the system from the start.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top Ten</a></div>
+      <div class="reading-desc">The 10 most critical web application security risks — essential reading.</div>
+      <div class="reading-url">owasp.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Information_privacy" target="_blank" rel="noopener">Wikipedia: Information Privacy</a></div>
+      <div class="reading-desc">Comprehensive overview of privacy concepts, regulations, and technologies.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://gdpr.eu/what-is-gdpr/" target="_blank" rel="noopener">GDPR Official Text</a></div>
+      <div class="reading-desc">Plain-English explanation of GDPR requirements for handling personal data.</div>
+      <div class="reading-url">gdpr.eu</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="079-leader-and-follower-pattern.html" class="nav-btn nav-prev">← What is Leader and Follower Pattern</a>
+  <a href="081-what-is-authentication.html" class="nav-btn nav-next">What is Authentication →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

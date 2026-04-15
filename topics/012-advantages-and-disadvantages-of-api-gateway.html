@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advantages and Disadvantages of API Gateway — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 012 of 103 &middot; 12% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:12%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Advantages and Disadvantages of API Gateway
+  </div>
+  <h1 class="hero-title">Advantages and Disadvantages of API Gateway</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">API Gateway</span> <span class="hero-tag">Trade-offs</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h1 id=h1-advantages-of-using-api-gateway>Advantages of using API Gateway</h1>
+<p>Using an API Gateway in a software system brings several advantages that can streamline the development process, enhance performance, and improve security. Here are the key advantages of using an API Gateway:</p>
+<h2 id=h2-1-improved-performance>1. Improved performance</h2>
+<p>The API Gateway can cache responses, rate limit requests, and optimize communication between clients and backend services, resulting in improved performance and reduced latency for end users.</p>
+<h2 id=h2-2-simplified-system-design>2. Simplified system design</h2>
+<p>The API Gateway provides a single entry point for all API requests, making it easier to manage, monitor, and maintain APIs across multiple backend services. This simplifies the development and deployment process and reduces the complexity of the overall system.</p>
+<h2 id=h2-3-enhanced-security>3. Enhanced security</h2>
+<p>The API Gateway can enforce authentication and authorization policies, helping protect backend services from unauthorized access or abuse. By handling security at the gateway level, developers can focus on implementing core business logic in their services without worrying about implementing security measures in each service individually.</p>
+<h2 id=h2-4-improved-scalability>4. Improved scalability</h2>
+<p>The API gateway can distribute incoming requests among multiple instances of a microservice, enabling the system to scale more easily and handle a larger number of requests.</p>
+<h2 id=h2-5-better-monitoring-and-visibility>5. Better monitoring and visibility</h2>
+<p>The API gateway can collect metrics and other data about the requests and responses, providing valuable insights into the performance and behavior of the system. This can help to identify and diagnose problems, and improve the overall reliability and resilience of the system.</p>
+<h2 id=h2-6-simplified-client-integration>6. Simplified Client Integration</h2>
+<p>By providing a consistent and unified interface for clients to access multiple backend services, the API Gateway simplifies client-side development and reduces the need for clients to manage complex service interactions.</p>
+<h2 id=h2-7-protocol-and-data-format-transformation>7. Protocol and Data Format Transformation</h2>
+<p>The API Gateway can convert requests and responses between different protocols (e.g., HTTP to gRPC) or data formats (e.g., JSON to XML), enabling greater flexibility in how clients and services communicate and easing the integration process.</p>
+<h2 id=h2-8-api-versioning-and-backward-compatibility>8. API Versioning and Backward Compatibility</h2>
+<p>The API Gateway can manage multiple versions of an API, allowing developers to introduce new features or make changes without breaking existing clients. This enables a smoother transition for clients and reduces the risk of service disruptions.</p>
+<h2 id=h2-9-enhanced-error-handling>9. Enhanced Error Handling</h2>
+<p>The API Gateway can provide a consistent way to handle errors and generate error responses, improving the user experience and making it easier to diagnose and fix issues.</p>
+<h2 id=h2-10-load-balancing-and-fault-tolerance>10. Load Balancing and Fault Tolerance</h2>
+<p>The API Gateway can distribute incoming traffic evenly among multiple instances of a backend service, improving performance and fault tolerance. This helps ensure that the system remains responsive and available even if individual services or instances experience failures or become overloaded.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">An API Gateway is like a building's security checkpoint. The advantages: everyone entering is screened (security), you have a single log of all entries (observability), and staff inside do not need to carry ID cards (no per-service auth). The disadvantage: the checkpoint itself can become a bottleneck during fire drills, and if it goes down, nobody gets in or out — it is a critical SPOF.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix gained the advantage of centralized authentication and device-specific response shaping through their Zuul gateway. However, they found the gateway became complex to operate over time, eventually building Zuul 2 to add non-blocking I/O for better throughput.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber's API Gateway simplified client development by presenting a single stable API surface across rapidly changing backend microservices. The downside was that gateway configuration management became a significant engineering overhead as the number of routes grew to thousands.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📁 Dropbox</div>
+      <div class="example-text">Dropbox uses an API Gateway to handle versioned API compatibility, allowing them to deprecate old API versions gradually. The centralization advantage is clear, but any misconfiguration at the gateway level affects all clients simultaneously — a high-risk blast radius.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌────────────────────┬────────────────────┐
+  │    ADVANTAGES      │   DISADVANTAGES     │
+  ├────────────────────┼────────────────────┤
+  │ Single entry point │ Single point of     │
+  │                    │ failure risk        │
+  ├────────────────────┼────────────────────┤
+  │ Centralized auth   │ Added latency hop   │
+  ├────────────────────┼────────────────────┤
+  │ Simplified clients │ Config complexity   │
+  ├────────────────────┼────────────────────┤
+  │ Observability      │ Potential bottleneck│
+  └────────────────────┴────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always present both sides: the advantages of centralization and the risks of the gateway as a bottleneck and SPOF — show balanced thinking.</li>
+<li><span class="tip-icon">💡</span> Address the latency overhead concern: a well-implemented gateway adds only 1-5ms of overhead, which is acceptable for the benefits it provides.</li>
+<li><span class="tip-icon">💡</span> Discuss mitigation of gateway SPOF: run multiple gateway instances behind a load balancer with auto-scaling to eliminate single points of failure.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Advantages include: centralized cross-cutting concerns, simplified client code, consistent security enforcement, and single observability point.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Disadvantages include: potential single point of failure, added latency, configuration complexity, and a potential scalability bottleneck.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The gateway must itself be designed for high availability and horizontal scalability to mitigate its SPOF risk.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Gateway logic that is too complex or too business-logic-heavy leads to a fragile, hard-to-maintain God object antipattern.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/api-gateway/" target="_blank" rel="noopener">AWS API Gateway</a></div>
+      <div class="reading-desc">AWS perspective on the benefits and operational considerations of managed API gateways.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/API_management" target="_blank" rel="noopener">API Gateway Pattern – Wikipedia</a></div>
+      <div class="reading-desc">Discusses both advantages and trade-offs of the API Gateway architectural pattern.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices Trade-offs</a></div>
+      <div class="reading-desc">Martin Fowler covers the benefits and operational costs of microservice gateway patterns.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="011-usage-of-api-gateway.html" class="nav-btn nav-prev">← Usage of API Gateway</a>
+  <a href="013-scalability.html" class="nav-btn nav-next">Scalability →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

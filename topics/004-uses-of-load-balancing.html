@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uses of Load Balancing — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 004 of 103 &middot; 4% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:4%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Uses of Load Balancing
+  </div>
+  <h1 class="hero-title">Uses of Load Balancing</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 7 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Load Balancing</span> <span class="hero-tag">Use Cases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Load balancing is a technique used to distribute workloads evenly across multiple computing resources, such as servers, network links, or other devices, in order to optimize resource utilization, minimize response time, and maximize throughput. This technique helps ensure that no single resource is overwhelmed, thus maintaining a high level of performance and reliability. Here are some common uses of load balancing:</p>
+<h2 id=h2-1-improving-website-performance>1. Improving website performance</h2>
+<p>Load balancing can distribute incoming web traffic among multiple servers, reducing the load on individual servers and ensuring faster response times for end users.</p>
+<p><strong>Example:</strong> An e-commerce website experiences a sudden surge in traffic during a holiday sale. A load balancer distributes incoming requests among multiple web servers, ensuring that each server handles a manageable number of requests, resulting in faster page load times for users</p>
+<h2 id=h2-2-ensuring-high-availability-and-reliability>2. Ensuring high availability and reliability</h2>
+<p>By distributing the workload among multiple servers, load balancing helps prevent single points of failure. If one server fails or experiences an issue, the load balancer can redirect traffic to other available servers, maintaining uptime and minimizing service disruptions.</p>
+<p><strong>Example:</strong> A banking application relies on several servers to handle user transactions. The load balancer monitors the health of each server and, in the event of a server failure, redirects traffic to the remaining healthy servers, minimizing downtime and maintaining user access to the application.</p>
+<h2 id=h2-3-scalability>3. Scalability</h2>
+<p>Load balancing allows organizations to easily scale their infrastructure as traffic and demand increase. Additional servers can be added to the load balancing pool to accommodate increased demand, without the need for significant infrastructure changes.</p>
+<p><strong>Example:</strong> A video streaming platform sees a steady increase in users as it gains popularity. To handle the growing demand, the platform adds new servers to the load balancing pool, allowing it to scale seamlessly without overloading existing infrastructure.</p>
+<h2 id=h2-4-redundancy>4. Redundancy</h2>
+<p>Load balancing can be used to maintain redundant copies of data and services across multiple servers, reducing the risk of data loss or service outages due to hardware failure or other issues.</p>
+<p><strong>Example:</strong> An online file storage service uses load balancing to maintain multiple copies of user data across different servers. If one server experiences a hardware failure, users can still access their data from the redundant copies stored on other servers.</p>
+<h2 id=h2-5-network-optimization>5. Network optimization</h2>
+<p>Load balancing can help optimize network traffic by distributing it across multiple paths or links, reducing congestion and improving overall network performance.</p>
+<p><strong>Example:</strong> A large organization has multiple internet connections to handle its network traffic. A load balancer distributes the incoming and outgoing traffic across these connections, reducing congestion and improving overall network performance.</p>
+<h2 id=h2-6-geographic-distribution>6. Geographic distribution</h2>
+<p>For global organizations, load balancing can be used to distribute traffic across data centers in different geographic locations. This ensures that users are directed to the nearest or best-performing data center, reducing latency and improving user experience.</p>
+<p><strong>Example:</strong> A multinational company has data centers in North America, Europe, and Asia. A load balancer directs users to the nearest data center based on their geographic location, reducing latency and improving the user experience.</p>
+<h2 id=h2-7-application-performance>7. Application performance</h2>
+<p>Load balancing can be used to distribute requests for specific applications or services among dedicated servers or resources, ensuring that each application or service receives the necessary resources to perform optimally.</p>
+<p><strong>Example:</strong> An enterprise uses a suite of applications, including email, file storage, and collaboration tools. A load balancer assigns dedicated resources to each application, ensuring that each service performs optimally without affecting the performance of other applications.</p>
+<h2 id=h2-8-security>8. Security</h2>
+<p>Load balancers can help protect against distributed denial-of-service (DDoS) attacks by distributing incoming traffic across multiple servers, making it more difficult for attackers to overwhelm a single target.</p>
+<p><strong>Example:</strong> A news website faces a distributed denial-of-service (DDoS) attack, with a large number of malicious requests targeting its servers. The load balancer distributes the traffic among multiple servers, making it more difficult for the attackers to overwhelm a single target and mitigating the impact of the attack.</p>
+<h2 id=h2-9-cost-savings>9. Cost savings</h2>
+<p>By distributing workloads across available resources more efficiently, load balancing can help organizations save money on hardware and infrastructure costs, as well as reduce energy consumption.</p>
+<p><strong>Example:</strong> A small business utilizes cloud-based infrastructure for its web applications. By using load balancing to optimize resource usage, the business can minimize the number of servers needed, resulting in lower infrastructure and energy costs.</p>
+<h2 id=h2-10-content-caching>10. Content caching</h2>
+<p>Some load balancers can cache static content, such as images and videos. This cached content is then served directly from the load balancer, reducing the demand on the servers and providing faster response times for users.</p>
+<p><strong>Example:</strong> In a streaming service like Netflix, users access a wide variety of content like TV shows, movies, etc. Now, consider a very popular TV show that millions of users might want to watch. If each request for this show was routed to the servers, it would result in a huge load on the servers, potentially slowing down response times or even leading to server failure. By caching such popular content on the load balancer, the streaming service can drastically reduce the load on its main servers.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of load balancing like a power grid for a city. When one substation is overwhelmed, electricity is rerouted through other substations so the lights stay on everywhere. Load balancers do the same for web traffic — spreading the electrical load so no single substation (server) trips its breaker.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon uses load balancers to distribute traffic across product detail, recommendation, and checkout services independently. This means a spike in product page views does not degrade the checkout experience for active shoppers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn deploys load balancers to handle the Monday morning traffic surge when millions of professionals log in simultaneously. The balancers also route requests by geography, directing European users to European data centers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎮 Discord</div>
+      <div class="example-text">Discord uses load balancing to route voice, text, and video traffic to specialized server pools, ensuring that a busy gaming event on one server cluster does not impact messaging latency for unrelated communities.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────────────────────────┐
+  │           USES OF LOAD BALANCING          │
+  ├──────────────────────────────────────────┤
+  │  ✦ Horizontal Scaling (add more servers)  │
+  │  ✦ Zero-downtime deployments              │
+  │  ✦ Geographic routing (nearest DC)        │
+  │  ✦ Health-check based failover            │
+  │  ✦ SSL/TLS termination offloading         │
+  │  ✦ Rate limiting and DoS mitigation       │
+  │  ✦ A/B testing traffic splitting          │
+  └──────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Beyond distributing load, mention that load balancers enable zero-downtime deployments by draining connections from old servers before decommissioning them.</li>
+<li><span class="tip-icon">💡</span> Discuss SSL termination at the load balancer as a performance optimization — backend servers avoid the CPU cost of encryption/decryption.</li>
+<li><span class="tip-icon">💡</span> Bring up geographic load balancing (GeoDNS or Anycast) as a way to reduce latency by routing users to the nearest data center.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Load balancing enables horizontal scaling by abstracting the server pool behind a single virtual IP or hostname.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> It facilitates rolling deployments and A/B testing by controlling what percentage of traffic reaches each server version.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SSL termination at the load balancer offloads cryptographic processing from application servers, improving overall throughput.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Health-check-based failover ensures traffic is automatically diverted away from unhealthy servers without manual intervention.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/" target="_blank" rel="noopener">Load Balancing – Cloudflare Learning</a></div>
+      <div class="reading-desc">Explains the various real-world use cases where load balancing improves reliability and performance.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/elasticloadbalancing/" target="_blank" rel="noopener">Elastic Load Balancing Features – AWS</a></div>
+      <div class="reading-desc">AWS overview of load balancing applications including SSL offloading and health checks.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Load_balancing_(computing)" target="_blank" rel="noopener">Load Balancing – Wikipedia</a></div>
+      <div class="reading-desc">Academic and technical background on the many purposes of load balancing in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="003-load-balancing-algorithms.html" class="nav-btn nav-prev">← Load Balancing Algorithms</a>
+  <a href="005-load-balancer-types.html" class="nav-btn nav-next">Load Balancer Types →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Normalization and Denormalization — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 064 of 103 &middot; 62% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:62%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › SQL Normalization and Denormalization
+  </div>
+  <h1 class="hero-title">SQL Normalization and Denormalization</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 11 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">SQL</span> <span class="hero-tag">Schema Design</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-sql-normalization>SQL Normalization</h2>
+<p>Normalization in SQL is a database design technique that organizes tables in a manner that reduces redundancy and dependency. It involves dividing a database into two or more tables and defining relationships between them to achieve a more efficient database structure.</p>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Reduces Redundancy</strong>: Avoids duplication of data.</li>
+<li><strong>Improves Data Integrity</strong>: Ensures data accuracy and consistency.</li>
+<li><strong>Database Design</strong>: Involves creating tables and establishing relationships through primary and foreign keys.</li>
+</ul>
+<h3 id=h3-example-customer-orders-database>Example: Customer Orders Database</h3>
+<h3 id=h3-original-table-before-normalization>Original Table (Before Normalization)</h3>
+<p>Imagine a single table that stores all customer orders:</p>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th style=text-align:left>Customer ID<th style=text-align:left>Customer Name<th style=text-align:left>Customer Address<th style=text-align:left>Order ID<th style=text-align:left>Order Date<th style=text-align:left>Product<tbody><tr><td style=text-align:left>001<td style=text-align:left>John Doe<td style=text-align:left>123 Apple St.<td style=text-align:left>1001<td style=text-align:left>2021-08-01<td style=text-align:left>Laptop<tr><td style=text-align:left>001<td style=text-align:left>John Doe<td style=text-align:left>123 Apple St.<td style=text-align:left>1002<td style=text-align:left>2021-08-05<td style=text-align:left>Phone<tr><td style=text-align:left>002<td style=text-align:left>Jane Smith<td style=text-align:left>456 Orange Ave.<td style=text-align:left>1003<td style=text-align:left>2021-08-03<td style=text-align:left>Tablet</table></div>
+<p>This table has redundancy (notice how customer details are repeated) and is not normalized.</p>
+<h3 id=h3-after-normalization>After Normalization</h3>
+<p>To normalize this, we would split it into two or more tables to reduce redundancy.</p>
+<p><strong>Customers Table (1NF, 2NF, 3NF)</strong></p>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th style=text-align:left>Customer ID<th style=text-align:left>Customer Name<th style=text-align:left>Customer Address<tbody><tr><td style=text-align:left>001<td style=text-align:left>John Doe<td style=text-align:left>123 Apple St.<tr><td style=text-align:left>002<td style=text-align:left>Jane Smith<td style=text-align:left>456 Orange Ave.</table></div>
+<p><strong>Orders Table (1NF, 2NF, 3NF)</strong></p>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th style=text-align:left>Order ID<th style=text-align:left>Order Date<th style=text-align:left>Product<th style=text-align:left>Customer ID<tbody><tr><td style=text-align:left>1001<td style=text-align:left>2021-08-01<td style=text-align:left>Laptop<td style=text-align:left>001<tr><td style=text-align:left>1002<td style=text-align:left>2021-08-05<td style=text-align:left>Phone<td style=text-align:left>001<tr><td style=text-align:left>1003<td style=text-align:left>2021-08-03<td style=text-align:left>Tablet<td style=text-align:left>002</table></div>
+<p>In the normalized structure, we've eliminated redundancy (each customer's details are listed only once) and established a relationship between the two tables via <code>CustomerID</code>.</p>
+<h3 id=h3-levels-normal-forms>Levels (Normal Forms)</h3>
+<ul>
+<li><strong>1NF (First Normal Form)</strong>: Data is stored in atomic form with no repeating groups.</li>
+<li><strong>2NF (Second Normal Form)</strong>: Meets 1NF and has no partial dependency on any candidate key.</li>
+<li><strong>3NF (Third Normal Form)</strong>: Meets 2NF and has no transitive dependency.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Ideal for complex systems where data integrity is critical, like financial or enterprise applications.</li>
+</ul>
+<h2 id=h2-sql-denormalization>SQL Denormalization</h2>
+<p>Denormalization, on the other hand, is the process of combining tables to reduce the complexity of database queries. This can introduce redundancy but may lead to improved performance by reducing the number of joins required.</p>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Increases Redundancy</strong>: May involve some data duplication.</li>
+<li><strong>Improves Query Performance</strong>: Reduces the complexity of queries by reducing the number of joins.</li>
+<li><strong>Data Retrieval</strong>: Optimized for read-heavy operations.</li>
+</ul>
+<h3 id=h3-denormalization-example>Denormalization Example</h3>
+<p>Denormalization would involve combining these tables back into a single table to optimize read performance. Taking the above table:</p>
+<p><strong>Denormalized Orders Table</strong></p>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th style=text-align:left>Customer ID<th style=text-align:left>Customer Name<th style=text-align:left>Customer Address<th style=text-align:left>Order ID<th style=text-align:left>Order Date<th style=text-align:left>Product<tbody><tr><td style=text-align:left>001<td style=text-align:left>John Doe<td style=text-align:left>123 Apple St.<td style=text-align:left>1001<td style=text-align:left>2021-08-01<td style=text-align:left>Laptop<tr><td style=text-align:left>001<td style=text-align:left>John Doe<td style=text-align:left>123 Apple St.<td style=text-align:left>1002<td style=text-align:left>2021-08-05<td style=text-align:left>Phone<tr><td style=text-align:left>002<td style=text-align:left>Jane Smith<td style=text-align:left>456 Orange Ave.<td style=text-align:left>1003<td style=text-align:left>2021-08-03<td style=text-align:left>Tablet</table></div>
+<p>Here, we're back to the original structure. The benefit of this denormalized table is that it can make queries faster since all the information is in one place, reducing the need for JOIN operations. However, the downside is the redundancy of customer information, which can take up more space and potentially lead to inconsistencies if not managed properly.</p>
+<h3 id=h3-when-to-use>When to Use</h3>
+<ul>
+<li>In read-heavy database systems where query performance is a priority.</li>
+<li>In systems where data changes are infrequent and a slightly less normalized structure doesn't compromise data integrity.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<h3 id=h3-1-purpose>1. <strong>Purpose</strong></h3>
+<ul>
+<li>Normalization aims to minimize data redundancy and improve data integrity.</li>
+<li>Denormalization aims to improve query performance.</li>
+</ul>
+<h3 id=h3-2-data-redundancy>2. <strong>Data Redundancy</strong></h3>
+<ul>
+<li>Normalization reduces redundancy.</li>
+<li>Denormalization may introduce redundancy.</li>
+</ul>
+<h3 id=h3-3-performance>3. <strong>Performance</strong></h3>
+<ul>
+<li>Normalization can lead to a larger number of tables and more complex queries, potentially affecting read performance.</li>
+<li>Denormalization can improve read performance but may affect write performance due to data redundancy.</li>
+</ul>
+<h3 id=h3-4-complexity>4. <strong>Complexity</strong></h3>
+<p>Normalization makes writes faster but reads slower whereas denormalization makes writes slower but reads faster. Lets understand this with an example.</p>
+<h4 id=h4-normalization>Normalization</h4>
+<p>Imagine you run a bookstore, and you store all the info about customers and orders in a neat way. Instead of writing a customer's name, address, and phone number every time they order something, you just save it once in a "customer" list. When someone orders a book, you only link to their entry in the customer list.</p>
+<ul>
+<li>
+<p><strong>Effect on Write Operations</strong>: When you <strong>write</strong> data (like adding a new order), you only store the order info, not all the customer info. This makes writing faster and easier because there’s no duplicate info.</p>
+</li>
+<li>
+<p><strong>Effect on Read Operations</strong>: But when you <strong>read</strong> the data, it takes more work. If you want to see everything about an order and the customer who made it, you have to look in multiple places (one for the order, one for the customer details). So, reads can be slower because the database has to gather info from different tables.</p>
+</li>
+</ul>
+<h4 id=h4-denormalization>Denormalization</h4>
+<p>Now, imagine you’re tired of looking in different places to find info about an order. You decide to save everything in one place: each order will have the customer's name, address, and phone number. No more linking back to a customer list!</p>
+<ul>
+<li>
+<p><strong>Effect on Write Operations</strong>: Writing gets more complicated and slower. If a customer changes their address, you now have to update every single order that includes the old address. There’s a lot of duplicate data, and changes require updating multiple records.</p>
+</li>
+<li>
+<p><strong>Effect on Read Operations</strong>: But reading becomes much faster! Since all the information is in one place, you don’t have to jump around to gather it. You get everything you need in one go, so reads are quick and easy.</p>
+</li>
+</ul>
+<h2 id=h2-conclusion>Conclusion</h2>
+<ul>
+<li><strong>Normalization</strong> is about reducing redundancy and improving data integrity but can lead to more complex queries.</li>
+<li><strong>Denormalization</strong> simplifies queries but at the cost of increased data redundancy and potential maintenance challenges.</li>
+</ul>
+<p>The choice between the two depends on the specific requirements of your database system, considering factors like the frequency of read vs. write operations, and the importance of query performance vs. data integrity.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Normalization is like keeping a personal address book where each person's address appears exactly once — if they move, you update one place. Denormalization is like printing your contact's address on every envelope you've ever sent them so you never have to look it up. The address book (normalized) saves space and avoids stale copies; the pre-printed envelopes (denormalized) are faster to use but wasteful and hard to update consistently.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn normalizes its user profile data — your job history, education, and skills are each stored once and referenced by ID. This prevents the same data from being updated in multiple places when a user edits their profile, ensuring consistency across all views.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix denormalizes data in its Cassandra-backed recommendations system — each user's precomputed recommendation row contains denormalized title metadata (names, ratings, categories) alongside the recommendation score. This avoids expensive joins at read time, keeping recommendations latency under 10ms.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon's product catalog stores denormalized copies of product data in various 'materialized views' — a search result row contains all fields needed to render a product card without any joins. This speeds up high-volume read queries at the cost of more complex write logic when product data changes.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│        Normalization vs Denormalization             │
+├──────────────────────┬──────────────────────────────┤
+│  Normalized (3NF)    │  Denormalized                │
+├──────────────────────┼──────────────────────────────┤
+│ No data redundancy   │ Intentional redundancy       │
+│ Consistent updates   │ Complex write logic          │
+│ Smaller storage      │ Larger storage               │
+│ Slower reads (JOINs) │ Faster reads (pre-joined)    │
+├──────────────────────┴──────────────────────────────┤
+│  Normal Forms: 1NF → 2NF → 3NF → BCNF              │
+│  1NF: atomic values, no repeating groups            │
+│  2NF: no partial dependencies on composite key      │
+│  3NF: no transitive dependencies                    │
+│  Denorm: done deliberately for read performance     │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the three normal forms: 1NF (atomic values), 2NF (no partial dependencies), 3NF (no transitive dependencies) — interviewers may ask you to identify normalization issues.</li>
+<li><span class="tip-icon">💡</span> State clearly that denormalization is a deliberate performance optimization, not a mistake — it trades write complexity and storage for read speed.</li>
+<li><span class="tip-icon">💡</span> Mention that OLTP systems (transactional, many updates) favor normalization, while OLAP/analytical systems favor denormalization or star schemas.</li>
+<li><span class="tip-icon">💡</span> Materialized views are a SQL-native way to have pre-denormalized query results that the database automatically refreshes — mention them to show depth.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Normalization eliminates data redundancy by storing each fact exactly once, enforced through foreign key relationships.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Denormalization intentionally duplicates data to eliminate JOINs and improve read performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> OLTP (transactional) systems favor normalized schemas; OLAP (analytical) systems favor denormalized or star schemas.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The tradeoff is always: normalized = consistent writes, slower reads; denormalized = fast reads, complex writes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Materialized views and read replicas are tools for achieving denormalization benefits while maintaining a normalized source of truth.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database_normalization" target="_blank" rel="noopener">Database Normalization - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's thorough explanation of all normal forms, functional dependencies, and the process of normalization.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL's documentation covers materialized views, a powerful tool for managing denormalization in a normalized schema.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID - Wikipedia</a></div>
+      <div class="reading-desc">Understanding ACID properties provides context for why normalization is critical in transactional systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="063-real-world-examples-and-case-studies.html" class="nav-btn nav-prev">← Real-World Examples and Case Studies</a>
+  <a href="065-in-memory-vs-on-disk-database.html" class="nav-btn nav-next">In-Memory Database vs On-Disk Database →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

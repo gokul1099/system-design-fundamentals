@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why is Caching Important — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 028 of 103 &middot; 27% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:27%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Why is Caching Important
+  </div>
+  <h1 class="hero-title">Why is Caching Important</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Performance</span> <span class="hero-tag">Scalability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Caching plays a critical role in improving system performance and user experience in software engineering. By storing frequently accessed data in a cache, applications can reduce the response time and latency of operations, resulting in faster and more efficient processing. Here are some reasons why caching is important:</p>
+<h2 id=h2-1-reduced-latency>1. Reduced latency</h2>
+<p>By serving data from the cache, which is typically faster to access than the original data source, caching can significantly reduce the time it takes to retrieve the data.</p>
+<h2 id=h2-2-improved-system-performance>2. Improved system performance</h2>
+<p>Caching can significantly improve the performance of an application by reducing the number of times data needs to be fetched from its original source. Since cached data can be retrieved faster than from the original source, this results in a significant reduction in processing time, which leads to a more responsive application.</p>
+<h2 id=h2-3-reduced-network-load>3. Reduced network load</h2>
+<p>Caching can also reduce network load by minimizing the amount of data that needs to be transmitted over the network. Since cached data is stored locally, there is no need to fetch data from the original source, reducing the amount of data that needs to be transferred over the network.</p>
+<h2 id=h2-4-increased-scalability>4. Increased scalability</h2>
+<p>Caching can improve the scalability of an application by reducing the load on the original source. By storing frequently accessed data in a cache, the original source is less likely to be overwhelmed with requests, making it more scalable.</p>
+<h2 id=h2-5-better-user-experience>5. Better user experience</h2>
+<p>Faster response times and reduced latency can lead to a better user experience. Applications that load quickly and respond to user requests in a timely manner are more likely to be used and preferred by users.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Caching matters for the same reason a chef keeps ingredients prepped at the station instead of running to the walk-in freezer for every dish. When the dinner rush hits, the time saved by having things ready makes the difference between a smooth service and a chaotic one. At scale, those milliseconds saved per request add up to enormous cost and experience differences.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon caches product detail pages, pricing, and inventory data so that every page load doesn't hammer the database. A single product page might require data from dozens of microservices — caching collapses this into a single fast lookup. Amazon found that every 100ms of added latency costs them roughly 1% of revenue.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn caches professional profile data, connection graphs, and feed content to serve hundreds of millions of users. Without caching, the graph traversal required for 'people you may know' would be computationally impossible at request time. Caching pre-computed suggestions makes the feature feasible.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub caches repository metadata, file listings, and rendered README files to serve millions of developers. Rendering a markdown README from source on every page view would be prohibitively expensive. A cached HTML version is served directly until the source changes.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+WITHOUT CACHE                  WITH CACHE
+
+┌──────────┐                  ┌──────────┐
+│  Client  │                  │  Client  │
+└────┬─────┘                  └────┬─────┘
+     │ Every request               │
+     ▼                             ▼
+┌──────────┐               ┌──────────────┐
+│    DB    │ ◄── Slow       │    Cache     │ Fast
+│ (100ms+) │               │   (1-5ms)    │
+└──────────┘               └──────┬───────┘
+                                  │ (miss only)
+                                  ▼
+                           ┌──────────┐
+                           │    DB    │
+                           └──────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Quantify the impact: database queries often take 10-100ms while cache lookups take 1-5ms — a 10-100x speedup for read-heavy workloads.</li>
+<li><span class="tip-icon">💡</span> Explain reduced backend load: caching doesn't just speed up individual requests, it dramatically reduces the number of database operations, allowing the same hardware to serve more traffic.</li>
+<li><span class="tip-icon">💡</span> Mention cost savings: fewer database reads often directly translates to lower cloud costs (e.g., fewer RDS read replicas, lower DynamoDB read capacity units).</li>
+<li><span class="tip-icon">💡</span> Discuss scalability: caching is often what makes a system scale from thousands to millions of users without a linear increase in database infrastructure.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching reduces latency by serving data from fast in-memory storage instead of slower disk-based databases.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> It reduces backend load, allowing the same database to serve significantly more traffic.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Lower latency directly improves user experience and business metrics like conversion rates.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching enables cost savings by reducing compute and database I/O operations.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> At scale, even small per-request time savings multiply into massive throughput gains.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">Why Caching? — AWS Caching Overview</a></div>
+      <div class="reading-desc">AWS explains the business and technical reasons caching is essential for modern applications.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-caching/" target="_blank" rel="noopener">Web Caching — Cloudflare Learning</a></div>
+      <div class="reading-desc">Cloudflare's guide to what caching is and why it matters for web performance.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_(computing)" target="_blank" rel="noopener">Cache (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">A thorough academic overview of caching concepts across hardware and software layers.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="027-introduction-to-caching.html" class="nav-btn nav-prev">← Introduction to Caching</a>
+  <a href="029-types-of-caching.html" class="nav-btn nav-next">Types of Caching →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

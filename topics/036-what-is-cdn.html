@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is CDN — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 036 of 103 &middot; 35% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:35%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › What is CDN
+  </div>
+  <h1 class="hero-title">What is CDN</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">CDN</span> <span class="hero-tag">Performance</span> <span class="hero-tag">Global</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>A Content Delivery Network (CDN) is a distributed network of servers strategically located across various geographical locations to deliver web content, such as images, videos, and other static assets, more efficiently to users. The primary purpose of a CDN is to reduce latency and improve the overall performance of web applications by serving content from the server nearest to the user. CDNs can also help improve reliability, availability, and security of web applications.</p>
+<h2 id=h2-how-cdns-work>How CDNs work?</h2>
+<p>When a user requests content from a web application, the request is routed to the nearest CDN server (also known as an edge server) based on factors such as network latency and server load. The edge server then checks if the requested content is already cached. If it is, the content is served directly from the cache; otherwise, the edge server fetches the content from the origin server, caches it, and serves it to the user. Subsequent requests for the same content can then be served from the cache, reducing latency and offloading traffic from the origin server.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A CDN (Content Delivery Network) is like a chain of local convenience stores stocked with the most popular items from a central warehouse far away. If you need milk, you don't drive to the main distribution center — you walk to the store on your corner. The convenience store doesn't have everything, but it has the things most people need, and it gets there in seconds instead of hours.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix built its own CDN called Open Connect, with appliances installed directly inside ISP networks worldwide. Popular TV episodes are pre-positioned on these appliances before peak viewing hours. This means most Netflix traffic never traverses the public internet — it flows directly from ISP-hosted servers to the viewer.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare operates one of the world's largest CDN networks with over 300 points of presence in more than 100 countries. Static assets, images, scripts, and cached API responses are served from the nearest Cloudflare edge. This often cuts latency from hundreds of milliseconds to under 20ms for end users.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon CloudFront is Amazon's CDN service used by e-commerce, AWS customers, and Amazon Prime Video. Product images, JavaScript bundles, and video streams are cached at CloudFront edge locations. Dynamic API requests can also benefit from CloudFront via Lambda@Edge for personalization at the edge.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────┐
+│           Origin Server             │
+│        (US East Data Center)        │
+└───────────────┬─────────────────────┘
+                │ Content pushed/pulled
+    ┌───────────┼────────────┐
+    ▼           ▼            ▼
+┌───────┐  ┌───────┐   ┌───────┐
+│ Edge  │  │ Edge  │   │ Edge  │
+│  NY   │  │  EU   │   │ Asia  │
+└───┬───┘  └───┬───┘   └───┬───┘
+    │          │            │
+    ▼          ▼            ▼
+ US Users  EU Users    Asia Users
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Define CDN concisely: a geographically distributed network of servers that caches and delivers content from locations close to end users.</li>
+<li><span class="tip-icon">💡</span> Explain the two main benefits: reduced latency (content served from nearby edge nodes) and reduced origin load (fewer requests reach the origin server).</li>
+<li><span class="tip-icon">💡</span> Mention that CDNs are not just for static files — modern CDNs cache API responses, handle SSL termination, provide DDoS protection, and run edge compute.</li>
+<li><span class="tip-icon">💡</span> Discuss CDN trade-offs: content may be slightly stale (TTL-based), and origin-fetching costs can increase if cache hit rates are low.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A CDN is a distributed network of servers that caches and delivers content from locations geographically close to users.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CDNs reduce latency by serving cached content from edge nodes rather than a distant origin server.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CDNs reduce origin load by absorbing a large percentage of requests at the edge before they reach the origin.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern CDNs provide additional services including DDoS mitigation, SSL termination, and edge computing.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Major CDN providers include Cloudflare, Amazon CloudFront, Akamai, and Fastly.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-a-cdn/" target="_blank" rel="noopener">What is a CDN? — Cloudflare Learning</a></div>
+      <div class="reading-desc">Cloudflare's accessible explanation of CDN architecture, benefits, and use cases.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener">Amazon CloudFront CDN</a></div>
+      <div class="reading-desc">AWS CloudFront product page explaining CDN features, edge locations, and integration with AWS services.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Content_delivery_network" target="_blank" rel="noopener">Content Delivery Network — Wikipedia</a></div>
+      <div class="reading-desc">Detailed overview of CDN history, architecture, and how different CDN technologies work.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="035-cache-performance-metrics.html" class="nav-btn nav-prev">← Cache Performance Metrics</a>
+  <a href="037-origin-server-vs-edge-server.html" class="nav-btn nav-next">Origin Server vs Edge Server →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

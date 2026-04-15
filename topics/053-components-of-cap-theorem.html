@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components of CAP Theorem — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 053 of 103 &middot; 51% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:51%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › CAP & Consistency › Components of CAP Theorem
+  </div>
+  <h1 class="hero-title">Components of CAP Theorem</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CAP Theorem</span> <span class="hero-tag">Consistency</span> <span class="hero-tag">Availability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Now that we have defined Consistency, Availability, and Partition Tolerance, let's dive deeper into what each of these means in practice for distributed systems, and why they matter.</p>
+<h2 id=h2-consistency-in-distributed-systems>Consistency in Distributed Systems</h2>
+<p>Under CAP, <strong>consistency means <em>strong consistency</em></strong> across the distributed system. Whenever data is written to one node, that data is immediately (and synchronously) replicated to <em>all</em> nodes before the write is considered successful. This guarantees that any client, reading from any replica, will get the latest data. For example, if you update your profile picture on a social network, a strongly consistent system would ensure that anyone who views your profile (from any server location) sees the new picture immediately after you saved it.</p>
+<p>It’s important to note that this is different from the “C” in ACID. In ACID database terms, consistency means the database constraints are preserved after a transaction. In CAP, consistency specifically means <strong>atomic/linearizable consistency across replicas</strong> – i.e., no two nodes should ever disagree on the current state of the data. Strong consistency simplifies development (you don’t have to worry about stale reads), but it often comes at the cost of speed or availability, especially if nodes are far apart.</p>
+<p>There are weaker forms of consistency (like <em>eventual consistency</em>) where all nodes will <em>eventually</em> have the same data, but not instantly. Those are typically what an “AP” system offers – we’ll discuss that shortly. For CAP, think of consistency as the strictest form: every read reflects the most recent write.</p>
+<h2 id=h2-understanding-availability>Understanding Availability</h2>
+<p><strong>Availability</strong> in CAP doesn’t just mean the system is up; it specifically means <strong>every request gets a response</strong> <em>even during failures</em>. No matter which node you contact, if it hasn’t crashed, it will respond within a reasonable time. An available system <em>never</em> resorts to saying “sorry, I can’t serve your request right now” due to a node or network failure.</p>
+<p>In practical terms, this often means there are multiple redundant nodes, so if one goes down or can’t be reached, another can serve the request. However, an available system might serve <em>stale data</em> if it has to, rather than refuse to answer. The key is that the system remains operational continuously. For example, DNS (the domain name system) is highly available – if one nameserver is down, you’ll query another. You might occasionally get an outdated DNS entry due to propagation delays, but you will get <em>something</em> back (DNS is an example of an <strong>AP system</strong>, which favors availability over strict consistency).</p>
+<p>In summary, an available system avoids downtime. It prioritizes giving <em>a</em> response over always giving the up-to-the-second correct response. This property is crucial for user-facing services where even a brief outage is unacceptable.</p>
+<h2 id=h2-why-partition-tolerance-is-necessary>Why Partition Tolerance is Necessary</h2>
+<p><strong>Partition tolerance</strong> is arguably the least negotiable of the three in distributed systems. It means the system can keep working even if network links between nodes fail or some nodes crash. In a distributed system spread across machines or data centers, you <em>will</em> encounter situations where nodes can’t talk to each other (packets get dropped, switches fail, data centers catch fire, etc.). Partition tolerance is the property that <strong>the system as a whole survives these events</strong>.</p>
+<p>For example, imagine a system with nodes in New York and London. If the transatlantic link goes down (a network partition), a partition-tolerant design would allow each side to continue operating (perhaps serving local reads/writes) rather than completely locking up. Without partition tolerance, a network blip could bring your entire service down.</p>
+<p>Practically, almost all <em>modern distributed systems require P</em>. If you give up partition tolerance (i.e., choose CA in CAP terms), it means your system is not built to handle network failures between nodes. The only realistic way to be “CA” is to have all components so tightly coupled (or even running on one node) that a partition can’t happen. For instance, a single-instance database on one server can be consistent and available (until that server crashes, of course) – this is a <strong>CA scenario</strong> but not a distributed system by CAP’s definition. In distributed scenarios, you don’t really get to choose P or not; you <em>must</em> tolerate partitions, so the real-world choice is between C and A when P occurs.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of a distributed database like a chain of bank branches sharing the same ledger. Consistency means every branch always shows the exact same balance — no branch gives stale information. Availability means every branch always responds to requests even if its phone line to headquarters is cut. Partition tolerance means the system keeps working even when branches lose communication with each other. The theorem says you can fully guarantee only two of these three simultaneously.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📘 Facebook/Meta</div>
+      <div class="example-text">Facebook's social graph requires high availability — when you post a status update, it must be accepted immediately even if some nodes are temporarily unreachable. This means a friend in another region might see your post a few seconds later (eventual consistency), sacrificing strict consistency for availability.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🗄️ Google</div>
+      <div class="example-text">Google's Bigtable prioritizes consistency and partition tolerance by using a single master to coordinate writes. If the master is unreachable during a partition, writes are blocked to prevent inconsistency — a CP tradeoff that accepts reduced availability to guarantee data correctness.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔄 Amazon</div>
+      <div class="example-text">DynamoDB allows operators to choose between eventual consistency (AP) and strong consistency (CP) at the individual read operation level. This per-operation tuning reflects real-world understanding that different data within the same application may require different CAP guarantees.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│           CAP Components Explained                  │
+├─────────────────────────────────────────────────────┤
+│  Consistency (C)                                    │
+│  ├─ Every read returns the most recent write        │
+│  └─ All nodes see the same data at the same time    │
+├─────────────────────────────────────────────────────┤
+│  Availability (A)                                   │
+│  ├─ Every request receives a (non-error) response   │
+│  └─ System remains operational at all times         │
+├─────────────────────────────────────────────────────┤
+│  Partition Tolerance (P)                            │
+│  ├─ System continues despite network partitions     │
+│  └─ Nodes can lose messages and still function      │
+├─────────────────────────────────────────────────────┤
+│  In practice: P is mandatory → choose C or A        │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain consistency as linearizability — any read after a write must reflect that write, as if operations happen on a single node.</li>
+<li><span class="tip-icon">💡</span> Clarify that availability in CAP means every non-failing node must respond, not just that the system is 'up' in a general sense.</li>
+<li><span class="tip-icon">💡</span> Emphasize that partition tolerance is about the system's behavior when network messages are lost or delayed between nodes, not just hardware failure.</li>
+<li><span class="tip-icon">💡</span> Use the ATM analogy: a disconnected ATM can choose to deny all transactions (CP) or allow withdrawals that might exceed your balance (AP).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Consistency in CAP means every node returns the same, most up-to-date data for any given read.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Availability means the system always responds to requests, even if the response might be slightly stale.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Partition tolerance means the system continues operating when the network splits nodes into groups that cannot communicate.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Because network partitions happen in real distributed systems, P is effectively mandatory.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The practical choice is: during a partition, do you halt to stay consistent (CP) or respond with potentially stale data (AP)?</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">Formal definitions and proofs for all three CAP properties with historical context.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Consistency_model" target="_blank" rel="noopener">Consistency Models - Wikipedia</a></div>
+      <div class="reading-desc">Detailed exploration of consistency models from linearizability to eventual consistency in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's production experience with distributed systems consistency and availability tradeoffs.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="052-introduction-to-cap-theorem.html" class="nav-btn nav-prev">← Introduction to CAP Theorem</a>
+  <a href="054-tradeoffs-in-cap-theorem.html" class="nav-btn nav-next">Tradeoffs in CAP Theorem →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

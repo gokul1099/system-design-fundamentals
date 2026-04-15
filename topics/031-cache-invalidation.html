@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cache Invalidation — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 031 of 103 &middot; 30% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:30%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Cache Invalidation
+  </div>
+  <h1 class="hero-title">Cache Invalidation</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Consistency</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-cache-invalidation-strategies>Cache Invalidation Strategies</h2>
+<p>While caching can significantly improve performance, we must ensure that the data in the cache is still correct—otherwise, we serve out-of-date (stale) information. This is where <strong>cache invalidation</strong> comes in.</p>
+<ol>
+<li>
+<p><strong>Ensure Data Freshness</strong></p>
+<ul>
+<li>When the underlying data changes—say a product’s price updates in your database—you must mark or remove the old (cached) data so users don’t see stale information. This process is called “cache invalidation.”</li>
+<li>Without invalidation, caches will keep serving outdated data and lead to inconsistencies across your application.</li>
+</ul>
+</li>
+<li>
+<p><strong>Maintain System Consistency</strong></p>
+<ul>
+<li>Large systems often have multiple caching layers. If any of these layers serve old data while others serve new data, users can encounter conflicting information.</li>
+<li>Properly invalidating caches at each layer helps maintain a consistent view of your system’s state.</li>
+</ul>
+</li>
+<li>
+<p><strong>Balance Performance and Accuracy</strong></p>
+<ul>
+<li>Cache invalidation strategies (e.g., time-to-live/TTL, manual triggers, event-based invalidation) are designed to minimize the performance cost of continuously “refreshing” the cache.</li>
+<li>The goal is to keep data as accurate as possible while still benefiting from the high-speed data retrieval that caching offers.</li>
+</ul>
+</li>
+<li>
+<p><strong>Reduce Errors and Mismatched States</strong></p>
+<ul>
+<li>When caches go stale, you risk presenting users with wrong information or invalid results (e.g., displaying an out-of-stock product).</li>
+<li>By strategically invalidating caches when data changes, you reduce the odds of users experiencing buggy or contradictory behavior.</li>
+</ul>
+</li>
+</ol>
+<p>There are three main cache invalidation schemes that are used:</p>
+<h3 id=h3-1-write-through-cache>1. Write-through cache</h3>
+<p>Under this scheme, data is written into the cache and the corresponding database simultaneously. The cached data allows for fast retrieval and, since the same data gets written in the permanent storage, we will have complete data consistency between the cache and the storage. Also, this scheme ensures that nothing will get lost in case of a crash, power failure, or other system disruptions. Although, write-through minimizes the risk of data loss, since every write operation must be done twice before returning success to the client, this scheme has the disadvantage of higher latency for write operations.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache invalidation is like updating a whiteboard in an office that lists the day's meeting rooms. When someone books a new room, they must erase the old entry and write the new one, or colleagues will show up at the wrong room. If the update is delayed or missed, people act on stale information. The challenge is deciding exactly when and how to update the board so everyone always has accurate data.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">👍 Facebook/Meta</div>
+      <div class="example-text">Facebook uses a 'delete on write' cache invalidation strategy — when a user updates their profile, the corresponding cache entry is immediately deleted (not updated). The next read will be a cache miss, fetching fresh data from the database and repopulating the cache. This simple approach avoids complex cache update logic at the cost of one extra DB read.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon invalidates cached product prices and inventory levels via event-driven messaging. When inventory changes, a message is published to a queue, and consumers invalidate the relevant cache keys. This decoupled approach ensures product pages don't show outdated stock levels during high-traffic sales events.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────┐
+│       Cache Invalidation         │
+│                                  │
+│  Strategy 1: TTL-based           │
+│  ┌───────┐  expires  ┌───────┐   │
+│  │ Cache │──────────►│ Miss  │   │
+│  └───────┘           └───────┘   │
+│                                  │
+│  Strategy 2: Event-driven        │
+│  DB write → Invalidate cache key │
+│                                  │
+│  Strategy 3: Write-through       │
+│  Update DB and cache together    │
+│                                  │
+│  Strategy 4: Purge API           │
+│  Explicit delete via API call    │
+└──────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Phil Karlton's famous quote is worth knowing: 'There are only two hard things in Computer Science: cache invalidation and naming things.' — it signals that you understand the depth of the problem.</li>
+<li><span class="tip-icon">💡</span> Explain the three main invalidation strategies: TTL-based expiry, event-driven invalidation on write, and explicit purge via API.</li>
+<li><span class="tip-icon">💡</span> Discuss trade-offs: TTL is simple but causes temporary staleness; event-driven is accurate but adds complexity; write-through keeps cache fresh but adds write latency.</li>
+<li><span class="tip-icon">💡</span> Mention tag-based invalidation: grouping related cache keys under a tag allows bulk invalidation of all entries for a given entity (e.g., all cache entries for user ID 123).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache invalidation is the process of removing or updating stale cache entries when source data changes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TTL-based invalidation is simple but allows a window of staleness equal to the TTL duration.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Event-driven invalidation reacts to data changes immediately but requires additional infrastructure.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Write-through caching keeps cache and database in sync by updating both on every write.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache invalidation is one of the hardest problems in distributed systems due to race conditions and partial failures.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_(computing)" target="_blank" rel="noopener">Cache (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">Covers cache invalidation strategies including TTL, event-based, and write-through approaches.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">HTTP Caching and Freshness — MDN</a></div>
+      <div class="reading-desc">Explains cache-control headers and HTTP freshness model for TTL-based invalidation.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Key Expiration and Invalidation</a></div>
+      <div class="reading-desc">Redis documentation on TTL, key expiration, and keyspace notifications for event-driven invalidation.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="030-cache-replacement-policies.html" class="nav-btn nav-prev">← Cache Replacement Policies</a>
+  <a href="032-cache-read-strategies.html" class="nav-btn nav-next">Cache Read Strategies →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

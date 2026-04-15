@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Design Tradeoffs in Interviews — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 057 of 103 &middot; 55% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:55%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › System Design Tradeoffs in Interviews
+  </div>
+  <h1 class="hero-title">System Design Tradeoffs in Interviews</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Interviews</span> <span class="hero-tag">Trade-offs</span> <span class="hero-tag">Fundamentals</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>When it comes to system design (especially in interviews), understanding CAP isn’t just theoretical – it guides real decisions. Interviewers often present scenarios where you need to decide between consistency and availability. Here’s how to think about it:</p>
+<h3 id=h3-1-understand-the-requirements-of-the-scenario>1. Understand the requirements of the scenario</h3>
+<p>Ask yourself: is it worse for this system to show incorrect/out-of-date data, or to not respond at all? The answer will hint at consistency vs availability. For example, in a banking system, an inconsistent account balance is unacceptable – it’s better to make the user wait than show wrong data or allow double-spending. This scenario calls for <strong>consistency over availability</strong> (a CP approach). On the other hand, consider a social media news feed or an analytics dashboard – showing slightly stale results is usually fine, but the service being down is not. That scenario leans toward <strong>availability over consistency</strong> (an AP approach with eventual consistency).</p>
+<h3 id=h3-2-recognize-that-partition-tolerance-is-usually-a-given>2. Recognize that partition tolerance is usually a given</h3>
+<p>In an interview, if you’re designing a distributed system, you should assume that P (network issues) can happen. This means you’re inherently in a CAP trade-off situation. A good answer will mention something like, “Since network partitions can occur, we have to choose whether to favor consistency or availability in this design.”</p>
+<h3 id=h3-3-use-real-world-analogies-or-references>3. Use real-world analogies or references</h3>
+<p>You can mention known systems as examples to justify your choice. For instance: <em>“We might choose a design similar to Cassandra or DynamoDB which prioritize availability, because in our use case (say, a cache for product catalog) it’s more important that the system is always up than absolutely up-to-date. The data can sync eventually.”</em> Or <em>“We could use an approach like ZooKeeper or a SQL database cluster for this config service, because we need strong consistency – it’s okay if during a network split the service pauses, as long as we never get conflicting configs.”</em> Demonstrating knowledge of how big companies solve it adds credibility. For example, you might say <strong>“Amazon’s Dynamo was designed for an always-on shopping cart, so they chose an AP design with eventual consistency. I’d apply the same principle here because user experience should never be interrupted for this feature.”</strong> Or, <em>“Google uses Spanner for their ad database to ensure global consistency – in our case of a financial ledger, we’d also lean CP, even if it means a bit more latency.”</em></p>
+<h3 id=h3-4-acknowledge-the-trade-off-and-possible-mitigation>4. Acknowledge the trade-off and possible mitigation</h3>
+<p>A strong answer doesn’t just pick C or A blindly; it discusses the impact and how to mitigate downsides. For example, <em>“If we choose availability, we’ll need to handle conflicts from concurrent updates (perhaps using timestamps or last-write-wins). The data might be temporarily inconsistent, so we must ensure eventual reconciliation.”</em> Or <em>“If we choose consistency, we should implement retries or graceful degradation for when the service is unavailable during a partition, so that users see a friendly error or limited functionality instead of total failure.”</em> This shows you understand the practical implications.</p>
+<h3 id=h3-5-mention-tunable-or-nuanced-approaches-if-relevant>5. Mention tunable or nuanced approaches if relevant</h3>
+<p>Modern systems often allow tuning the consistency level per request (for instance, Cassandra lets you choose consistency level per query). In an interview, you could mention this: <em>“We could even make it tunable – e.g., a read that absolutely must be up-to-date can be routed to the leader (sacrificing some latency), whereas other reads can go to any replica for speed. This way the system isn’t strictly one or the other, but offers a spectrum depending on the operation.”</em> Eric Brewer himself noted that within one system, some operations can be handled in a more available way and others in a more consistent way. This kind of answer shows maturity – real systems often mix approaches.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Designing a system is like building a house on a budget. You can have a spacious kitchen, a large garage, or a big backyard — but probably not all three. Every architectural decision takes from one bucket to fill another. The skill isn't in avoiding tradeoffs; it's in knowing which ones your specific situation demands and articulating clearly why you made the choice you did.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter's timeline feature was a famous tradeoff debate: precompute timelines at write time (fast reads, expensive writes, fan-out problem for users with millions of followers) vs. compute at read time (cheap writes, slow reads). Twitter ultimately uses a hybrid approach, precomputing for most users but computing on-the-fly for celebrity accounts.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber's location tracking system trades consistency for availability and low latency — driver GPS updates are written to an AP store and eventually consistent, because a slightly stale location is far better than no location. The tradeoff favors user experience over perfect data accuracy.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💬 Discord</div>
+      <div class="example-text">Discord migrated from MongoDB to Cassandra for message storage, trading strong consistency for the ability to handle billions of messages with low write latency. This tradeoff accepted that reads might occasionally return slightly stale data in exchange for massive scalability gains.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│         Common System Design Tradeoffs              │
+├──────────────────────┬──────────────────────────────┤
+│  Tradeoff            │  Examples                    │
+├──────────────────────┼──────────────────────────────┤
+│ Latency vs           │ Cache (fast, stale) vs DB    │
+│ Consistency          │ (slow, accurate)             │
+├──────────────────────┼──────────────────────────────┤
+│ Read vs Write        │ Precompute (slow write,      │
+│ Performance          │ fast read) vs on-the-fly     │
+├──────────────────────┼──────────────────────────────┤
+│ Cost vs              │ More replicas = more         │
+│ Reliability          │ availability = more cost     │
+├──────────────────────┼──────────────────────────────┤
+│ Simplicity vs        │ Microservices vs monolith    │
+│ Scalability          │                              │
+├──────────────────────┼──────────────────────────────┤
+│ Strong vs Eventual   │ CP (banking) vs AP           │
+│ Consistency          │ (social feeds)               │
+└──────────────────────┴──────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always explain tradeoffs proactively — don't wait for the interviewer to probe. Say 'I chose X over Y because of Z constraint' rather than just stating the choice.</li>
+<li><span class="tip-icon">💡</span> Use the five dimensions of tradeoffs: latency, throughput, consistency, availability, and cost — framing every decision against these dimensions shows structured thinking.</li>
+<li><span class="tip-icon">💡</span> When an interviewer challenges your design, don't abandon it — defend with data and context, but acknowledge the valid tradeoff they're pointing to.</li>
+<li><span class="tip-icon">💡</span> Quantify your tradeoffs when possible: 'This adds 50ms latency but reduces storage cost by 40%' is more credible than vague statements about being 'faster' or 'cheaper'.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Every system design decision involves tradeoffs — the goal is to make the right tradeoff for the given constraints, not to eliminate tradeoffs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Common axes of tradeoff include: latency vs. consistency, read vs. write performance, cost vs. reliability, and simplicity vs. scalability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Explicitly stating tradeoffs in interviews demonstrates engineering maturity and structured thinking.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Requirements and constraints must be clarified before choosing tradeoffs — the same system can require very different designs for different scales.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Real systems often use hybrid approaches that optimize different components differently based on their specific access patterns.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's SRE book provides production-grade thinking on reliability tradeoffs including error budgets and SLOs.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Martin Fowler - Microservices</a></div>
+      <div class="reading-desc">Martin Fowler's foundational article explores the tradeoffs between microservices and monolithic architectures.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">CAP theorem is the canonical example of distributed systems tradeoffs and a foundation for system design interview discussions.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="056-beyond-cap-theorem.html" class="nav-btn nav-prev">← Beyond CAP Theorem</a>
+  <a href="058-introduction-to-databases.html" class="nav-btn nav-next">Introduction to Databases →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture of a Distributed File System — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 094 of 103 &middot; 91% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:91%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Scalability & Storage › Architecture of a Distributed File System
+  </div>
+  <h1 class="hero-title">Architecture of a Distributed File System</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DFS</span> <span class="hero-tag">HDFS</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>The internal architecture of a distributed file system (DFS) is designed to manage data across a network of machines efficiently. While the specific architecture can vary depending on the particular DFS, there are common components and principles that many distributed file systems share.</p>
+<h2 id=h2-key-components-of-a-distributed-file-system>Key Components of a Distributed File System</h2>
+<h3 id=h3-1-client-interface>1. Client Interface</h3>
+<ul>
+<li><strong>Function</strong>: Provides a way for clients (users or applications) to access and manipulate files as if they were on a local file system.</li>
+<li><strong>Implementation</strong>: Typically includes a set of APIs or command-line tools that interact with the DFS.</li>
+</ul>
+<h3 id=h3-2-metadata-servers>2. Metadata Servers</h3>
+<ul>
+<li><strong>Function</strong>: Manage metadata about files, such as location information, directory structures, permissions, and file attributes.</li>
+<li><strong>Characteristics</strong>: Often, metadata is separated from actual file data for efficiency. Metadata servers can be a single point of failure, so they are often replicated for reliability.</li>
+</ul>
+<h3 id=h3-3-data-nodes-or-storage-nodes>3. Data Nodes or Storage Nodes</h3>
+<ul>
+<li><strong>Function</strong>: Store the actual file data.</li>
+<li><strong>Characteristics</strong>: Data is often distributed across multiple nodes for redundancy and availability. These nodes handle read/write operations as instructed by the control plane (metadata servers).</li>
+</ul>
+<h3 id=h3-4-replication-and-redundancy-mechanism>4. Replication and Redundancy Mechanism</h3>
+<ul>
+<li><strong>Function</strong>: Ensures data availability and durability by replicating files across multiple nodes.</li>
+<li><strong>Characteristics</strong>: The system can automatically replicate data to handle node failures and ensure data integrity.</li>
+</ul>
+<h3 id=h3-5-load-balancer-or-scheduler>5. Load Balancer or Scheduler</h3>
+<ul>
+<li><strong>Function</strong>: Distributes workload evenly across different nodes and manages resource allocation.</li>
+<li><strong>Characteristics</strong>: Essential for optimizing performance and preventing any single node from becoming a bottleneck.</li>
+</ul>
+<h3 id=h3-6-network-infrastructure>6. Network Infrastructure</h3>
+<ul>
+<li><strong>Function</strong>: Connects all components of the DFS and facilitates communication between them.</li>
+<li><strong>Characteristics</strong>: Reliability and speed of the network are crucial for the performance of a DFS.</li>
+</ul>
+<h3 id=h3-7-synchronization-and-consistency-mechanisms>7. Synchronization and Consistency Mechanisms</h3>
+<ul>
+<li><strong>Function</strong>: Ensures that all copies of a file are kept consistent across the system.</li>
+<li><strong>Characteristics</strong>: Different systems use various models of consistency (strong, eventual, etc.) and synchronization techniques.</li>
+</ul>
+<h3 id=h3-8-fault-tolerance-and-recovery-mechanisms>8. Fault Tolerance and Recovery Mechanisms</h3>
+<ul>
+<li><strong>Function</strong>: Handles failures of nodes or network components without data loss or significant downtime.</li>
+<li><strong>Characteristics</strong>: Includes mechanisms for detecting failures, re-routing requests, and restoring data from backups or replicas.</li>
+</ul>
+<h3 id=h3-9-security-features>9. Security Features</h3>
+<ul>
+<li><strong>Function</strong>: Protects data from unauthorized access and ensures secure communication across the network.</li>
+<li><strong>Characteristics</strong>: May include encryption, access control lists, authentication mechanisms, and secure protocols.</li>
+</ul>
+<h2 id=h2-example-hadoop-distributed-file-system-hdfs>Example: Hadoop Distributed File System (HDFS)</h2>
+<p>To illustrate, let's consider HDFS, a commonly used DFS:</p>
+<ul>
+<li><strong>Client Interface</strong>: HDFS provides interfaces for clients to interact with the file system.</li>
+<li><strong>NameNode</strong>: The central metadata server in HDFS, storing the file system tree and metadata for all files and directories.</li>
+<li><strong>DataNodes</strong>: Store actual data in HDFS. Each file is divided into blocks, and each block is stored on multiple DataNodes.</li>
+<li><strong>Replication</strong>: HDFS replicates each data block across multiple DataNodes to ensure fault tolerance.</li>
+<li><strong>YARN (Yet Another Resource Negotiator)</strong>: Responsible for managing resources in the Hadoop cluster and scheduling tasks.</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">HDFS architecture is like a library with a card catalog and a warehouse. The card catalog (NameNode) knows the location of every book and every copy. The warehouse shelves (DataNodes) actually store the books. When you want a book, you check the catalog for which shelf to go to, then retrieve it yourself — the catalog never carries books.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📘 Facebook</div>
+      <div class="example-text">Facebook ran one of the world's largest HDFS clusters — storing petabytes of Hive data for analytics. They contributed HDFS Federation (multiple NameNodes, each owning a namespace subtree) to handle the metadata bottleneck at billion-file scale.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🟣 Yahoo</div>
+      <div class="example-text">Yahoo was HDFS's first large-scale adopter, running 40,000+ node clusters. They drove development of rack-aware block placement — ensuring replicas land on different racks so a whole rack failure doesn't cause data loss.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudera / Hortonworks</div>
+      <div class="example-text">Cloudera's CDP (Cloud Data Platform) wraps HDFS with HA NameNode (active/standby using ZooKeeper for fencing), automatic failover, and NFS gateway — turning raw HDFS into an enterprise-grade storage layer.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  HDFS Detailed Architecture
+
+  ┌─────────────────────────┐
+  │  NameNode (Active)      │◀──ZooKeeper fencing──▶ NameNode (Standby)
+  │  namespace: file→blocks │
+  │  block map: block→nodes │
+  └───────────┬─────────────┘
+              │ block reports
+    ┌─────────┼──────────┐
+    ▼         ▼          ▼
+  ┌──────┐ ┌──────┐ ┌──────┐
+  │Rack 1│ │Rack 2│ │Rack 3│  ← rack-aware placement
+  │ DN1  │ │ DN3  │ │ DN5  │
+  │ DN2  │ │ DN4  │ │ DN6  │
+  └──────┘ └──────┘ └──────┘
+  block size: 128MB, replication: 3
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> NameNode stores all metadata in RAM — its memory capacity limits the total number of files in the cluster.</li>
+<li><span class="tip-icon">💡</span> Block placement policy: first replica on local node, second on a different rack, third on the same rack as second — balances locality vs fault tolerance.</li>
+<li><span class="tip-icon">💡</span> HDFS is append-only by design — files are written once and read many times. Random writes are not supported.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> NameNode holds all metadata in RAM — it's the brain of HDFS and a potential bottleneck.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DataNodes store 128MB blocks and send block reports + heartbeats to the NameNode.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Rack-aware replication ensures data survives both node and rack failures.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HDFS Federation allows multiple NameNodes for massive clusters that exceed single NameNode memory.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html" target="_blank" rel="noopener">HDFS Architecture Guide</a></div>
+      <div class="reading-desc">Official HDFS architecture documentation — NameNode, DataNode, and block placement.</div>
+      <div class="reading-url">hadoop.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Apache_Hadoop" target="_blank" rel="noopener">Wikipedia: Apache Hadoop</a></div>
+      <div class="reading-desc">Overview of the Hadoop ecosystem including HDFS.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://research.google/pubs/the-google-file-system/" target="_blank" rel="noopener">Google File System Paper</a></div>
+      <div class="reading-desc">The original GFS design that HDFS is based on.</div>
+      <div class="reading-url">research.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="093-what-is-a-distributed-file-system.html" class="nav-btn nav-prev">← What is a Distributed File System</a>
+  <a href="095-key-components-of-a-dfs.html" class="nav-btn nav-next">Key Components of a DFS →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

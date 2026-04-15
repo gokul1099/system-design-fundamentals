@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examples of CAP Theorem in Practice — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 055 of 103 &middot; 53% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:53%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › CAP & Consistency › Examples of CAP Theorem in Practice
+  </div>
+  <h1 class="hero-title">Examples of CAP Theorem in Practice</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CAP Theorem</span> <span class="hero-tag">Databases</span> <span class="hero-tag">Real World</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Let’s look at how some real-world systems exemplify CAP trade-offs:</p>
+<ul>
+<li>
+<p><strong>MongoDB (CP):</strong> MongoDB is a popular NoSQL database which, by default, prioritizes consistency. It uses a primary-secondary replication model. Only the primary can accept writes, and if the primary is lost (partitioned away or down), the system elects a new primary. During that failover window, writes are not accepted – a sacrifice of availability to ensure no two primaries exist (consistency). Once a new primary is in place and secondaries are synchronized, the cluster resumes normal operations. This makes MongoDB <em>CP</em>: it won’t give you an outdated answer (it would rather pause), which is good for applications where stale data could be harmful.</p>
+</li>
+<li>
+<p><strong>Cassandra (AP):</strong> Cassandra is a distributed database that takes the opposite approach. It has no single primary node – any node can accept writes at any time. This yields high availability and scalability. If a partition happens, Cassandra keeps all sides running; writes might conflict, but the system will reconcile them (using timestamps, hinted handoff, repair jobs, etc.) after the fact. Thus, Cassandra is willing to return older data rather than fail a request, embodying an AP system. It provides tunable consistency (you can configure how many replicas must ack a read/write), but the default philosophy is “always be available.” Many large-scale websites use Cassandra for features like user activity feeds, where it’s okay if one replica is briefly behind as long as the service is up.</p>
+</li>
+<li>
+<p><strong>ZooKeeper (CP):</strong> ZooKeeper is a coordination service often used for configuration management, leader election, and other tasks in distributed applications. It is famously a CP system. ZooKeeper uses an algorithm (Zab) that requires a majority quorum of nodes to operate. If a network split leaves the cluster without a quorum, the minority side will stop functioning (becoming unavailable) to preserve a single consistent state. In other words' ZooKeeper “sacrifices availability in order to achieve consistency and partition tolerance” – if it cannot guarantee the latest state, it simply won’t respond. This makes ZooKeeper ideal for things like distributed locks and config where consistency (everyone agreeing on one leader, for example) is crucial.</p>
+</li>
+<li>
+<p><strong>DynamoDB (AP):</strong> DynamoDB, a cloud key-value store from Amazon, is built on the principles of Amazon’s Dynamo paper. DynamoDB is designed to scale across multiple data centers and remain available. It <strong>replicates data across zones and continues serving even if some replicas or network links fail</strong>, favoring availability. By default, reads are eventually consistent (you might read slightly stale data if a partition occurred), though it offers an option for <em>strongly consistent reads</em> within a region. Amazon’s goal with DynamoDB is that operations (especially writes to things like a shopping cart or user preference) should succeed even in the face of outages – they’ll sort out any inconsistencies later.</p>
+</li>
+</ul>
+<p>These examples show that <strong>different systems make different trade-offs</strong>. There is no free lunch – you pick the two properties that matter most for your use case. Next, we’ll see an important extension to CAP that considers another dimension: latency.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of different banks with different policies. Cassandra is like a bank with branches that each stay open even when the phone lines between them are down — you might briefly see different balances at different branches, but they'll sync up soon. HBase is like a bank that locks the vault and refuses all transactions the moment it loses contact with headquarters — better safe than sorry. Each bank serves a different kind of customer.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🟡 Cassandra (Facebook origin)</div>
+      <div class="example-text">Cassandra is a classic AP system, designed by Facebook for the Inbox search feature. It uses a peer-to-peer gossip protocol with no single master, accepting writes on any node and reconciling conflicts with 'last write wins' or application-level logic — availability is paramount.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📋 Google</div>
+      <div class="example-text">HBase (modeled after Google Bigtable) is a CP system with a single RegionServer master coordinating writes. During a master failure or network partition, HBase will stop accepting writes to prevent inconsistency — ideal for analytics pipelines where correctness matters more than uptime.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">MongoDB in its default replica set configuration is a CP system — only the primary node accepts writes, and if the primary becomes unreachable, the replica set undergoes an election before accepting new writes. This ensures consistency at the cost of a brief write unavailability during failover.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🗄️ Amazon</div>
+      <div class="example-text">DynamoDB is an AP system by default, designed to be always-writable across regions. Amazon built DynamoDB after their Dynamo paper described how an eventually consistent, highly available system could handle peak shopping seasons better than CP alternatives.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────────────────────┐
+│         CAP Classification of Real Databases         │
+├────────────────┬─────────────┬────────────────────── ┤
+│   Database     │  CAP Type   │  Notes                │
+├────────────────┼─────────────┼───────────────────────┤
+│ Cassandra      │ AP          │ Tunable consistency   │
+│ DynamoDB       │ AP          │ Eventual by default   │
+│ CouchDB        │ AP          │ Multi-master MVCC     │
+├────────────────┼─────────────┼───────────────────────┤
+│ HBase          │ CP          │ Single master         │
+│ Zookeeper      │ CP          │ Leader election       │
+│ MongoDB        │ CP          │ Primary-only writes   │
+├────────────────┼─────────────┼───────────────────────┤
+│ PostgreSQL     │ CA*         │ Single node only      │
+│ MySQL          │ CA*         │ *P not applicable     │
+└────────────────┴─────────────┴───────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When discussing Cassandra, highlight that its consistency is tunable — using QUORUM reads and writes gives you CP-like behavior at the cost of some availability.</li>
+<li><span class="tip-icon">💡</span> Clarify that traditional SQL databases like PostgreSQL are often labeled 'CA' but this only applies in single-node deployments — in distributed mode they still must choose CP or AP.</li>
+<li><span class="tip-icon">💡</span> For MongoDB, specify that CP applies to the replica set primary; if you enable multi-document transactions, the CP guarantee becomes even stronger.</li>
+<li><span class="tip-icon">💡</span> Mention Zookeeper as a CP coordination service that other systems (Kafka, HBase) rely on for leader election — it's a critical infrastructure component, not just a database.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cassandra and DynamoDB are AP systems that prioritize availability and use eventual consistency to reconcile data after partitions.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HBase, Zookeeper, and MongoDB (replica set mode) are CP systems that reject writes during partitions to preserve consistency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Traditional RDBMS like PostgreSQL are effectively CA but only in single-node deployments where partitions don't apply.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Many modern databases offer tunable consistency, blurring the strict CP/AP binary.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://cassandra.apache.org/doc/latest/" target="_blank" rel="noopener">Apache Cassandra Documentation</a></div>
+      <div class="reading-desc">Cassandra's official docs explain its AP architecture, gossip protocol, and tunable consistency levels.</div>
+      <div class="reading-url">cassandra.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's CAP theorem article includes a database classification table with CP, AP, and CA examples.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.mongodb.com/" target="_blank" rel="noopener">MongoDB Documentation</a></div>
+      <div class="reading-desc">MongoDB's official documentation explains its replica set consistency model and write concern configurations.</div>
+      <div class="reading-url">docs.mongodb.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="054-tradeoffs-in-cap-theorem.html" class="nav-btn nav-prev">← Tradeoffs in CAP Theorem</a>
+  <a href="056-beyond-cap-theorem.html" class="nav-btn nav-next">Beyond CAP Theorem →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Push CDN vs Pull CDN — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 039 of 103 &middot; 38% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:38%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Push CDN vs Pull CDN
+  </div>
+  <h1 class="hero-title">Push CDN vs Pull CDN</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CDN</span> <span class="hero-tag">Trade-offs</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>CDNs can be categorized into two types: Pull CDNs and Push CDNs. Both types aim to deliver content efficiently, but they differ in how they handle and distribute the content.</p>
+<h2 id=h2-pull-cdn>Pull CDN</h2>
+<p>In a Pull CDN, the content is not stored on the CDN's servers by default. Instead, the CDN "pulls" the content from the origin server when a user requests it for the first time. Once the content is cached on the CDN's edge server, subsequent requests for the same content will be served directly from the CDN, reducing the load on the origin server.</p>
+<p>When the cached content expires or reaches its Time-to-Live (TTL), the CDN will fetch the content again from the origin server, ensuring that users receive up-to-date content.</p>
+<p>Examples of Pull CDNs include Cloudflare, Fastly, and Amazon CloudFront.</p>
+<p><strong>Advantages of Pull CDN</strong></p>
+<ul>
+<li>Easy to set up and requires minimal changes to the existing infrastructure.</li>
+<li>The origin server is only accessed when content is not available on the CDN, reducing the load and bandwidth usage.</li>
+<li>The CDN automatically handles cache management and content expiration.</li>
+</ul>
+<p><strong>Disadvantages of Pull CDN</strong></p>
+<ul>
+<li>The first user to request the content may experience slightly slower load times as the CDN fetches the content from the origin server.</li>
+<li>The origin server must be accessible at all times for the CDN to fetch the content when needed.</li>
+</ul>
+<h2 id=h2-push-cdn>Push CDN</h2>
+<p>In a Push CDN, the content is "pushed" to the CDN's servers by the content provider, usually through manual uploads or automated processes. The content is proactively distributed across the CDN's edge servers, making it readily available for user requests.</p>
+<p>Push CDNs are typically used for large files or less frequently accessed content, as they allow for better control over content distribution and caching.</p>
+<p>Examples of Push CDNs include Rackspace Cloud Files and Akamai NetStorage.</p>
+<p><strong>Advantages of Push CDN</strong></p>
+<ul>
+<li>Better control over content distribution and cache management, especially for large or infrequently accessed files.</li>
+<li>Content is readily available on the CDN's servers, ensuring consistent load times for users.</li>
+</ul>
+<p><strong>Disadvantages of Push CDN</strong></p>
+<ul>
+<li>More complex to set up and maintain, as content must be manually uploaded or synced to the CDN.</li>
+<li>Increased storage costs, as content is stored on both the origin server and the CDN's servers.</li>
+<li>The responsibility of cache management and content expiration lies with the content provider.</li>
+</ul>
+<p>In short, Pull CDNs are best suited for frequently accessed content and are easier to set up, while Push CDNs offer more control and are ideal for large or infrequently accessed files.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Push CDN vs Pull CDN is like two different stocking strategies for a convenience store chain. In a push model, the central warehouse proactively ships stock to every store as soon as new inventory arrives — every store always has everything, even if some items never get requested locally. In a pull model, stores only order what customers actually ask for, stocking shelves from the warehouse on demand. Push wastes some storage on rarely-requested items; pull causes the first customer in each area to wait a little longer.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses a push CDN model with its Open Connect platform. Before a new episode drops, Netflix proactively pushes it to thousands of ISP-embedded appliances worldwide during off-peak hours. When the episode releases, the first viewer in any region gets it from a local appliance instantly — there is no cold-start miss.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses a pull CDN model by default for most customers. When a user requests content for the first time, Cloudflare fetches it from the customer's origin and caches it at the local edge PoP. The next user in the same region gets the cached version. Most web application CDNs use this pull approach because origin content is too varied to push proactively.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon CloudFront supports both push (S3 origin, pre-uploaded assets) and pull (HTTP origin, dynamic content) models. Static website assets are pre-uploaded to S3 and pushed via cache warming, while dynamic product pages are pulled on demand. This hybrid approach gives both the predictability of push and the flexibility of pull.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+PUSH CDN                    PULL CDN
+
+Origin                      Origin
+  │                           │
+  │ Pushes content            │
+  │ proactively               │
+  ▼                           │
+┌────┐ ┌────┐ ┌────┐    ┌────┐│┌────┐
+│Edge│ │Edge│ │Edge│    │Edge││ │Edge│
+└────┘ └────┘ └────┘    └──┬─┘└──┬──┘
+                           │     │
+                     First request only
+                     pulls from origin
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Clearly define both models: push CDN requires the origin to proactively upload content to all edges; pull CDN fetches content on the first request to each edge and caches it there.</li>
+<li><span class="tip-icon">💡</span> Explain push CDN use cases: large media files (videos, game assets) where cold-start misses are unacceptable and content is known in advance.</li>
+<li><span class="tip-icon">💡</span> Explain pull CDN use cases: websites with large, varied, and frequently changing content where it's impractical to push everything to every edge.</li>
+<li><span class="tip-icon">💡</span> Discuss the trade-off: push guarantees zero cold-start misses but requires predicting what content needs to be where; pull is flexible but suffers a latency penalty on first access per PoP.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Push CDN proactively distributes content to all edge nodes before users request it, eliminating cold-start latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Pull CDN fetches and caches content at each edge on the first request, then serves subsequent requests from cache.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Push CDN is ideal for known, large, and infrequently changing content like video files and software downloads.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Pull CDN is ideal for websites with dynamic, varied content that would be impractical to push to every edge.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Many production CDN deployments use a hybrid strategy: push for popular large assets and pull for everything else.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-caching/" target="_blank" rel="noopener">What is CDN Caching? — Cloudflare</a></div>
+      <div class="reading-desc">Cloudflare explains pull CDN caching mechanics and how cache-control headers govern edge behavior.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener">Amazon CloudFront</a></div>
+      <div class="reading-desc">AWS CloudFront documentation covering both push (S3-based) and pull (HTTP origin) CDN configurations.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Content_delivery_network" target="_blank" rel="noopener">Content Delivery Network — Wikipedia</a></div>
+      <div class="reading-desc">Covers push and pull CDN models, their trade-offs, and when each is appropriate.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="038-cdn-architecture.html" class="nav-btn nav-prev">← CDN Architecture</a>
+  <a href="040-introduction-to-data-partitioning.html" class="nav-btn nav-next">Introduction to Data Partitioning →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

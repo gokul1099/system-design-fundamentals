@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usage of API Gateway — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 011 of 103 &middot; 11% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:11%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Usage of API Gateway
+  </div>
+  <h1 class="hero-title">Usage of API Gateway</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 12 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">API Gateway</span> <span class="hero-tag">Rate Limiting</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In modern software architectures, especially those utilizing <strong>microservices</strong>, there are often many small, independent services that handle specific tasks. Managing communication between these numerous services and the clients can become complex. An API Gateway simplifies this by providing a single entry point for all client requests.</p>
+<h2 id=h2-key-usages-of-api-gateways><strong>Key Usages of API Gateways</strong></h2>
+<h3 id=h3-1-request-routing>1. <strong>Request Routing</strong></h3>
+<p><strong>Usage:</strong> Directing incoming client requests to the appropriate backend service.</p>
+<p><strong>Example:</strong> Suppose you have an e-commerce application with separate services for user management, product catalog, and order processing. When a client requests product details, the API Gateway routes this request to the product catalog service. If the client wants to place an order, the gateway directs the request to the order processing service.</p>
+<h3 id=h3-2-aggregation-of-multiple-services>2. <strong>Aggregation of Multiple Services</strong></h3>
+<p><strong>Usage:</strong> Combining responses from multiple backend services into a single response to the client.</p>
+<p><strong>Example:</strong> A mobile app needs to display user profile information along with recent orders and recommendations. Instead of the client making separate requests to each service, the API Gateway can fetch data from the user service, order service, and recommendation service, then compile and send a unified response to the client.</p>
+<h3 id=h3-3-security-enforcement>3. <strong>Security Enforcement</strong></h3>
+<p><strong>Usage:</strong> Implementing security measures such as authentication, authorization, and rate limiting.</p>
+<p><strong>Example:</strong> Before a request reaches any backend service, the API Gateway can verify the user's authentication token to ensure they are logged in. It can also check if the user has the necessary permissions to access certain data and limit the number of requests from a single user to prevent abuse.</p>
+<h3 id=h3-4-load-balancing>4. <strong>Load Balancing</strong></h3>
+<p><strong>Usage:</strong> Distributing incoming requests evenly across multiple instances of backend services to ensure no single service becomes a bottleneck.</p>
+<p><strong>Example:</strong> If your application experiences high traffic, the API Gateway can distribute incoming requests for the product catalog service across several server instances, ensuring efficient use of resources and maintaining performance.</p>
+<h3 id=h3-5-caching-responses>5. <strong>Caching Responses</strong></h3>
+<p><strong>Usage:</strong> Storing frequently requested data to reduce latency and decrease the load on backend services.</p>
+<p><strong>Example:</strong> If the product catalog doesn't change frequently, the API Gateway can cache product information. When a client requests product details, the gateway can serve the cached data instead of querying the product catalog service every time, resulting in faster response times.</p>
+<h3 id=h3-6-protocol-translation>6. <strong>Protocol Translation</strong></h3>
+<p><strong>Usage:</strong> Converting requests and responses between different protocols used by clients and backend services.</p>
+<p><strong>Example:</strong> A client might send requests over HTTP/HTTPS, while some backend services communicate using WebSockets or gRPC. The API Gateway can handle the necessary protocol conversions, allowing seamless communication between clients and services.</p>
+<h3 id=h3-7-monitoring-and-logging>7. <strong>Monitoring and Logging</strong></h3>
+<p><strong>Usage:</strong> Tracking and recording request and response data for analysis, debugging, and performance monitoring.</p>
+<p><strong>Example:</strong> The API Gateway can log all incoming requests, including details like request paths, response times, and error rates. This information is invaluable for identifying performance issues, understanding usage patterns, and troubleshooting problems.</p>
+<h3 id=h3-8-transformation-of-requests-and-responses>8. <strong>Transformation of Requests and Responses</strong></h3>
+<p><strong>Usage:</strong> Modifying the data format or structure of requests and responses to meet the needs of clients or services.</p>
+<p><strong>Example:</strong> Suppose a client expects data in JSON format, but a backend service provides data in XML. The API Gateway can transform the XML response into JSON before sending it to the client, ensuring compatibility without requiring changes to the backend service.</p>
+<h3 id=h3-9-api-versioning><strong>9. API Versioning</strong></h3>
+<p><strong>Usage:</strong> Managing different versions of APIs to ensure backward compatibility and smooth transitions when updates are made.</p>
+<p><strong>Example:</strong> Imagine you have a mobile app that relies on your backend services. When you update the API to add new features or make changes, older versions of the app might still need to interact with the previous API version. The API Gateway can route requests to different backend service versions based on the API version specified in the request, ensuring that both old and new clients operate seamlessly without disruption.</p>
+<h3 id=h3-10-rate-limiting-and-throttling><strong>10. Rate Limiting and Throttling</strong></h3>
+<p><strong>Usage:</strong> Controlling the number of requests a client can make in a given time frame to protect backend services from being overwhelmed.</p>
+<p><strong>Example:</strong> Suppose your API is publicly accessible and you want to prevent any single user from making too many requests in a short period, which could degrade performance for others. The API Gateway can enforce rate limits, such as allowing a maximum of 100 requests per minute per user. If a user exceeds this limit, the gateway can temporarily block further requests, ensuring fair usage and maintaining service stability.</p>
+<h3 id=h3-11-api-monetization><strong>11. API Monetization</strong></h3>
+<p><strong>Usage:</strong> Enabling businesses to monetize their APIs by controlling access, usage tiers, and billing.</p>
+<p><strong>Example:</strong> A company provides a public API for accessing weather data. Using an API Gateway, they can create different subscription tiers (e.g., free, basic, premium) with varying levels of access and usage limits. The gateway can handle authentication, track usage based on subscription plans, and integrate with billing systems to charge users accordingly. This setup allows the company to generate revenue from their API offerings effectively.</p>
+<h3 id=h3-12-service-discovery-integration><strong>12. Service Discovery Integration</strong></h3>
+<p><strong>Usage:</strong> Facilitating dynamic discovery of backend services, especially in environments where services are frequently scaled up or down.</p>
+<p><strong>Example:</strong> In a microservices environment using Kubernetes, services can scale dynamically based on demand. The API Gateway can integrate with a service discovery tool (like Consul or Eureka) to automatically route requests to the appropriate service instances, even as they change. This ensures that clients always connect to available and healthy service instances without manual configuration.</p>
+<h3 id=h3-13-circuit-breaker-pattern-implementation><strong>13. Circuit Breaker Pattern Implementation</strong></h3>
+<p><strong>Usage:</strong> Preventing cascading failures by detecting when a backend service is failing and stopping requests to it temporarily.</p>
+<p><strong>Example:</strong> If your order processing service is experiencing issues and becomes unresponsive, the API Gateway can detect the failure pattern and activate a circuit breaker. This means the gateway will stop sending new requests to the problematic service for a specified period, allowing it time to recover. During this time, the gateway can return fallback responses to clients, maintaining overall system stability.</p>
+<h3 id=h3-14-content-based-routing><strong>14. Content-Based Routing</strong></h3>
+<p><strong>Usage:</strong> Routing requests to different backend services based on the content of the request, such as headers, body, or query parameters.</p>
+<p><strong>Example:</strong> Consider an API that handles different types of media uploads (images, videos, documents). The API Gateway can inspect the <code>Content-Type</code> header of incoming requests and route them to specialized backend services optimized for handling each media type. This ensures that each type of content is processed efficiently by the appropriate service.</p>
+<h3 id=h3-15-ssl-termination><strong>15. SSL Termination</strong></h3>
+<p><strong>Usage:</strong> Handling SSL/TLS encryption and decryption at the gateway level to offload this resource-intensive task from backend services.</p>
+<p><strong>Example:</strong> Instead of each backend service managing its own SSL certificates and handling encryption, the API Gateway can terminate SSL connections. Clients communicate securely with the gateway over HTTPS, and the gateway forwards requests to backend services over HTTP or a secure internal network. This simplifies certificate management and reduces the computational load on backend services.</p>
+<h3 id=h3-16-policy-enforcement><strong>16. Policy Enforcement</strong></h3>
+<p><strong>Usage:</strong> Applying organizational policies consistently across all API traffic, such as data validation, request formatting, and access controls.</p>
+<p><strong>Example:</strong> Your organization might have policies requiring that all incoming data be validated for specific fields or that certain headers are present in requests. The API Gateway can enforce these policies by validating incoming requests before they reach backend services. If a request doesn't comply, the gateway can reject it with an appropriate error message, ensuring that only well-formed and authorized requests are processed.</p>
+<h3 id=h3-17-multi-tenancy-support><strong>17. Multi-Tenancy Support</strong></h3>
+<p><strong>Usage:</strong> Supporting multiple clients or tenants within a single API infrastructure while ensuring data isolation and customized configurations.</p>
+<p><strong>Example:</strong> A SaaS platform serves multiple businesses, each considered a tenant. The API Gateway can distinguish between tenants based on headers or authentication tokens and route requests to tenant-specific services or databases. It can also apply tenant-specific rate limits, logging, and security policies, ensuring that each tenant operates in a secure and isolated environment.</p>
+<h3 id=h3-18-ab-testing-and-canary-releases><strong>18. A/B Testing and Canary Releases</strong></h3>
+<p><strong>Usage:</strong> Facilitating controlled testing of new features or services by directing a subset of traffic to different backend versions.</p>
+<p><strong>Example:</strong> When deploying a new version of the user recommendation service, you might want to test its performance and impact on user experience without affecting all users. The API Gateway can route a small percentage of requests to the new version (canary release) while the majority continue using the stable version. This approach allows you to monitor the new service's behavior and roll it out more broadly once it's proven reliable.</p>
+<h3 id=h3-19-localization-and-internationalization-support><strong>19. Localization and Internationalization Support</strong></h3>
+<p><strong>Usage:</strong> Adapting responses based on the client's locale, such as language preferences or regional settings.</p>
+<p><strong>Example:</strong> If your application serves users in different countries, the API Gateway can detect the user's locale from request headers or parameters and modify responses accordingly. For instance, it can format dates, numbers, or currencies to match the user's regional standards or serve localized content by fetching data from region-specific backend services.</p>
+<h3 id=h3-20-reducing-client-complexity><strong>20. Reducing Client Complexity</strong></h3>
+<p><strong>Usage:</strong> Simplifying the client-side logic by handling complex operations on the server side through the gateway.</p>
+<p><strong>Example:</strong> A client application might need to perform multiple operations to complete a user registration process, such as creating a user account, sending a welcome email, and logging the registration event. Instead of the client making separate API calls for each operation, the API Gateway can expose a single endpoint that orchestrates these actions behind the scenes. This reduces the complexity of the client code and minimizes the number of network requests.</p>
+<h3 id=h3-real-world-example-netflix><strong>Real-World Example: Netflix</strong></h3>
+<p>Netflix is a prime example of a company that leverages API Gateways extensively. With a vast array of microservices handling everything from user profiles to streaming content, Netflix uses its API Gateway to manage and streamline interactions between its clients (like smart TVs, mobile apps) and the multitude of backend services. This setup ensures scalability, reliability, and efficient handling of massive amounts of traffic.</p>
+<h3 id=h3-conclusion><strong>Conclusion</strong></h3>
+<p>An API Gateway is a powerful component in modern software architectures, especially those utilizing microservices. It simplifies client interactions, enhances security, improves performance, and provides a centralized point for managing various aspects of client-server communication.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Using an API Gateway is like hiring a Swiss army knife receptionist. This receptionist checks ID (authentication), limits how often the same caller can call (rate limiting), translates languages between departments (protocol transformation), logs every interaction, and knows which department to transfer each caller to — all before the actual department even picks up the phone.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe uses an API Gateway to enforce rate limits per API key, preventing a single merchant from consuming disproportionate capacity. The gateway also handles versioning, routing requests to /v1/ or /v2/ backend services based on the URL path.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn's API Gateway performs OAuth token validation centrally so that none of the 30+ downstream microservices need to implement their own auth logic. It also transforms mobile API responses to minimize payload size for bandwidth-constrained clients.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb uses their API Gateway for A/B testing: a percentage of listing search requests are routed to a new recommendation algorithm backend without any changes to the mobile app, enabling safe experimentation at scale.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌───────────────────────────────────────────┐
+  │            API GATEWAY USAGES              │
+  ├───────────────────────────────────────────┤
+  │  1. Authentication & Authorization         │
+  │  2. Rate Limiting & Throttling             │
+  │  3. Request Routing (path-based)           │
+  │  4. Protocol Translation (REST↔gRPC)       │
+  │  5. Response Caching                       │
+  │  6. Request/Response Transformation        │
+  │  7. Logging & Analytics                    │
+  │  8. A/B Testing Traffic Split              │
+  └───────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When explaining gateway usage, pick 3-4 concrete use cases and explain why centralizing each concern in the gateway is better than duplicating it in every service.</li>
+<li><span class="tip-icon">💡</span> Discuss rate limiting strategies: fixed window, sliding window, and token bucket algorithms each have different fairness and burst characteristics.</li>
+<li><span class="tip-icon">💡</span> Mention that caching at the gateway layer can dramatically reduce backend load for frequently requested, rarely changing data like product catalogs.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Authentication at the gateway prevents unauthenticated requests from ever reaching downstream services, reducing their attack surface.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Rate limiting protects backend services from overload caused by a single misbehaving or abusive client.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Protocol translation allows modern services (gRPC, WebSocket) to be exposed to clients that only speak HTTP/REST.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Response caching at the gateway reduces latency and backend load for repeated identical requests.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/api-gateway/" target="_blank" rel="noopener">AWS API Gateway Features</a></div>
+      <div class="reading-desc">Detailed breakdown of AWS API Gateway capabilities including auth, caching, and throttling.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/API_management" target="_blank" rel="noopener">API Management – Wikipedia</a></div>
+      <div class="reading-desc">Covers the full scope of API management use cases that gateways typically handle.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices and API Gateways</a></div>
+      <div class="reading-desc">Explains how API Gateways are used within microservice architectures for routing and composition.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="010-introduction-to-api-gateway.html" class="nav-btn nav-prev">← Introduction to API Gateway</a>
+  <a href="012-advantages-and-disadvantages-of-api-gateway.html" class="nav-btn nav-next">Advantages and Disadvantages of API Gateway →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

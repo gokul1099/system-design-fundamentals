@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Queues vs Service Bus — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 101 of 103 &middot; 98% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:98%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Processing & Architecture › Message Queues vs Service Bus
+  </div>
+  <h1 class="hero-title">Message Queues vs Service Bus</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Message Queue</span> <span class="hero-tag">Service Bus</span> <span class="hero-tag">Messaging</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Message Queues and Service Buses are both important components in software architecture for managing communication between different parts of a system, especially in distributed environments. While they share some similarities, they have distinct features and are suited for different scenarios.</p>
+<h2 id=h2-message-queues>Message Queues</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Message Queues</strong> are a form of asynchronous service-to-service communication used in serverless and microservices architectures. They allow applications to communicate and process operations asynchronously through messages.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Point-to-Point Communication</strong>: Messages are typically sent from one sender to one receiver.</li>
+<li><strong>Simplicity</strong>: Generally simpler and easier to implement.</li>
+<li><strong>Decoupling</strong>: Senders and receivers do not need to interact with the message queue simultaneously.</li>
+<li><strong>Ordering</strong>: Some message queues guarantee the order of message processing.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li><strong>Task Queuing</strong>: Offloading tasks to be processed asynchronously.</li>
+<li><strong>Load Balancing</strong>: Distributing tasks evenly across multiple workers.</li>
+<li><strong>Decoupling of Services</strong>: Allowing parts of a system to operate independently.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A web application sends a message to a queue to process a user’s image upload, while the user is immediately given a response.</li>
+</ul>
+<h2 id=h2-service-bus>Service Bus</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Service Bus</strong>, often referred to as an Enterprise Service Bus (ESB), provides a more complex set of middleware capabilities for message routing, transformation, and orchestration.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Multiple Communication Patterns</strong>: Supports various patterns like publish/subscribe, request/response, and more.</li>
+<li><strong>Integration</strong>: Facilitates the integration of different applications and services, often involving complex business logic.</li>
+<li><strong>Advanced Features</strong>: Includes features like message routing, transformation, and protocol mediation.</li>
+<li><strong>Centralization</strong>: Acts as a central hub for communication.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li><strong>Enterprise Application Integration</strong>: Connecting and coordinating interaction among various applications.</li>
+<li><strong>Complex Business Processes</strong>: Managing complex workflows and data transformation.</li>
+<li><strong>Service Orchestration</strong>: Coordinating multiple service interactions in a workflow.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>In an e-commerce system, the service bus manages communications between the inventory, order processing, and billing services, transforming and routing messages as necessary.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Complexity and Capability</strong>:</p>
+<ul>
+<li><strong>Message Queues</strong>: More straightforward, focused on delivering messages between services.</li>
+<li><strong>Service Bus</strong>: More complex, offering advanced integration and orchestration capabilities.</li>
+</ul>
+</li>
+<li>
+<p><strong>Communication Patterns</strong>:</p>
+<ul>
+<li><strong>Message Queues</strong>: Typically supports point-to-point communication.</li>
+<li><strong>Service Bus</strong>: Supports a variety of patterns, including publish/subscribe and more complex integrations.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Case</strong>:</p>
+<ul>
+<li><strong>Message Queues</strong>: Best for simple task queuing and decoupling services.</li>
+<li><strong>Service Bus</strong>: Suited for complex enterprise-level integrations and workflows.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scalability and Overhead</strong>:</p>
+<ul>
+<li><strong>Message Queues</strong>: More lightweight, easier to scale horizontally.</li>
+<li><strong>Service Bus</strong>: Potentially high overhead, more challenging to scale due to its centralized nature.</li>
+</ul>
+</li>
+<li>
+<p><strong>Message Management</strong>:</p>
+<ul>
+<li><strong>Message Queues</strong>: Basic message delivery, often FIFO (First-In-First-Out) order.</li>
+<li><strong>Service Bus</strong>: Advanced message routing, transformation, and protocol conversion.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>Choosing between a message queue and a service bus depends on the specific needs of your system. For simpler, point-to-point, asynchronous communication, a message queue is often sufficient and more efficient. However, for more complex scenarios involving multiple applications and services, especially where advanced message processing and orchestration are required, a service bus is more appropriate.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A message queue is like a simple mailbox — letters (messages) go in one end, one recipient picks them up in order. A service bus is like a full post office with sorting machines — it routes letters to different departments, transforms formats, handles retries, and can broadcast one letter to many recipients simultaneously.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔵 Azure Service Bus</div>
+      <div class="example-text">Azure Service Bus supports both queues (point-to-point) and topics with subscriptions (pub/sub). It adds sessions (ordered processing), duplicate detection, and dead-lettering — enterprise features that basic queues lack.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon SQS vs SNS</div>
+      <div class="example-text">SQS is a simple message queue; SNS is a pub/sub topic (lightweight service bus). Combining them (SNS fan-out to SQS) gives you service bus-like routing: one event fans out to multiple queues for independent downstream processing.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔌 MuleSoft / Apache Camel</div>
+      <div class="example-text">MuleSoft and Apache Camel are full enterprise service bus (ESB) implementations — they transform message formats (XML to JSON), route conditionally, and integrate heterogeneous systems. Common in large enterprise architectures.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Message Queue vs Service Bus
+
+  MESSAGE QUEUE (simple):
+  Producer ──▶ [Queue] ──▶ Consumer
+  • FIFO delivery
+  • One consumer per message
+  • No routing logic
+
+  SERVICE BUS (feature-rich):
+  Producer ──▶ [Service Bus] ──▶ Consumer A (filter: type=order)
+                             ──▶ Consumer B (filter: type=payment)
+                             ──▶ Consumer C (all messages)
+  • Topic/subscription routing
+  • Message transformation
+  • Dead-letter queue
+  • Ordered sessions
+  • Duplicate detection
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Use a simple queue (SQS, RabbitMQ) for task queues. Use a service bus when you need routing, transformation, or fan-out.</li>
+<li><span class="tip-icon">💡</span> Dead letter queues (DLQs) are a must for production — always configure where failed messages go.</li>
+<li><span class="tip-icon">💡</span> Service buses add operational complexity — start with simple queues and upgrade only when routing rules become complex.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A message queue is simple point-to-point delivery — one producer, one consumer per message.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A service bus adds routing, transformation, pub/sub, and enterprise features on top.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Azure Service Bus, Apache ActiveMQ, and MuleSoft are common service bus implementations.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Start simple (SQS) and add service bus features only when routing complexity demands it.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.microsoft.com/en-us/azure/service-bus-messaging/" target="_blank" rel="noopener">Azure Service Bus Documentation</a></div>
+      <div class="reading-desc">Microsoft's guide to queues, topics, and subscriptions in Azure Service Bus.</div>
+      <div class="reading-url">docs.microsoft.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.enterpriseintegrationpatterns.com/" target="_blank" rel="noopener">Enterprise Integration Patterns</a></div>
+      <div class="reading-desc">The canonical reference for messaging patterns including message bus.</div>
+      <div class="reading-url">enterpriseintegrationpatterns.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Enterprise_service_bus" target="_blank" rel="noopener">Wikipedia: Enterprise Service Bus</a></div>
+      <div class="reading-desc">Overview of ESB concepts, history, and comparison to message queues.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="100-microservices-vs-serverless.html" class="nav-btn nav-prev">← Microservices vs Serverless Architecture</a>
+  <a href="102-stateful-vs-stateless-architecture.html" class="nav-btn nav-next">Stateful vs Stateless Architecture →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

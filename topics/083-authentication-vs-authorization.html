@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authentication vs Authorization — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 083 of 103 &middot; 81% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:81%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › Authentication vs Authorization
+  </div>
+  <h1 class="hero-title">Authentication vs Authorization</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Authentication</span> <span class="hero-tag">Authorization</span> <span class="hero-tag">Security</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Here's a comparison of authentication and authorization:</p>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th style=text-align:left>Aspect<th style=text-align:left>Authentication<th style=text-align:left>Authorization<tbody><tr><td style=text-align:left>Definition<td style=text-align:left>The process of verifying who a user is.<td style=text-align:left>The process of verifying what access a user has.<tr><td style=text-align:left>Focus<td style=text-align:left>Identity verification.<td style=text-align:left>Access rights and privileges.<tr><td style=text-align:left>Example<td style=text-align:left>Entering a username and password.<td style=text-align:left>Checking if a user can access a specific resource, like a file or database.<tr><td style=text-align:left>How It Works<td style=text-align:left>Typically involves passwords, biometrics, OTPs, etc.<td style=text-align:left>Involves settings, roles, and permissions that define what resources a user can access.<tr><td style=text-align:left>Tools/Methods<td style=text-align:left>Login forms, OTPs, biometric scanners.<td style=text-align:left>Access control lists, role-based access control.<tr><td style=text-align:left>Order in Process<td style=text-align:left>Comes first in the security process.<td style=text-align:left>Follows after authentication is successful.<tr><td style=text-align:left>Key Concern<td style=text-align:left>Verifying user identity is genuine.<td style=text-align:left>Managing user permissions and access levels.<tr><td style=text-align:left>Frequency<td style=text-align:left>Typically occurs once at the beginning of a session.<td style=text-align:left>Can occur multiple times, whenever a user requests access to a resource.<tr><td style=text-align:left>Dependence<td style=text-align:left>Independent process, can exist without authorization in some systems.<td style=text-align:left>Requires authentication as a prerequisite.</table></div>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of a hotel. When you check in and show your passport, that's authentication — the hotel confirms who you are. When you use your key card to enter your room but not the executive lounge, that's authorization — the system enforces what you're allowed to access. Two separate steps, often confused.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix authenticates you with email+password (who you are). Then it authorizes based on your subscription tier — a Basic plan user can't access 4K streams. One authentication, different authorization levels per feature.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💬 Slack</div>
+      <div class="example-text">When you log into Slack (authentication), your workspace role determines what you can do (authorization). Guests can only see specific channels. Admins can manage members. Owners can delete the workspace.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☸️ Kubernetes</div>
+      <div class="example-text">Kubernetes separates authentication (who are you — via certificates, bearer tokens, OIDC) from authorization (what can you do — via RBAC policies). You can be authenticated as a valid user but unauthorized to deploy to the production namespace.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Request Flow
+
+  User ──▶ [Authentication] ──▶ [Authorization] ──▶ Resource
+               │                      │
+               ▼                      ▼
+          "Who are you?"       "What can you do?"
+          Password/Token        Role/Permission
+          401 Unauthorized      403 Forbidden
+          if fails              if fails
+
+  Key HTTP Status Codes:
+  401 = Not authenticated (no valid credentials)
+  403 = Authenticated but not authorized (no permission)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> HTTP 401 means not authenticated; 403 means authenticated but not authorized — interviewers notice when candidates confuse these.</li>
+<li><span class="tip-icon">💡</span> In microservices, authentication often happens at the API gateway; authorization may happen at each service.</li>
+<li><span class="tip-icon">💡</span> OAuth 2.0 is an authorization framework, not authentication — OpenID Connect (OIDC) adds authentication on top.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Authentication = identity verification (who are you?). Authorization = permission check (what can you do?).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> 401 Unauthorized means authentication failed; 403 Forbidden means authorization failed.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> They are always done in order: you must authenticate before you can be authorized.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> OAuth 2.0 handles authorization; OIDC adds authentication on top.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Authorization" target="_blank" rel="noopener">Wikipedia: Authentication vs Authorization</a></div>
+      <div class="reading-desc">Clear definitions of both concepts and how they relate.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://jwt.io/introduction" target="_blank" rel="noopener">JWT Introduction</a></div>
+      <div class="reading-desc">JWTs are commonly used to carry both identity (authn) and claims (authz).</div>
+      <div class="reading-url">jwt.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener">OWASP Top Ten: Broken Access Control</a></div>
+      <div class="reading-desc">Broken access control is the #1 web security risk — understand why.</div>
+      <div class="reading-url">owasp.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="082-what-is-authorization.html" class="nav-btn nav-prev">← What is Authorization</a>
+  <a href="084-oauth-vs-jwt-for-authentication.html" class="nav-btn nav-next">OAuth vs JWT for Authentication →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

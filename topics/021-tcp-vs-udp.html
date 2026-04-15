@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCP vs UDP — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 021 of 103 &middot; 20% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:20%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Networking › TCP vs UDP
+  </div>
+  <h1 class="hero-title">TCP vs UDP</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">TCP</span> <span class="hero-tag">UDP</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are two of the main protocols used for transmitting data over the internet. Each has its characteristics, advantages, and disadvantages, making them suitable for different types of applications.</p>
+<h2 id=h2-tcp-transmission-control-protocol>TCP (Transmission Control Protocol)</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>TCP</strong> is a connection-oriented protocol that ensures reliable, ordered, and error-checked delivery of a stream of bytes between applications.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Reliability</strong>: TCP ensures that data is delivered accurately and in order, retransmitting lost or corrupted packets.</li>
+<li><strong>Connection-Oriented</strong>: Establishes a connection between sender and receiver before transmitting data.</li>
+<li><strong>Flow Control</strong>: Manages data transmission rate to prevent network congestion.</li>
+<li><strong>Congestion Control</strong>: Adjusts the transmission rate based on network traffic conditions.</li>
+<li><strong>Acknowledgements and Retransmissions</strong>: Uses acknowledgments to confirm receipt of data and retransmits if necessary.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Applications where reliability and order are critical, like web browsing (HTTP/HTTPS), email (SMTP, POP3, IMAP), and file transfers (FTP).</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>Loading a webpage: TCP is used to ensure all web content is loaded correctly and in the right order.</li>
+</ul>
+<h2 id=h2-udp-user-datagram-protocol>UDP (User Datagram Protocol)</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>UDP</strong> is a connectionless protocol that sends messages, called datagrams, without establishing a prior connection and without guaranteeing reliability or order.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Low Overhead</strong>: Does not establish a connection, leading to lower overhead and latency.</li>
+<li><strong>Unreliable Delivery</strong>: Does not guarantee message delivery, order, or error checking.</li>
+<li><strong>Speed</strong>: Faster than TCP due to its simplicity and lack of retransmission mechanisms.</li>
+<li><strong>No Congestion Control</strong>: Does not reduce transmission rates under network congestion.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Applications that require speed and can tolerate some loss of data, like streaming video or audio, online gaming, or VoIP (Voice over Internet Protocol).</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>Streaming a live sports event: UDP is used for faster transmission, even if it means occasional pixelation or minor video artifacts.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Reliability</strong>:</p>
+<ul>
+<li><strong>TCP</strong>: Reliable transmission, ensuring data is delivered accurately and in order.</li>
+<li><strong>UDP</strong>: Unreliable transmission; data may be lost or arrive out of order.</li>
+</ul>
+</li>
+<li>
+<p><strong>Connection</strong>:</p>
+<ul>
+<li><strong>TCP</strong>: Connection-oriented; establishes a connection before transmitting data.</li>
+<li><strong>UDP</strong>: Connectionless; sends data without establishing a connection.</li>
+</ul>
+</li>
+<li>
+<p><strong>Speed and Overhead</strong>:</p>
+<ul>
+<li><strong>TCP</strong>: Slower due to handshaking, acknowledgments, and congestion control.</li>
+<li><strong>UDP</strong>: Faster with minimal overhead, suitable for real-time applications.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Integrity</strong>:</p>
+<ul>
+<li><strong>TCP</strong>: High data integrity, suitable for applications like file transfers and web browsing.</li>
+<li><strong>UDP</strong>: Lower data integrity, acceptable for applications like streaming where perfect accuracy is less critical.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Case Suitability</strong>:</p>
+<ul>
+<li><strong>TCP</strong>: Used when data accuracy is more critical than speed.</li>
+<li><strong>UDP</strong>: Used when speed is more critical than accuracy.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>TCP is used for applications where reliable and accurate data transmission is crucial, whereas UDP is chosen for applications where speed is more important than reliability, and some loss of data is acceptable.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">TCP is like a certified mail service — you get a delivery confirmation, the post office retransmits lost parcels, and items always arrive in the correct order, but all that tracking takes time. UDP is like dropping postcards in a mailbox — they are sent quickly, there is no confirmation, some may be lost or arrive out of order, but it is perfect when speed matters more than perfection.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎮 Discord</div>
+      <div class="example-text">Discord uses UDP for voice communications because a dropped audio packet causes only a momentary glitch, while the TCP retransmission delay would cause audible stuttering. Real-time audio quality benefits more from consistent low latency than guaranteed delivery.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix video streaming uses HTTP/TCP because video delivery benefits from reliable, ordered data — a missing video segment cannot be interpolated and must be retransmitted. Adaptive bitrate streaming handles quality adjustment at the application layer instead.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google DNS uses UDP for standard queries because a DNS response fits in one packet and a fast unreliable delivery is preferable to TCP connection overhead for such small, stateless transactions. TCP is only used as a fallback for large responses.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌────────────────────────────────────────┐
+  │           TCP vs UDP                   │
+  ├─────────────────────┬──────────────────┤
+  │        TCP          │      UDP          │
+  ├─────────────────────┼──────────────────┤
+  │ Connection-oriented │ Connectionless    │
+  │ Reliable delivery   │ Best-effort       │
+  │ Ordered packets     │ No ordering       │
+  │ Flow/congestion ctrl│ No control        │
+  │ Higher overhead     │ Low overhead      │
+  │ HTTP, FTP, email    │ DNS, video, games │
+  └─────────────────────┴──────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the use cases by heart: TCP for reliability-critical applications (HTTP, databases, file transfer); UDP for latency-critical applications (DNS, video conferencing, gaming, live streaming).</li>
+<li><span class="tip-icon">💡</span> Explain that QUIC (HTTP/3) is UDP-based but adds reliability features at the application layer, combining UDP speed with TCP-like reliability.</li>
+<li><span class="tip-icon">💡</span> Mention that UDP is not just for simple protocols — sophisticated applications like WebRTC implement their own reliability and ordering on top of UDP.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TCP provides reliable, ordered, connection-oriented byte stream delivery with flow control and congestion control.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> UDP provides unreliable, unordered, connectionless datagram delivery with minimal overhead.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TCP is preferred for applications where correctness matters (web, email, databases); UDP for applications where speed matters (DNS, VoIP, games).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The TCP three-way handshake adds one round-trip of latency before data can be sent; UDP has no connection setup cost.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern protocols like QUIC build reliability features on UDP to get the best of both: low latency with connection migration support.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol" target="_blank" rel="noopener">Transmission Control Protocol – Wikipedia</a></div>
+      <div class="reading-desc">Full technical specification and behavioral description of TCP.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/User_Datagram_Protocol" target="_blank" rel="noopener">User Datagram Protocol – Wikipedia</a></div>
+      <div class="reading-desc">Technical overview of UDP, its use cases, and comparison to TCP.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">HTTP Overview – MDN</a></div>
+      <div class="reading-desc">MDN explanation of how HTTP uses TCP as its transport and how QUIC changes this.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="020-http-vs-https.html" class="nav-btn nav-prev">← HTTP vs HTTPS</a>
+  <a href="022-http-versions.html" class="nav-btn nav-next">HTTP 1.0 vs 1.1 vs 2.0 vs 3.0 →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

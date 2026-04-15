@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Encryption — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 085 of 103 &middot; 83% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:83%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › What is Encryption
+  </div>
+  <h1 class="hero-title">What is Encryption</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Encryption</span> <span class="hero-tag">TLS</span> <span class="hero-tag">Security</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Encryption in software systems is like sending a secret letter where the message is scrambled into a code. Only someone with the right key can read it. It's a method to protect data by making it unreadable to unauthorized users.</p>
+<ul>
+<li>
+<p><strong>Basic Concept</strong>: Encryption transforms readable data (plaintext) into a scrambled, unreadable format (ciphertext). To turn it back into readable form, you need the correct decryption key.</p>
+</li>
+<li>
+<p><strong>Types of Encryption</strong>:</p>
+<ol>
+<li><strong>Symmetric Encryption</strong>: Uses the same key for encrypting and decrypting data. Think of it as a lock and key system where the same key locks and unlocks the box.</li>
+<li><strong>Asymmetric Encryption</strong>: Uses two different keys – a public key for encryption and a private key for decryption. It's like having a public mailbox where anyone can drop a message (public key), but only you have the key to open it (private key).</li>
+</ol>
+</li>
+<li>
+<p><strong>Why It's Used</strong>:</p>
+<ul>
+<li><strong>Data Security</strong>: To protect sensitive data like passwords, credit card numbers, or confidential communications.</li>
+<li><strong>Privacy</strong>: Ensures that private conversations or information stay private.</li>
+<li><strong>Integrity</strong>: By encrypting data, it helps in verifying that the data has not been altered during transmission.</li>
+</ul>
+</li>
+<li>
+<p><strong>Where It's Used</strong>:</p>
+<ul>
+<li><strong>Secure Websites</strong>: HTTPS uses encryption to secure the data transmitted between your browser and the website.</li>
+<li><strong>Online Payments</strong>: Encryption protects your financial details when you buy something online.</li>
+<li><strong>Emails and Messaging</strong>: Services use encryption to keep your messages secure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Challenges</strong>:</p>
+<ul>
+<li><strong>Key Management</strong>: Keeping the encryption keys safe is crucial. If someone gets the key, they can decrypt your data.</li>
+<li><strong>Performance</strong>: Encryption can slow down systems because it takes time to encrypt and decrypt data.</li>
+<li><strong>Complexity</strong>: Implementing and managing encryption strategies can be complex.</li>
+</ul>
+</li>
+</ul>
+<p>Encryption is a fundamental aspect of cybersecurity, acting as a critical barrier against data breaches and cyber attacks. It's like having a secret language that only you and the intended recipient understand, keeping your information safe from prying eyes.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Encryption is like sending a letter in a locked box. Symmetric encryption means you and the recipient both have the same key — fast but you must share the key securely first. Asymmetric encryption means the recipient gives you a public padlock (public key) to lock the box; only their private key can open it — no secret sharing needed.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔒 Let&#x27;s Encrypt / TLS</div>
+      <div class="example-text">Every HTTPS connection uses TLS, which combines asymmetric encryption (RSA/ECDSA) to exchange a session key, then symmetric encryption (AES-GCM) for the actual data — getting the benefits of both speed and security.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💬 WhatsApp</div>
+      <div class="example-text">WhatsApp uses the Signal Protocol (Double Ratchet + X3DH) for end-to-end encryption. Messages are encrypted on your device with the recipient's public key and can only be decrypted by the recipient's private key — WhatsApp's servers never see plaintext.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS KMS</div>
+      <div class="example-text">AWS Key Management Service stores encryption keys in HSMs (hardware security modules). S3, RDS, EBS, and Lambda all integrate with KMS for envelope encryption — data is encrypted with a data key, which itself is encrypted with a KMS master key.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Symmetric vs Asymmetric Encryption
+
+  SYMMETRIC (e.g. AES-256)
+  Plaintext ──[same key]──▶ Ciphertext
+  Ciphertext ──[same key]──▶ Plaintext
+  ✅ Fast  ❌ Key distribution problem
+
+  ASYMMETRIC (e.g. RSA, ECC)
+  Plaintext ──[public key]──▶ Ciphertext
+  Ciphertext ──[private key]──▶ Plaintext
+  ✅ No shared secret  ❌ Slow
+
+  TLS IN PRACTICE: asymmetric to exchange key,
+  then symmetric for bulk data transfer
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always mention encryption at rest (stored data) and in transit (moving data) — both are required for a secure system.</li>
+<li><span class="tip-icon">💡</span> TLS 1.3 is the current standard — mention deprecating TLS 1.0/1.1 for compliance.</li>
+<li><span class="tip-icon">💡</span> Key management is harder than encryption — mention key rotation, HSMs, and KMS for production systems.</li>
+<li><span class="tip-icon">💡</span> End-to-end encryption means the service provider can't read the data — important for privacy-critical systems.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Symmetric encryption uses one key for both encrypt and decrypt — fast but key distribution is hard.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Asymmetric encryption uses a public key to encrypt and private key to decrypt — slower but solves key distribution.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TLS combines both: asymmetric for handshake, symmetric for data transfer.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Encryption in transit (TLS) and at rest (AES) are both required for production security.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Encryption" target="_blank" rel="noopener">Wikipedia: Encryption</a></div>
+      <div class="reading-desc">Comprehensive overview of encryption history, algorithms, and applications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/" target="_blank" rel="noopener">Cloudflare: What is TLS?</a></div>
+      <div class="reading-desc">How TLS works, with a step-by-step TLS handshake explanation.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/kms/latest/developerguide/overview.html" target="_blank" rel="noopener">AWS KMS Developer Guide</a></div>
+      <div class="reading-desc">How to manage encryption keys at scale in cloud infrastructure.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="084-oauth-vs-jwt-for-authentication.html" class="nav-btn nav-prev">← OAuth vs JWT for Authentication</a>
+  <a href="086-what-are-ddos-attacks.html" class="nav-btn nav-next">What are DDoS Attacks →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

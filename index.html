@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Design Fundamentals — Complete Course</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <h1>⚙️ System Design Fundamentals</h1>
+  <p>Master the building blocks of large-scale systems — from load balancing to distributed databases —
+     with real-world examples and beginner-friendly explanations.</p>
+  <div class="hero-stats">
+    <div><span class="stat-num">103</span><span class="stat-label">Topics</span></div>
+    <div><span class="stat-num">8</span><span class="stat-label">Sections</span></div>
+    <div><span class="stat-num">~8h</span><span class="stat-label">Total Read</span></div>
+    <div><span class="stat-num">400+</span><span class="stat-label">Examples</span></div>
+  </div>
+</header>
+
+<!-- Search -->
+<div style="max-width:1200px;margin:0 auto;padding:0 32px;">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search-input" type="text" placeholder="Search topics… e.g. 'caching', 'CAP theorem', 'Kafka'">
+  </div>
+</div>
+
+<!-- Filter tabs -->
+<div class="filter-row">
+    <button class="filter-tab active" data-group="all">All Topics</button>
+    <button class="filter-tab" data-group="load-balancing">Load Balancing</button>
+    <button class="filter-tab" data-group="caching">Caching & CDN</button>
+    <button class="filter-tab" data-group="databases">Databases</button>
+    <button class="filter-tab" data-group="networking">Networking</button>
+    <button class="filter-tab" data-group="messaging">Messaging</button>
+    <button class="filter-tab" data-group="security">Security</button>
+    <button class="filter-tab" data-group="patterns">Patterns</button>
+    
+</div>
+
+<!-- Topic grid -->
+<div class="topics-container">
+  
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Overview</h2>
+          <p>1 topic</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/001-introduction-to-system-design.html"
+           data-group="overview"
+           data-title="introduction to system design"
+           data-desc="what system design is, why it matters, and the core concepts you&#x27;ll master in this course."
+           data-tags="overview fundamentals"
+           style="--accent:#8b5cf6">
+          <div class="card-head">
+            <span class="card-num">001</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to System Design</div>
+            <div class="card-desc">What system design is, why it matters, and the core concepts you&#x27;ll master in this course.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Overview</span> <span class="mini-tag">Fundamentals</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Load Balancing</h2>
+          <p>11 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/002-introduction-to-load-balancing.html"
+           data-group="load-balancing"
+           data-title="introduction to load balancing"
+           data-desc="how load balancers distribute traffic across servers to prevent overload and improve availability."
+           data-tags="load balancing high availability"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">002</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Load Balancing</div>
+            <div class="card-desc">How load balancers distribute traffic across servers to prevent overload and improve availability.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">High Availability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/003-load-balancing-algorithms.html"
+           data-group="load-balancing"
+           data-title="load balancing algorithms"
+           data-desc="round robin, weighted, least connections, ip hash — when and why to use each algorithm."
+           data-tags="load balancing algorithms"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">003</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Load Balancing Algorithms</div>
+            <div class="card-desc">Round robin, weighted, least connections, IP hash — when and why to use each algorithm.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">Algorithms</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/004-uses-of-load-balancing.html"
+           data-group="load-balancing"
+           data-title="uses of load balancing"
+           data-desc="practical scenarios where load balancers solve real problems in production systems."
+           data-tags="load balancing use cases"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">004</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Uses of Load Balancing</div>
+            <div class="card-desc">Practical scenarios where load balancers solve real problems in production systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">Use Cases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/005-load-balancer-types.html"
+           data-group="load-balancing"
+           data-title="load balancer types"
+           data-desc="hardware vs software, layer 4 vs layer 7 — understanding the different categories of load balancers."
+           data-tags="load balancing layer 4 layer 7"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">005</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Load Balancer Types</div>
+            <div class="card-desc">Hardware vs software, Layer 4 vs Layer 7 — understanding the different categories of load balancers.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">Layer 4</span> <span class="mini-tag">Layer 7</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/006-stateless-vs-stateful-load-balancing.html"
+           data-group="load-balancing"
+           data-title="stateless vs stateful load balancing"
+           data-desc="why stateless is simpler and when sticky sessions (stateful) are necessary."
+           data-tags="load balancing sessions"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">006</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Stateless vs Stateful Load Balancing</div>
+            <div class="card-desc">Why stateless is simpler and when sticky sessions (stateful) are necessary.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">Sessions</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/007-high-availability-and-fault-tolerance.html"
+           data-group="load-balancing"
+           data-title="high availability and fault tolerance"
+           data-desc="how load balancers contribute to systems that stay up even when components fail."
+           data-tags="high availability fault tolerance"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">007</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">High Availability and Fault Tolerance</div>
+            <div class="card-desc">How load balancers contribute to systems that stay up even when components fail.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">High Availability</span> <span class="mini-tag">Fault Tolerance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/008-scalability-and-performance.html"
+           data-group="load-balancing"
+           data-title="scalability and performance"
+           data-desc="how load balancing enables horizontal scaling to handle growing traffic."
+           data-tags="scalability performance"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">008</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Scalability and Performance</div>
+            <div class="card-desc">How load balancing enables horizontal scaling to handle growing traffic.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Scalability</span> <span class="mini-tag">Performance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/009-challenges-of-load-balancers.html"
+           data-group="load-balancing"
+           data-title="challenges of load balancers"
+           data-desc="single points of failure, session persistence issues, and other hard problems with load balancers."
+           data-tags="load balancing trade-offs"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">009</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Challenges of Load Balancers</div>
+            <div class="card-desc">Single points of failure, session persistence issues, and other hard problems with load balancers.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Load Balancing</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/010-introduction-to-api-gateway.html"
+           data-group="load-balancing"
+           data-title="introduction to api gateway"
+           data-desc="what an api gateway is and how it acts as the front door to your microservices."
+           data-tags="api gateway microservices"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">010</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to API Gateway</div>
+            <div class="card-desc">What an API gateway is and how it acts as the front door to your microservices.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">API Gateway</span> <span class="mini-tag">Microservices</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/011-usage-of-api-gateway.html"
+           data-group="load-balancing"
+           data-title="usage of api gateway"
+           data-desc="rate limiting, authentication, logging, and other capabilities an api gateway provides."
+           data-tags="api gateway rate limiting"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">011</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Usage of API Gateway</div>
+            <div class="card-desc">Rate limiting, authentication, logging, and other capabilities an API gateway provides.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">API Gateway</span> <span class="mini-tag">Rate Limiting</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/012-advantages-and-disadvantages-of-api-gateway.html"
+           data-group="load-balancing"
+           data-title="advantages and disadvantages of api gateway"
+           data-desc="the trade-offs of putting an api gateway in front of your services."
+           data-tags="api gateway trade-offs"
+           style="--accent:#3b82f6">
+          <div class="card-head">
+            <span class="card-num">012</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Advantages and Disadvantages of API Gateway</div>
+            <div class="card-desc">The trade-offs of putting an API gateway in front of your services.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">API Gateway</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Core Concepts</h2>
+          <p>8 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/013-scalability.html"
+           data-group="patterns"
+           data-title="scalability"
+           data-desc="vertical vs horizontal scaling — how systems grow to handle more users and data."
+           data-tags="scalability core concepts"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">013</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Scalability</div>
+            <div class="card-desc">Vertical vs horizontal scaling — how systems grow to handle more users and data.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Scalability</span> <span class="mini-tag">Core Concepts</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/014-availability.html"
+           data-group="patterns"
+           data-title="availability"
+           data-desc="measuring and designing for high availability — the &#x27;9s&#x27; (99.9%, 99.99%) explained."
+           data-tags="availability sla core concepts"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">014</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Availability</div>
+            <div class="card-desc">Measuring and designing for high availability — the &#x27;9s&#x27; (99.9%, 99.99%) explained.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Availability</span> <span class="mini-tag">SLA</span> <span class="mini-tag">Core Concepts</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/015-latency-and-performance.html"
+           data-group="patterns"
+           data-title="latency and performance"
+           data-desc="understanding latency, throughput, and how to reduce response times in distributed systems."
+           data-tags="latency performance core concepts"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">015</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Latency and Performance</div>
+            <div class="card-desc">Understanding latency, throughput, and how to reduce response times in distributed systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Latency</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Core Concepts</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/016-concurrency-and-coordination.html"
+           data-group="patterns"
+           data-title="concurrency and coordination"
+           data-desc="handling multiple simultaneous operations safely — locks, race conditions, and coordination patterns."
+           data-tags="concurrency coordination"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">016</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Concurrency and Coordination</div>
+            <div class="card-desc">Handling multiple simultaneous operations safely — locks, race conditions, and coordination patterns.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Concurrency</span> <span class="mini-tag">Coordination</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/017-monitoring-and-observability.html"
+           data-group="patterns"
+           data-title="monitoring and observability"
+           data-desc="metrics, logs, and traces — the three pillars of understanding what your system is doing."
+           data-tags="monitoring observability sre"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">017</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Monitoring and Observability</div>
+            <div class="card-desc">Metrics, logs, and traces — the three pillars of understanding what your system is doing.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Monitoring</span> <span class="mini-tag">Observability</span> <span class="mini-tag">SRE</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/018-resilience-and-error-handling.html"
+           data-group="patterns"
+           data-title="resilience and error handling"
+           data-desc="circuit breakers, retries, and timeouts — making systems that gracefully handle failures."
+           data-tags="resilience error handling circuit breaker"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">018</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Resilience and Error Handling</div>
+            <div class="card-desc">Circuit breakers, retries, and timeouts — making systems that gracefully handle failures.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Resilience</span> <span class="mini-tag">Error Handling</span> <span class="mini-tag">Circuit Breaker</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/019-fault-tolerance-vs-high-availability.html"
+           data-group="patterns"
+           data-title="fault tolerance vs high availability"
+           data-desc="the difference between tolerating failures (fault tolerance) and staying up despite them (ha)."
+           data-tags="fault tolerance high availability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">019</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Fault Tolerance vs High Availability</div>
+            <div class="card-desc">The difference between tolerating failures (fault tolerance) and staying up despite them (HA).</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Fault Tolerance</span> <span class="mini-tag">High Availability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/057-system-design-tradeoffs-in-interviews.html"
+           data-group="patterns"
+           data-title="system design tradeoffs in interviews"
+           data-desc="how to think and talk about trade-offs in system design interviews — a practical framework."
+           data-tags="interviews trade-offs fundamentals"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">057</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">System Design Tradeoffs in Interviews</div>
+            <div class="card-desc">How to think and talk about trade-offs in system design interviews — a practical framework.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Interviews</span> <span class="mini-tag">Trade-offs</span> <span class="mini-tag">Fundamentals</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Networking</h2>
+          <p>7 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/020-http-vs-https.html"
+           data-group="networking"
+           data-title="http vs https"
+           data-desc="how https adds encryption and authentication on top of http, and why it matters."
+           data-tags="http https security networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">020</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">HTTP vs HTTPS</div>
+            <div class="card-desc">How HTTPS adds encryption and authentication on top of HTTP, and why it matters.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">HTTP</span> <span class="mini-tag">HTTPS</span> <span class="mini-tag">Security</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/021-tcp-vs-udp.html"
+           data-group="networking"
+           data-title="tcp vs udp"
+           data-desc="reliable ordered delivery (tcp) vs fast fire-and-forget (udp) — choosing the right protocol."
+           data-tags="tcp udp networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">021</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">TCP vs UDP</div>
+            <div class="card-desc">Reliable ordered delivery (TCP) vs fast fire-and-forget (UDP) — choosing the right protocol.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">TCP</span> <span class="mini-tag">UDP</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/022-http-versions.html"
+           data-group="networking"
+           data-title="http 1.0 vs 1.1 vs 2.0 vs 3.0"
+           data-desc="how each http version improved on the last — from keep-alive connections to multiplexing and quic."
+           data-tags="http performance networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">022</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">HTTP 1.0 vs 1.1 vs 2.0 vs 3.0</div>
+            <div class="card-desc">How each HTTP version improved on the last — from keep-alive connections to multiplexing and QUIC.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">HTTP</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/023-url-vs-uri-vs-urn.html"
+           data-group="networking"
+           data-title="url vs uri vs urn"
+           data-desc="the difference between identifiers (uri), locators (url), and names (urn) on the web."
+           data-tags="url uri networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">023</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">URL vs URI vs URN</div>
+            <div class="card-desc">The difference between identifiers (URI), locators (URL), and names (URN) on the web.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">URL</span> <span class="mini-tag">URI</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/024-introduction-to-dns.html"
+           data-group="networking"
+           data-title="introduction to dns"
+           data-desc="how the domain name system translates human-readable names into ip addresses."
+           data-tags="dns networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">024</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to DNS</div>
+            <div class="card-desc">How the Domain Name System translates human-readable names into IP addresses.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DNS</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/025-dns-resolution-process.html"
+           data-group="networking"
+           data-title="dns resolution process"
+           data-desc="step-by-step: resolvers, root servers, tld servers, authoritative servers — how dns lookups work."
+           data-tags="dns networking"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">025</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">DNS Resolution Process</div>
+            <div class="card-desc">Step-by-step: resolvers, root servers, TLD servers, authoritative servers — how DNS lookups work.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DNS</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/026-dns-load-balancing-and-high-availability.html"
+           data-group="networking"
+           data-title="dns load balancing and high availability"
+           data-desc="using dns records to distribute traffic and route around failures at the network level."
+           data-tags="dns load balancing high availability"
+           style="--accent:#06b6d4">
+          <div class="card-head">
+            <span class="card-num">026</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">DNS Load Balancing and High Availability</div>
+            <div class="card-desc">Using DNS records to distribute traffic and route around failures at the network level.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DNS</span> <span class="mini-tag">Load Balancing</span> <span class="mini-tag">High Availability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Caching & CDN</h2>
+          <p>13 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/027-introduction-to-caching.html"
+           data-group="caching"
+           data-title="introduction to caching"
+           data-desc="what caching is, how it works, and why it&#x27;s one of the most impactful performance optimizations."
+           data-tags="caching performance"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">027</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Caching</div>
+            <div class="card-desc">What caching is, how it works, and why it&#x27;s one of the most impactful performance optimizations.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Performance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/028-why-is-caching-important.html"
+           data-group="caching"
+           data-title="why is caching important"
+           data-desc="the concrete benefits of caching — speed, cost reduction, and reduced database load."
+           data-tags="caching performance scalability"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">028</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Why is Caching Important</div>
+            <div class="card-desc">The concrete benefits of caching — speed, cost reduction, and reduced database load.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Scalability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/029-types-of-caching.html"
+           data-group="caching"
+           data-title="types of caching"
+           data-desc="client-side, server-side, database, and cdn caching — the different layers explained."
+           data-tags="caching architecture"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">029</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Types of Caching</div>
+            <div class="card-desc">Client-side, server-side, database, and CDN caching — the different layers explained.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/030-cache-replacement-policies.html"
+           data-group="caching"
+           data-title="cache replacement policies"
+           data-desc="lru, lfu, fifo, and other strategies for deciding what to evict when the cache is full."
+           data-tags="caching algorithms"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">030</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Cache Replacement Policies</div>
+            <div class="card-desc">LRU, LFU, FIFO, and other strategies for deciding what to evict when the cache is full.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Algorithms</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/031-cache-invalidation.html"
+           data-group="caching"
+           data-title="cache invalidation"
+           data-desc="the hardest problem in caching — how to ensure cached data stays consistent with the source."
+           data-tags="caching consistency"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">031</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Cache Invalidation</div>
+            <div class="card-desc">The hardest problem in caching — how to ensure cached data stays consistent with the source.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Consistency</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/032-cache-read-strategies.html"
+           data-group="caching"
+           data-title="cache read strategies"
+           data-desc="cache-aside, read-through, write-through, write-behind — patterns for reading and writing cached data."
+           data-tags="caching patterns"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">032</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Cache Read Strategies</div>
+            <div class="card-desc">Cache-aside, read-through, write-through, write-behind — patterns for reading and writing cached data.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Patterns</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/033-cache-coherence-and-consistency-models.html"
+           data-group="caching"
+           data-title="cache coherence and consistency models"
+           data-desc="how distributed caches stay in sync — eventual consistency, strong consistency, and their trade-offs."
+           data-tags="caching consistency distributed systems"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">033</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Cache Coherence and Consistency Models</div>
+            <div class="card-desc">How distributed caches stay in sync — eventual consistency, strong consistency, and their trade-offs.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Consistency</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/034-caching-challenges.html"
+           data-group="caching"
+           data-title="caching challenges"
+           data-desc="cache stampede, thundering herd, cache poisoning — the hard problems you&#x27;ll encounter in production."
+           data-tags="caching problems"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">034</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Caching Challenges</div>
+            <div class="card-desc">Cache stampede, thundering herd, cache poisoning — the hard problems you&#x27;ll encounter in production.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Problems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/035-cache-performance-metrics.html"
+           data-group="caching"
+           data-title="cache performance metrics"
+           data-desc="hit rate, miss rate, eviction rate, latency — how to measure whether your cache is working."
+           data-tags="caching metrics performance"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">035</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Cache Performance Metrics</div>
+            <div class="card-desc">Hit rate, miss rate, eviction rate, latency — how to measure whether your cache is working.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Caching</span> <span class="mini-tag">Metrics</span> <span class="mini-tag">Performance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/036-what-is-cdn.html"
+           data-group="caching"
+           data-title="what is cdn"
+           data-desc="content delivery networks — how edge servers bring content closer to users worldwide."
+           data-tags="cdn performance global"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">036</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is CDN</div>
+            <div class="card-desc">Content Delivery Networks — how edge servers bring content closer to users worldwide.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CDN</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Global</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/037-origin-server-vs-edge-server.html"
+           data-group="caching"
+           data-title="origin server vs edge server"
+           data-desc="the difference between your origin (source of truth) and cdn edge nodes (local copies)."
+           data-tags="cdn architecture"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">037</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Origin Server vs Edge Server</div>
+            <div class="card-desc">The difference between your origin (source of truth) and CDN edge nodes (local copies).</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CDN</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/038-cdn-architecture.html"
+           data-group="caching"
+           data-title="cdn architecture"
+           data-desc="points of presence (pops), anycast routing, and how cdn networks are structured globally."
+           data-tags="cdn architecture networking"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">038</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">CDN Architecture</div>
+            <div class="card-desc">Points of Presence (PoPs), anycast routing, and how CDN networks are structured globally.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CDN</span> <span class="mini-tag">Architecture</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/039-push-cdn-vs-pull-cdn.html"
+           data-group="caching"
+           data-title="push cdn vs pull cdn"
+           data-desc="pre-uploading content to edge nodes (push) vs fetching on first request (pull) — when to use which."
+           data-tags="cdn trade-offs"
+           style="--accent:#f97316">
+          <div class="card-head">
+            <span class="card-num">039</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Push CDN vs Pull CDN</div>
+            <div class="card-desc">Pre-uploading content to edge nodes (push) vs fetching on first request (pull) — when to use which.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CDN</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Data Partitioning</h2>
+          <p>5 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/040-introduction-to-data-partitioning.html"
+           data-group="patterns"
+           data-title="introduction to data partitioning"
+           data-desc="why and how large datasets are split across multiple servers for scalability."
+           data-tags="partitioning scalability databases"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">040</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Data Partitioning</div>
+            <div class="card-desc">Why and how large datasets are split across multiple servers for scalability.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Partitioning</span> <span class="mini-tag">Scalability</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/041-partitioning-methods.html"
+           data-group="patterns"
+           data-title="partitioning methods"
+           data-desc="horizontal (sharding), vertical, and directory-based partitioning — the three main approaches."
+           data-tags="partitioning sharding"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">041</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Partitioning Methods</div>
+            <div class="card-desc">Horizontal (sharding), vertical, and directory-based partitioning — the three main approaches.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Partitioning</span> <span class="mini-tag">Sharding</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/042-data-sharding-techniques.html"
+           data-group="patterns"
+           data-title="data sharding techniques"
+           data-desc="range-based, hash-based, and geographic sharding — how to decide which shard data belongs to."
+           data-tags="sharding distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">042</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Data Sharding Techniques</div>
+            <div class="card-desc">Range-based, hash-based, and geographic sharding — how to decide which shard data belongs to.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Sharding</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/043-benefits-of-data-partitioning.html"
+           data-group="patterns"
+           data-title="benefits of data partitioning"
+           data-desc="improved query performance, better write throughput, and reduced hot spots through partitioning."
+           data-tags="partitioning performance scalability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">043</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Benefits of Data Partitioning</div>
+            <div class="card-desc">Improved query performance, better write throughput, and reduced hot spots through partitioning.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Partitioning</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Scalability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/044-common-problems-with-data-partitioning.html"
+           data-group="patterns"
+           data-title="common problems with data partitioning"
+           data-desc="cross-partition queries, rebalancing, and the operational complexity of sharded systems."
+           data-tags="partitioning problems trade-offs"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">044</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Common Problems with Data Partitioning</div>
+            <div class="card-desc">Cross-partition queries, rebalancing, and the operational complexity of sharded systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Partitioning</span> <span class="mini-tag">Problems</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Proxies & Redundancy</h2>
+          <p>7 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/045-what-is-a-proxy-server.html"
+           data-group="patterns"
+           data-title="what is a proxy server"
+           data-desc="how proxy servers act as intermediaries, caching requests and hiding client details."
+           data-tags="proxy networking"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">045</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is a Proxy Server</div>
+            <div class="card-desc">How proxy servers act as intermediaries, caching requests and hiding client details.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Proxy</span> <span class="mini-tag">Networking</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/046-uses-of-proxies.html"
+           data-group="patterns"
+           data-title="uses of proxies"
+           data-desc="caching, filtering, anonymity, and load distribution — the many jobs a proxy can do."
+           data-tags="proxy use cases"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">046</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Uses of Proxies</div>
+            <div class="card-desc">Caching, filtering, anonymity, and load distribution — the many jobs a proxy can do.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Proxy</span> <span class="mini-tag">Use Cases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/047-vpn-vs-proxy-server.html"
+           data-group="patterns"
+           data-title="vpn vs proxy server"
+           data-desc="when to use a full vpn tunnel vs a lightweight proxy — security and performance trade-offs."
+           data-tags="vpn proxy security"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">047</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">VPN vs Proxy Server</div>
+            <div class="card-desc">When to use a full VPN tunnel vs a lightweight proxy — security and performance trade-offs.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">VPN</span> <span class="mini-tag">Proxy</span> <span class="mini-tag">Security</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/048-what-is-redundancy.html"
+           data-group="patterns"
+           data-title="what is redundancy"
+           data-desc="building backup capacity into systems so failure of one component doesn&#x27;t cause downtime."
+           data-tags="redundancy high availability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">048</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Redundancy</div>
+            <div class="card-desc">Building backup capacity into systems so failure of one component doesn&#x27;t cause downtime.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Redundancy</span> <span class="mini-tag">High Availability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/049-what-is-replication.html"
+           data-group="patterns"
+           data-title="what is replication"
+           data-desc="copying data across multiple servers to improve durability, read performance, and availability."
+           data-tags="replication databases distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">049</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Replication</div>
+            <div class="card-desc">Copying data across multiple servers to improve durability, read performance, and availability.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Replication</span> <span class="mini-tag">Databases</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/050-replication-methods.html"
+           data-group="patterns"
+           data-title="replication methods"
+           data-desc="synchronous vs asynchronous, single-leader vs multi-leader vs leaderless replication."
+           data-tags="replication consistency databases"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">050</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Replication Methods</div>
+            <div class="card-desc">Synchronous vs asynchronous, single-leader vs multi-leader vs leaderless replication.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Replication</span> <span class="mini-tag">Consistency</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/051-data-backup-vs-disaster-recovery.html"
+           data-group="patterns"
+           data-title="data backup vs disaster recovery"
+           data-desc="backups protect against data loss; dr plans protect against full system outages — both are needed."
+           data-tags="backup disaster recovery reliability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">051</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Data Backup vs Disaster Recovery</div>
+            <div class="card-desc">Backups protect against data loss; DR plans protect against full system outages — both are needed.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Backup</span> <span class="mini-tag">Disaster Recovery</span> <span class="mini-tag">Reliability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>CAP & Consistency</h2>
+          <p>5 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/052-introduction-to-cap-theorem.html"
+           data-group="patterns"
+           data-title="introduction to cap theorem"
+           data-desc="the foundational constraint of distributed systems: you can only guarantee 2 of consistency, availability, and partition tolerance."
+           data-tags="cap theorem distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">052</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to CAP Theorem</div>
+            <div class="card-desc">The foundational constraint of distributed systems: you can only guarantee 2 of Consistency, Availability, and Partition Tolerance.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CAP Theorem</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/053-components-of-cap-theorem.html"
+           data-group="patterns"
+           data-title="components of cap theorem"
+           data-desc="deep dive into consistency, availability, and partition tolerance — what each really means."
+           data-tags="cap theorem consistency availability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">053</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Components of CAP Theorem</div>
+            <div class="card-desc">Deep dive into Consistency, Availability, and Partition Tolerance — what each really means.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CAP Theorem</span> <span class="mini-tag">Consistency</span> <span class="mini-tag">Availability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/054-tradeoffs-in-cap-theorem.html"
+           data-group="patterns"
+           data-title="tradeoffs in cap theorem"
+           data-desc="cp vs ap systems — why you must choose, and how real databases make this choice."
+           data-tags="cap theorem trade-offs"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">054</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Tradeoffs in CAP Theorem</div>
+            <div class="card-desc">CP vs AP systems — why you must choose, and how real databases make this choice.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CAP Theorem</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/055-examples-of-cap-theorem-in-practice.html"
+           data-group="patterns"
+           data-title="examples of cap theorem in practice"
+           data-desc="how cassandra, hbase, mongodb, and other real systems position themselves on the cap spectrum."
+           data-tags="cap theorem databases real world"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">055</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Examples of CAP Theorem in Practice</div>
+            <div class="card-desc">How Cassandra, HBase, MongoDB, and other real systems position themselves on the CAP spectrum.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CAP Theorem</span> <span class="mini-tag">Databases</span> <span class="mini-tag">Real World</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/056-beyond-cap-theorem.html"
+           data-group="patterns"
+           data-title="beyond cap theorem"
+           data-desc="pacelc theorem, eventual consistency models, and the nuances beyond the basic cap triangle."
+           data-tags="cap theorem pacelc consistency"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">056</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Beyond CAP Theorem</div>
+            <div class="card-desc">PACELC theorem, eventual consistency models, and the nuances beyond the basic CAP triangle.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">CAP Theorem</span> <span class="mini-tag">PACELC</span> <span class="mini-tag">Consistency</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Databases</h2>
+          <p>12 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/058-introduction-to-databases.html"
+           data-group="databases"
+           data-title="introduction to databases"
+           data-desc="the role of databases in system design — different types and when to use each."
+           data-tags="databases fundamentals"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">058</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Databases</div>
+            <div class="card-desc">The role of databases in system design — different types and when to use each.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Databases</span> <span class="mini-tag">Fundamentals</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/059-sql-databases.html"
+           data-group="databases"
+           data-title="sql databases"
+           data-desc="relational databases, schemas, acid properties, and when sql is the right choice."
+           data-tags="sql databases rdbms"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">059</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">SQL Databases</div>
+            <div class="card-desc">Relational databases, schemas, ACID properties, and when SQL is the right choice.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">SQL</span> <span class="mini-tag">Databases</span> <span class="mini-tag">RDBMS</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/060-nosql-databases.html"
+           data-group="databases"
+           data-title="nosql databases"
+           data-desc="document, key-value, column-family, and graph databases — the nosql landscape explained."
+           data-tags="nosql databases"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">060</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">NoSQL Databases</div>
+            <div class="card-desc">Document, key-value, column-family, and graph databases — the NoSQL landscape explained.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">NoSQL</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/061-sql-vs-nosql.html"
+           data-group="databases"
+           data-title="sql vs nosql"
+           data-desc="how to choose between relational and non-relational databases for your use case."
+           data-tags="sql nosql trade-offs"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">061</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">SQL vs NoSQL</div>
+            <div class="card-desc">How to choose between relational and non-relational databases for your use case.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">SQL</span> <span class="mini-tag">NoSQL</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/062-acid-vs-base-properties.html"
+           data-group="databases"
+           data-title="acid vs base properties"
+           data-desc="strong acid guarantees vs flexible base properties — the philosophical divide between sql and nosql."
+           data-tags="acid base consistency databases"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">062</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">ACID vs BASE Properties</div>
+            <div class="card-desc">Strong ACID guarantees vs flexible BASE properties — the philosophical divide between SQL and NoSQL.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">ACID</span> <span class="mini-tag">BASE</span> <span class="mini-tag">Consistency</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/063-real-world-examples-and-case-studies.html"
+           data-group="databases"
+           data-title="real-world examples and case studies"
+           data-desc="how uber, airbnb, and other companies chose their database stacks and why."
+           data-tags="databases case studies real world"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">063</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Real-World Examples and Case Studies</div>
+            <div class="card-desc">How Uber, Airbnb, and other companies chose their database stacks and why.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Databases</span> <span class="mini-tag">Case Studies</span> <span class="mini-tag">Real World</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/064-sql-normalization-and-denormalization.html"
+           data-group="databases"
+           data-title="sql normalization and denormalization"
+           data-desc="structuring data to reduce redundancy (normalization) vs duplicating for query speed (denormalization)."
+           data-tags="sql schema design databases"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">064</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">SQL Normalization and Denormalization</div>
+            <div class="card-desc">Structuring data to reduce redundancy (normalization) vs duplicating for query speed (denormalization).</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">SQL</span> <span class="mini-tag">Schema Design</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/065-in-memory-vs-on-disk-database.html"
+           data-group="databases"
+           data-title="in-memory database vs on-disk database"
+           data-desc="redis and memcached vs postgresql and mysql — speed vs durability trade-offs."
+           data-tags="in-memory redis databases"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">065</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">In-Memory Database vs On-Disk Database</div>
+            <div class="card-desc">Redis and Memcached vs PostgreSQL and MySQL — speed vs durability trade-offs.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">In-Memory</span> <span class="mini-tag">Redis</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/066-data-replication-vs-data-mirroring.html"
+           data-group="databases"
+           data-title="data replication vs data mirroring"
+           data-desc="selective replication of data subsets vs creating exact copies — the distinction and use cases."
+           data-tags="replication mirroring databases"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">066</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Data Replication vs Data Mirroring</div>
+            <div class="card-desc">Selective replication of data subsets vs creating exact copies — the distinction and use cases.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Replication</span> <span class="mini-tag">Mirroring</span> <span class="mini-tag">Databases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/067-database-federation.html"
+           data-group="databases"
+           data-title="database federation"
+           data-desc="splitting a database by function (users db, products db) to reduce load and improve manageability."
+           data-tags="federation databases scalability"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">067</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Database Federation</div>
+            <div class="card-desc">Splitting a database by function (users DB, products DB) to reduce load and improve manageability.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Federation</span> <span class="mini-tag">Databases</span> <span class="mini-tag">Scalability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/068-what-are-indexes.html"
+           data-group="databases"
+           data-title="what are indexes"
+           data-desc="how database indexes speed up queries by creating a sorted lookup structure."
+           data-tags="indexes databases performance"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">068</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What are Indexes</div>
+            <div class="card-desc">How database indexes speed up queries by creating a sorted lookup structure.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Indexes</span> <span class="mini-tag">Databases</span> <span class="mini-tag">Performance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/069-types-of-indexes.html"
+           data-group="databases"
+           data-title="types of indexes"
+           data-desc="b-tree, hash, full-text, composite — the different index types and when to use each."
+           data-tags="indexes databases performance"
+           style="--accent:#22c55e">
+          <div class="card-head">
+            <span class="card-num">069</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Types of Indexes</div>
+            <div class="card-desc">B-tree, hash, full-text, composite — the different index types and when to use each.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Indexes</span> <span class="mini-tag">Databases</span> <span class="mini-tag">Performance</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Bloom Filters</h2>
+          <p>4 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/070-introduction-to-bloom-filters.html"
+           data-group="patterns"
+           data-title="introduction to bloom filters"
+           data-desc="a probabilistic data structure for fast membership testing — might say yes when answer is no, never says no when answer is yes."
+           data-tags="bloom filters data structures probabilistic"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">070</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Bloom Filters</div>
+            <div class="card-desc">A probabilistic data structure for fast membership testing — might say yes when answer is no, never says no when answer is yes.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Bloom Filters</span> <span class="mini-tag">Data Structures</span> <span class="mini-tag">Probabilistic</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/071-benefits-and-limitations-of-bloom-filters.html"
+           data-group="patterns"
+           data-title="benefits &amp; limitations of bloom filters"
+           data-desc="space efficiency and speed vs false positives — when bloom filters are worth the trade-off."
+           data-tags="bloom filters trade-offs"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">071</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Benefits &amp; Limitations of Bloom Filters</div>
+            <div class="card-desc">Space efficiency and speed vs false positives — when bloom filters are worth the trade-off.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Bloom Filters</span> <span class="mini-tag">Trade-offs</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/072-variants-and-extensions-of-bloom-filters.html"
+           data-group="patterns"
+           data-title="variants and extensions of bloom filters"
+           data-desc="counting bloom filters, cuckoo filters, and other extensions of the basic data structure."
+           data-tags="bloom filters data structures"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">072</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Variants and Extensions of Bloom Filters</div>
+            <div class="card-desc">Counting bloom filters, cuckoo filters, and other extensions of the basic data structure.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Bloom Filters</span> <span class="mini-tag">Data Structures</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/073-applications-of-bloom-filters.html"
+           data-group="patterns"
+           data-title="applications of bloom filters"
+           data-desc="how cassandra, chrome, bitcoin, and akamai use bloom filters in production."
+           data-tags="bloom filters real world"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">073</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Applications of Bloom Filters</div>
+            <div class="card-desc">How Cassandra, Chrome, Bitcoin, and Akamai use bloom filters in production.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Bloom Filters</span> <span class="mini-tag">Real World</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Communication Patterns</h2>
+          <p>4 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/074-long-polling-websockets-server-sent-events.html"
+           data-group="messaging"
+           data-title="long-polling, websockets, and server-sent events"
+           data-desc="three approaches to real-time communication between client and server — trade-offs and use cases."
+           data-tags="websockets sse long polling real-time"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">074</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Long-Polling, WebSockets, and Server-Sent Events</div>
+            <div class="card-desc">Three approaches to real-time communication between client and server — trade-offs and use cases.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">WebSockets</span> <span class="mini-tag">SSE</span> <span class="mini-tag">Long Polling</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/097-xml-vs-json.html"
+           data-group="messaging"
+           data-title="xml vs json"
+           data-desc="two dominant data interchange formats — when verbose xml is worth it vs lean json."
+           data-tags="xml json data formats"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">097</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">XML vs JSON</div>
+            <div class="card-desc">Two dominant data interchange formats — when verbose XML is worth it vs lean JSON.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">XML</span> <span class="mini-tag">JSON</span> <span class="mini-tag">Data Formats</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/098-synchronous-vs-asynchronous-communication.html"
+           data-group="messaging"
+           data-title="synchronous vs asynchronous communication"
+           data-desc="blocking (synchronous) vs non-blocking (async) communication and their impact on system design."
+           data-tags="sync async communication"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">098</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Synchronous vs Asynchronous Communication</div>
+            <div class="card-desc">Blocking (synchronous) vs non-blocking (async) communication and their impact on system design.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Sync</span> <span class="mini-tag">Async</span> <span class="mini-tag">Communication</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/099-push-vs-pull-notification-systems.html"
+           data-group="messaging"
+           data-title="push vs pull notification systems"
+           data-desc="server pushing updates to clients vs clients polling for changes — trade-offs and real examples."
+           data-tags="push pull notifications real-time"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">099</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Push vs Pull Notification Systems</div>
+            <div class="card-desc">Server pushing updates to clients vs clients polling for changes — trade-offs and real examples.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Push</span> <span class="mini-tag">Pull</span> <span class="mini-tag">Notifications</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Distributed Primitives</h2>
+          <p>5 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/075-what-is-quorum.html"
+           data-group="patterns"
+           data-title="what is quorum"
+           data-desc="how distributed systems reach agreement by requiring a majority (quorum) of nodes to respond."
+           data-tags="quorum consensus distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">075</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Quorum</div>
+            <div class="card-desc">How distributed systems reach agreement by requiring a majority (quorum) of nodes to respond.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Quorum</span> <span class="mini-tag">Consensus</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/076-what-is-heartbeat.html"
+           data-group="patterns"
+           data-title="what is heartbeat"
+           data-desc="how nodes periodically signal they&#x27;re alive — detecting failures in distributed systems."
+           data-tags="heartbeat failure detection distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">076</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Heartbeat</div>
+            <div class="card-desc">How nodes periodically signal they&#x27;re alive — detecting failures in distributed systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Heartbeat</span> <span class="mini-tag">Failure Detection</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/077-what-is-checksum.html"
+           data-group="patterns"
+           data-title="what is checksum"
+           data-desc="how checksums detect data corruption during storage and transmission."
+           data-tags="checksum data integrity reliability"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">077</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Checksum</div>
+            <div class="card-desc">How checksums detect data corruption during storage and transmission.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Checksum</span> <span class="mini-tag">Data Integrity</span> <span class="mini-tag">Reliability</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/078-uses-of-checksum.html"
+           data-group="patterns"
+           data-title="uses of checksum"
+           data-desc="file integrity verification, network packets, databases — where checksums protect your data."
+           data-tags="checksum data integrity use cases"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">078</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Uses of Checksum</div>
+            <div class="card-desc">File integrity verification, network packets, databases — where checksums protect your data.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Checksum</span> <span class="mini-tag">Data Integrity</span> <span class="mini-tag">Use Cases</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/079-leader-and-follower-pattern.html"
+           data-group="patterns"
+           data-title="what is leader and follower pattern"
+           data-desc="coordinating distributed nodes by electing one leader to make decisions for the group."
+           data-tags="leader election consensus distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">079</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Leader and Follower Pattern</div>
+            <div class="card-desc">Coordinating distributed nodes by electing one leader to make decisions for the group.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Leader Election</span> <span class="mini-tag">Consensus</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Security</h2>
+          <p>7 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/080-what-is-security-and-privacy.html"
+           data-group="security"
+           data-title="what is security and privacy"
+           data-desc="the difference between security (protecting systems) and privacy (protecting personal data)."
+           data-tags="security privacy fundamentals"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">080</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Security and Privacy</div>
+            <div class="card-desc">The difference between security (protecting systems) and privacy (protecting personal data).</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Security</span> <span class="mini-tag">Privacy</span> <span class="mini-tag">Fundamentals</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/081-what-is-authentication.html"
+           data-group="security"
+           data-title="what is authentication"
+           data-desc="proving who you are — passwords, tokens, biometrics, and multi-factor authentication."
+           data-tags="authentication security identity"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">081</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Authentication</div>
+            <div class="card-desc">Proving who you are — passwords, tokens, biometrics, and multi-factor authentication.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Authentication</span> <span class="mini-tag">Security</span> <span class="mini-tag">Identity</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/082-what-is-authorization.html"
+           data-group="security"
+           data-title="what is authorization"
+           data-desc="controlling what authenticated users can do — roles, permissions, and access control."
+           data-tags="authorization security rbac"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">082</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Authorization</div>
+            <div class="card-desc">Controlling what authenticated users can do — roles, permissions, and access control.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Authorization</span> <span class="mini-tag">Security</span> <span class="mini-tag">RBAC</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/083-authentication-vs-authorization.html"
+           data-group="security"
+           data-title="authentication vs authorization"
+           data-desc="authn = who are you? authz = what can you do? understanding the critical distinction."
+           data-tags="authentication authorization security"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">083</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Authentication vs Authorization</div>
+            <div class="card-desc">Authn = who are you? Authz = what can you do? Understanding the critical distinction.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Authentication</span> <span class="mini-tag">Authorization</span> <span class="mini-tag">Security</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/084-oauth-vs-jwt-for-authentication.html"
+           data-group="security"
+           data-title="oauth vs jwt for authentication"
+           data-desc="oauth as an authorization framework vs jwt as a token format — they work together, not against each other."
+           data-tags="oauth jwt security tokens"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">084</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">OAuth vs JWT for Authentication</div>
+            <div class="card-desc">OAuth as an authorization framework vs JWT as a token format — they work together, not against each other.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">OAuth</span> <span class="mini-tag">JWT</span> <span class="mini-tag">Security</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/085-what-is-encryption.html"
+           data-group="security"
+           data-title="what is encryption"
+           data-desc="symmetric vs asymmetric encryption, tls handshakes, and how data is protected in transit and at rest."
+           data-tags="encryption tls security"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">085</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is Encryption</div>
+            <div class="card-desc">Symmetric vs asymmetric encryption, TLS handshakes, and how data is protected in transit and at rest.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Encryption</span> <span class="mini-tag">TLS</span> <span class="mini-tag">Security</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/086-what-are-ddos-attacks.html"
+           data-group="security"
+           data-title="what are ddos attacks"
+           data-desc="distributed denial of service attacks — how attackers overwhelm systems and how to defend."
+           data-tags="ddos security attacks"
+           style="--accent:#ef4444">
+          <div class="card-head">
+            <span class="card-num">086</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What are DDoS Attacks</div>
+            <div class="card-desc">Distributed Denial of Service attacks — how attackers overwhelm systems and how to defend.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DDoS</span> <span class="mini-tag">Security</span> <span class="mini-tag">Attacks</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Messaging & Kafka</h2>
+          <p>5 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/087-introduction-to-messaging-system.html"
+           data-group="messaging"
+           data-title="introduction to messaging system"
+           data-desc="how message queues decouple producers from consumers for reliable async communication."
+           data-tags="messaging queue async"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">087</span>
+            <span class="badge badge-beginner">Beginner</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Messaging System</div>
+            <div class="card-desc">How message queues decouple producers from consumers for reliable async communication.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Messaging</span> <span class="mini-tag">Queue</span> <span class="mini-tag">Async</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/088-introduction-to-kafka.html"
+           data-group="messaging"
+           data-title="introduction to kafka"
+           data-desc="apache kafka as a distributed, durable, high-throughput messaging system for event streaming."
+           data-tags="kafka messaging streaming"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">088</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Introduction to Kafka</div>
+            <div class="card-desc">Apache Kafka as a distributed, durable, high-throughput messaging system for event streaming.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Kafka</span> <span class="mini-tag">Messaging</span> <span class="mini-tag">Streaming</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/089-messaging-patterns.html"
+           data-group="messaging"
+           data-title="messaging patterns"
+           data-desc="pub/sub, point-to-point, fan-out, and competing consumers — common messaging topologies."
+           data-tags="messaging patterns architecture"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">089</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Messaging Patterns</div>
+            <div class="card-desc">Pub/sub, point-to-point, fan-out, and competing consumers — common messaging topologies.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Messaging</span> <span class="mini-tag">Patterns</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/090-popular-messaging-queue-systems.html"
+           data-group="messaging"
+           data-title="popular messaging queue systems"
+           data-desc="rabbitmq, kafka, sqs, activemq — comparing the main message queue options."
+           data-tags="messaging kafka rabbitmq sqs"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">090</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Popular Messaging Queue Systems</div>
+            <div class="card-desc">RabbitMQ, Kafka, SQS, ActiveMQ — comparing the main message queue options.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Messaging</span> <span class="mini-tag">Kafka</span> <span class="mini-tag">RabbitMQ</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/091-rabbitmq-vs-kafka-vs-activemq.html"
+           data-group="messaging"
+           data-title="rabbitmq vs kafka vs activemq"
+           data-desc="side-by-side comparison of the three most popular open-source messaging systems."
+           data-tags="rabbitmq kafka activemq comparison"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">091</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">RabbitMQ vs Kafka vs ActiveMQ</div>
+            <div class="card-desc">Side-by-side comparison of the three most popular open-source messaging systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">RabbitMQ</span> <span class="mini-tag">Kafka</span> <span class="mini-tag">ActiveMQ</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Scalability & Storage</h2>
+          <p>4 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/092-scalability-and-performance-2.html"
+           data-group="patterns"
+           data-title="scalability and performance (advanced)"
+           data-desc="advanced scalability patterns — auto-scaling, capacity planning, and performance bottlenecks."
+           data-tags="scalability performance advanced"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">092</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Scalability and Performance (Advanced)</div>
+            <div class="card-desc">Advanced scalability patterns — auto-scaling, capacity planning, and performance bottlenecks.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Scalability</span> <span class="mini-tag">Performance</span> <span class="mini-tag">Advanced</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/093-what-is-a-distributed-file-system.html"
+           data-group="patterns"
+           data-title="what is a distributed file system"
+           data-desc="how file systems span multiple machines to store and serve massive amounts of data."
+           data-tags="dfs storage distributed systems"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">093</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">What is a Distributed File System</div>
+            <div class="card-desc">How file systems span multiple machines to store and serve massive amounts of data.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DFS</span> <span class="mini-tag">Storage</span> <span class="mini-tag">Distributed Systems</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/094-architecture-of-a-distributed-file-system.html"
+           data-group="patterns"
+           data-title="architecture of a distributed file system"
+           data-desc="name nodes, data nodes, block replication — the internal architecture of systems like hdfs."
+           data-tags="dfs hdfs architecture"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">094</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Architecture of a Distributed File System</div>
+            <div class="card-desc">Name nodes, data nodes, block replication — the internal architecture of systems like HDFS.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DFS</span> <span class="mini-tag">HDFS</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/095-key-components-of-a-dfs.html"
+           data-group="patterns"
+           data-title="key components of a dfs"
+           data-desc="metadata management, data chunking, replication, and fault tolerance in distributed file systems."
+           data-tags="dfs storage components"
+           style="--accent:#6366f1">
+          <div class="card-head">
+            <span class="card-num">095</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Key Components of a DFS</div>
+            <div class="card-desc">Metadata management, data chunking, replication, and fault tolerance in distributed file systems.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">DFS</span> <span class="mini-tag">Storage</span> <span class="mini-tag">Components</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+      <div class="section-group">
+        <div class="section-header">
+          <h2>Processing & Architecture</h2>
+          <p>5 topics</p>
+        </div>
+        <div class="topic-grid">
+          
+        <a class="topic-card" href="topics/096-batch-processing-vs-stream-processing.html"
+           data-group="messaging"
+           data-title="batch processing vs stream processing"
+           data-desc="processing data in large batches (hadoop) vs continuously as it arrives (kafka streams, flink)."
+           data-tags="batch processing stream processing big data"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">096</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Batch Processing vs Stream Processing</div>
+            <div class="card-desc">Processing data in large batches (Hadoop) vs continuously as it arrives (Kafka Streams, Flink).</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Batch Processing</span> <span class="mini-tag">Stream Processing</span> <span class="mini-tag">Big Data</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/100-microservices-vs-serverless.html"
+           data-group="messaging"
+           data-title="microservices vs serverless architecture"
+           data-desc="independent deployable services (microservices) vs function-as-a-service (serverless) — when to choose."
+           data-tags="microservices serverless architecture"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">100</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Microservices vs Serverless Architecture</div>
+            <div class="card-desc">Independent deployable services (microservices) vs function-as-a-service (serverless) — when to choose.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Microservices</span> <span class="mini-tag">Serverless</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/101-message-queues-vs-service-bus.html"
+           data-group="messaging"
+           data-title="message queues vs service bus"
+           data-desc="simple queues for point-to-point vs enterprise service bus for complex routing and transformation."
+           data-tags="message queue service bus messaging"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">101</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Message Queues vs Service Bus</div>
+            <div class="card-desc">Simple queues for point-to-point vs enterprise service bus for complex routing and transformation.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Message Queue</span> <span class="mini-tag">Service Bus</span> <span class="mini-tag">Messaging</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/102-stateful-vs-stateless-architecture.html"
+           data-group="messaging"
+           data-title="stateful vs stateless architecture"
+           data-desc="applications that remember client state vs those that treat every request as independent."
+           data-tags="stateful stateless architecture"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">102</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Stateful vs Stateless Architecture</div>
+            <div class="card-desc">Applications that remember client state vs those that treat every request as independent.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Stateful</span> <span class="mini-tag">Stateless</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        <a class="topic-card" href="topics/103-event-driven-vs-polling-architecture.html"
+           data-group="messaging"
+           data-title="event-driven vs polling architecture"
+           data-desc="reacting to events as they happen vs checking for changes on a schedule."
+           data-tags="event-driven polling architecture"
+           style="--accent:#f59e0b">
+          <div class="card-head">
+            <span class="card-num">103</span>
+            <span class="badge badge-intermediate">Intermediate</span>
+          </div>
+          <div class="card-body">
+            <div class="card-title">Event-Driven vs Polling Architecture</div>
+            <div class="card-desc">Reacting to events as they happen vs checking for changes on a schedule.</div>
+          </div>
+          <div class="card-foot">
+            <div class="card-tags"><span class="mini-tag">Event-Driven</span> <span class="mini-tag">Polling</span> <span class="mini-tag">Architecture</span></div>
+            <span class="card-time">⏱ 6 min</span>
+          </div>
+        </a>
+        </div>
+      </div>
+  <div id="no-results" class="no-results" style="display:none">
+    No topics match your search. Try a different keyword.
+  </div>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

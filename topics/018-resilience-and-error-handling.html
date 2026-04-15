@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resilience and Error Handling — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 018 of 103 &middot; 17% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:17%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › Resilience and Error Handling
+  </div>
+  <h1 class="hero-title">Resilience and Error Handling</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Resilience</span> <span class="hero-tag">Error Handling</span> <span class="hero-tag">Circuit Breaker</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Resilience and error handling help minimize the impact of failures and ensure that the system can recover gracefully from unexpected events. Here's an overview of various components of resilience and error handling in distributed systems:</p>
+<h2 id=h2-a-fault-tolerance>A. Fault Tolerance</h2>
+<p>Fault tolerance is the ability of a system to continue functioning correctly in the presence of faults or failures. Designing a fault-tolerant system involves incorporating redundancy at various levels (data, services, nodes) and implementing strategies like replication, sharding, and load balancing to ensure that the system can withstand failures without impacting users or overall performance.</p>
+<h2 id=h2-b-graceful-degradation>B. Graceful Degradation</h2>
+<p>Graceful degradation refers to the ability of a system to continue providing limited functionality when certain components or services fail. Instead of completely shutting down or becoming unavailable, a gracefully degrading system can continue serving user requests, albeit with reduced functionality or performance. Techniques like circuit breakers, timeouts, and fallbacks can be employed to implement graceful degradation in distributed systems.</p>
+<h2 id=h2-c-retry-and-backoff-strategies>C. Retry and Backoff Strategies</h2>
+<p>In distributed systems, transient failures like network issues, timeouts, or service unavailability are common. Implementing retry and backoff strategies can help improve resilience by automatically reattempting failed operations with an increasing delay between retries. This can increase the likelihood of successful operation completion while preventing excessive load on the system during failure scenarios.</p>
+<h2 id=h2-d-error-handling-and-reporting>D. Error Handling and Reporting</h2>
+<p>Proper error handling and reporting are crucial for understanding and addressing issues in distributed systems. By consistently logging errors, categorizing them, and generating alerts when necessary, you can quickly identify and diagnose problems in the system. Additionally, exposing error information through monitoring and observability tools can help provide insights into system health and behavior.</p>
+<h2 id=h2-e-chaos-engineering>E. Chaos Engineering</h2>
+<p>Chaos engineering is the practice of intentionally injecting failures into a distributed system to test its resilience and identify weaknesses. By simulating real-world failure scenarios, you can evaluate the system's ability to recover and adapt, ensuring that it can withstand various types of failures. Tools like Chaos Monkey or Gremlin can be used to implement chaos engineering in your distributed system.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Resilience and error handling are like the immune system of a distributed system. Just as your immune system does not prevent every virus from entering your body, resilient systems do not prevent every failure — they detect, contain, and recover from failures quickly and gracefully without spreading the damage to healthy parts.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix pioneered chaos engineering by deliberately injecting failures into their production systems with Chaos Monkey. This forces their services to be resilient by design — if random servers are killed daily, engineers are motivated to implement proper fallback behavior.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon uses the circuit breaker pattern extensively across AWS services. When a downstream service (like a database) is unhealthy, the circuit opens and requests fail fast with a cached or default response rather than queuing indefinitely and causing cascading timeouts.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search uses graceful degradation: if the personalization service is unavailable, search results are returned without personalization rather than failing the entire query. Each feature has a defined fallback behavior that preserves core functionality.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────────────────────────┐
+  │         RESILIENCE PATTERNS               │
+  ├──────────────────────────────────────────┤
+  │  Retry          → retry with backoff      │
+  │  Circuit Breaker→ fail fast on errors     │
+  │  Timeout        → don't wait forever      │
+  │  Bulkhead       → isolate failure domains │
+  │  Fallback       → degrade gracefully      │
+  │  Idempotency    → safe retries            │
+  └──────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Name at least three resilience patterns by name: circuit breaker, retry with exponential backoff, and bulkhead isolation are must-knows.</li>
+<li><span class="tip-icon">💡</span> Explain that retries without exponential backoff and jitter can cause thundering herd problems — all clients retry simultaneously after a failure.</li>
+<li><span class="tip-icon">💡</span> Discuss timeouts at every service call boundary — a missing timeout means a slow dependency can exhaust all thread pool resources and bring down your service.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Resilient systems expect failures and are designed with explicit recovery mechanisms rather than assuming all dependencies are always available.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The circuit breaker pattern prevents cascading failures by detecting when a downstream service is unhealthy and failing fast instead of waiting.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Exponential backoff with jitter is the correct retry strategy to avoid overloading a recovering service with simultaneous retries.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Bulkhead isolation limits the blast radius of a failure by allocating separate resource pools (thread pools, connection pools) per dependency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Graceful degradation means returning partial results when possible rather than total failure, preserving core functionality for users.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Fault_tolerance" target="_blank" rel="noopener">Fault Tolerance – Wikipedia</a></div>
+      <div class="reading-desc">Covers resilience mechanisms and patterns used in fault-tolerant system design.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Handling Overload</a></div>
+      <div class="reading-desc">Google SRE practices for graceful degradation and handling cascading failures.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices Resilience Patterns</a></div>
+      <div class="reading-desc">Martin Fowler on resilience requirements and circuit breaker patterns in microservices.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="017-monitoring-and-observability.html" class="nav-btn nav-prev">← Monitoring and Observability</a>
+  <a href="019-fault-tolerance-vs-high-availability.html" class="nav-btn nav-next">Fault Tolerance vs High Availability →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

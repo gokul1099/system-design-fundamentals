@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Common Problems with Data Partitioning — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 044 of 103 &middot; 43% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:43%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Data Partitioning › Common Problems with Data Partitioning
+  </div>
+  <h1 class="hero-title">Common Problems with Data Partitioning</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Partitioning</span> <span class="hero-tag">Problems</span> <span class="hero-tag">Trade-offs</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>While data partitioning offers numerous benefits, it also comes with some disadvantages and challenges that organizations must consider when implementing partitioning strategies. Some of these drawbacks include:</p>
+<h2 id=h2-1-complexity>1. Complexity</h2>
+<p>Data partitioning adds complexity to system architecture, design, and management. Organizations must carefully plan and implement partitioning strategies, taking into account the unique requirements of their data and systems. This added complexity can lead to increased development and maintenance efforts, as well as a steeper learning curve for team members.</p>
+<h2 id=h2-2-data-skew>2. Data Skew</h2>
+<p>In some cases, data partitioning can result in uneven data distribution across partitions, known as data skew. This can happen when the chosen partitioning key or method does not distribute data evenly, leading to some partitions being larger or more heavily accessed than others. Data skew can result in reduced performance and resource utilization, negating the benefits of partitioning. For instance, if you were to shard a global customer database based on countries, and a vast majority of your users are from the US, then the shard containing US data might get overwhelmed.</p>
+<h2 id=h2-3-partitioning-key-selection>3. Partitioning Key Selection</h2>
+<p>Choosing the appropriate partitioning key is crucial for achieving the desired benefits of data partitioning. An unsuitable partitioning key can lead to inefficient data distribution, performance bottlenecks, and increased management complexity. Selecting the right key requires a deep understanding of the data and its access patterns, which can be challenging for some organizations.</p>
+<h2 id=h2-4-cross-partition-queries>4. Cross-Partition Queries</h2>
+<p>When queries need to access data across multiple partitions, performance can suffer, as the system must search through and aggregate data from several partitions. This can result in increased query latency and reduced overall performance, especially when compared to a non-partitioned system.</p>
+<h2 id=h2-5-data-migration>5. Data Migration</h2>
+<p>Partitioning can sometimes require significant data migration efforts, especially when changing partitioning schemes or adding new partitions. This can be time-consuming and resource-intensive, potentially causing disruptions to normal system operation.</p>
+<h2 id=h2-6-partition-maintenance>6. Partition Maintenance</h2>
+<p>Managing and maintaining partitions can be a challenging and resource-intensive task. As the data grows and evolves, organizations may need to reevaluate their partitioning strategies, which can involve repartitioning, merging, or splitting partitions. This can result in additional maintenance overhead and increased complexity. Here are a few other maintenance challenges:</p>
+<p><strong>Backup Challenges:</strong> Performing backups isn't straightforward anymore. You need to ensure data consistency across all shards.</p>
+<p><strong>Patch Management:</strong> When a security update rolls out, it needs to be applied across all shards, sometimes simultaneously, to maintain compatibility and security.</p>
+<p><strong>Monitoring Woes:</strong> Instead of one set of metrics, DB administrators now need to monitor multiple, making anomaly detection a more daunting task.</p>
+<h2 id=h2-7-cost>7. Cost</h2>
+<p>Implementing a data partitioning strategy may require additional hardware, software, or infrastructure, leading to increased costs. Furthermore, the added complexity of managing a partitioned system may result in higher operational expenses.</p>
+<h1 id=h1-conclusion>Conclusion</h1>
+<p>Despite these disadvantages, data partitioning can still offer significant benefits in terms of performance, scalability, and resource utilization when implemented and managed effectively. Organizations must carefully weigh the potential drawbacks against the benefits to determine if data partitioning is the right solution for their specific needs.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Common problems with data partitioning are like the complications that arise from splitting a restaurant into multiple kitchens. If a dish requires ingredients from two different kitchens, coordination is needed, slowing things down (cross-partition queries). If the main kitchen gets all the orders while others sit idle, you have a hot spot. And if a customer's order spans both kitchens, you need to ensure both kitchens complete their parts successfully (distributed transactions).</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter encountered severe hot shard problems when celebrity users like Barack Obama had millions of followers requesting the same data simultaneously. The single shard holding a celebrity's data was overwhelmed while other shards sat idle. Twitter had to implement special celebrity-tier caching and fanout strategies to handle these pathological cases.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber faces cross-partition query challenges when analysts need to compute global statistics like total rides per day. These queries must be fan out to all regional partitions and their results aggregated, adding significant complexity and latency compared to a single-node query. Uber uses separate analytics infrastructure to handle these cross-shard aggregations.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│  Common Partitioning Problems        │
+│                                      │
+│  Hot Spots                           │
+│  Shard A: ████████████ (overloaded)  │
+│  Shard B: ██ (idle)                  │
+│  Shard C: ███ (idle)                 │
+│                                      │
+│  Cross-Partition Queries             │
+│  Query spans Shard A + B + C         │
+│  → Fan out → Aggregate → Slow        │
+│                                      │
+│  Distributed Transactions            │
+│  Write to Shard A AND Shard B        │
+│  → 2PC needed → Complexity           │
+│                                      │
+│  Rebalancing                         │
+│  Adding node → move ~1/N of data     │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Identify the four major problems: hot spots (uneven load), cross-partition queries (fan-out complexity), distributed transactions (2PC needed), and rebalancing (data migration on scaling).</li>
+<li><span class="tip-icon">💡</span> Explain hot spots: they occur when the partition key creates an uneven distribution, such as using timestamps as shard keys where the most recent time range gets all the writes.</li>
+<li><span class="tip-icon">💡</span> Discuss cross-shard joins: when a query needs data from multiple shards, you must either denormalize data to avoid the join, or do the join in the application layer after fetching from each shard.</li>
+<li><span class="tip-icon">💡</span> Mention that distributed transactions require two-phase commit (2PC) or saga patterns to maintain atomicity across shards, which adds significant complexity and latency.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Hot spots occur when a poor partition key concentrates traffic on one shard while others remain idle.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cross-partition queries require fan-out to all relevant shards and result aggregation, adding latency and complexity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Distributed transactions across shards require 2PC or saga patterns, which are complex and can hurt performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Rebalancing (adding or removing shards) requires migrating data and is operationally complex and risky.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Joins across shards are typically not supported natively and must be handled in application code, limiting query expressiveness.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Shard_(database_architecture)" target="_blank" rel="noopener">Shard (Database Architecture) — Wikipedia</a></div>
+      <div class="reading-desc">Covers challenges including hot spots, cross-shard queries, and rebalancing in sharded systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">Consistent Hashing — Wikipedia</a></div>
+      <div class="reading-desc">Explains how consistent hashing addresses the rebalancing problem when shard count changes.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Partition_(database)" target="_blank" rel="noopener">Partition (Database) — Wikipedia</a></div>
+      <div class="reading-desc">Academic treatment of partitioning challenges including skew, hot partitions, and distributed joins.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="043-benefits-of-data-partitioning.html" class="nav-btn nav-prev">← Benefits of Data Partitioning</a>
+  <a href="045-what-is-a-proxy-server.html" class="nav-btn nav-next">What is a Proxy Server →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Bloom Filters — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 070 of 103 &middot; 68% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:68%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Bloom Filters › Introduction to Bloom Filters
+  </div>
+  <h1 class="hero-title">Introduction to Bloom Filters</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 7 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Bloom Filters</span> <span class="hero-tag">Data Structures</span> <span class="hero-tag">Probabilistic</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Imagine needing to check if something is in a huge collection <strong>without storing the entire collection</strong> in memory. Bloom filters offer a clever solution to this problem. A <strong>Bloom filter</strong> is a <em>space-efficient probabilistic</em> data structure for set membership tests – it can quickly tell you if an item is <em>definitely not</em> in a set or if it is <em>probably</em> in the set. In other words, <strong>false negatives are impossible</strong> (it never misses an item that was added), but it can sometimes return a <strong>false positive</strong> (claim an item is in the set when it isn’t, due to its probabilistic nature). This trade-off of a tiny error rate for big gains in space and speed often pays off in real-world systems where memory is precious and an occasional false alarm is acceptable.</p>
+<p>Bloom filters were invented by Burton Bloom in 1970, but they’re more relevant than ever in today’s data-intensive applications. They shine in scenarios where maintaining a full list or hash set of all items would be impractical. Bloom filters use a fixed-size bit array as a kind of “signature” or <strong>fingerprint of a set</strong>, and they use multiple hash functions to distribute items across that fingerprint. The result is a super-fast, memory-thrifty check for membership that doesn’t grow significantly with the number of items. Before diving into use cases, let’s build an intuition for <strong>how Bloom filters work</strong> and why they sometimes say “maybe.”</p>
+<h2 id=h2-what-exactly-is-a-bloom-filter>What Exactly Is a Bloom Filter?</h2>
+<p>At its core, a Bloom filter is like a magical <strong>checklist</strong> that can answer questions of the form, “Have we seen this item before?” It consists of two main components:</p>
+<ul>
+<li><strong>Bit Array:</strong> An array of bits (0s and 1s), initially all set to 0.</li>
+<li><strong>Hash Functions:</strong> Several independent hash functions that each take an input item and produce an index (a position in the bit array).</li>
+</ul>
+<p>When you <strong>add an item</strong> to a Bloom filter, the item is run through each of the hash functions to get multiple array positions, and the bits at all those positions are set to 1. To <strong>query an item</strong> (check membership), you run it through the same hash functions to get those positions and check the bits:</p>
+<ul>
+<li>If <strong>any one of those bits is 0</strong>, the item was definitely never added (the answer is “definitely not in the set”).</li>
+<li>If <strong>all of those bits are 1</strong>, then the item is <em>probably</em> in the set – it might have been added, <em>but it could also be a false positive</em> caused by some other items.</li>
+</ul>
+<p>Because of this mechanism, Bloom filters <strong>guarantee no false negatives</strong>. Any item that was added will have had its bits set, so it will always test positive. However, items that were never added might <em>by coincidence</em> have all their bits set by other items, leading the filter to erroneously report “probably present.” We’ll explore this “maybe” answer in a moment with an analogy.</p>
+<p><strong>Why use multiple hash functions?</strong> Think of each hash function as giving the item a few independent “labels” or positions in the bit array. Using several different hashes spreads the influence of each item across the array. This redundancy is what makes false negatives impossible: an item would have to lose <em>all</em> its labels (bits) to be missed, which can’t happen unless we explicitly remove it. On the flip side, if too many items crowd the same few positions, they can collectively cause false positives by filling in all the labels for some item that wasn’t actually added.</p>
+<h2 id=h2-how-bloom-filters-work-step-by-step>How Bloom Filters Work (Step by Step)</h2>
+<p>Below diagram shows an example Bloom filter for a set containing three items (P, Q, R). Each item is hashed by three hash functions (indicated by different colored arrows) to specific positions in the bit array, which are then set to 1. For instance, item “P” sets three bits (the red arrows). To query a new item, you hash it and check the corresponding bit positions; if any required bit is 0, the item is definitely not in the set, but if <strong>all</strong> are 1, the item is probably in the set. For example, the item "X" is not present as it points to a "0" bit.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A Bloom filter is like a bouncer at an exclusive club with a checklist. If your name is NOT on the list, the bouncer will definitely turn you away. If your name IS on the list, the bouncer lets you in — but occasionally makes a mistake and lets in someone not actually on the list (a false positive). Crucially, the bouncer never turns away someone who is actually on the list. This makes the Bloom filter perfect for quickly eliminating items you definitely don't have.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Chrome uses a Bloom filter to check if a URL is in its list of known malicious websites. Since there are hundreds of millions of safe URLs and only thousands of dangerous ones, a Bloom filter can instantly clear safe URLs without a network lookup, only escalating to a server check when the filter says 'possibly dangerous.'</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💡 Cassandra (Facebook origin)</div>
+      <div class="example-text">Apache Cassandra uses Bloom filters per SSTable to avoid unnecessary disk reads. Before searching an SSTable file for a key, Cassandra checks the Bloom filter — if the filter says 'definitely not here,' the disk read is skipped entirely, dramatically reducing I/O for key lookups.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses Bloom filters in its CDN edge nodes to quickly determine if content is cached without checking the actual cache. A false positive wastes one cache lookup; a false negative would serve an incorrect cache miss, so the filter must have no false negatives — exactly what Bloom filters guarantee.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              Bloom Filter Mechanics                 │
+├─────────────────────────────────────────────────────┤
+│  Bit Array: [ 0 0 0 0 0 0 0 0 0 0 ]  (size m)      │
+│                                                     │
+│  Insert "alice": hash1→3, hash2→7, hash3→1         │
+│  Bit Array: [ 0 1 0 1 0 0 0 1 0 0 ]                │
+│                                                     │
+│  Query "alice": check bits 3,7,1 → all 1 → MAYBE   │
+│  Query "carol": check bits 5,2,8 → bit 5 = 0 → NO  │
+├─────────────────────────────────────────────────────┤
+│  False Positive: possible (bits set by others)      │
+│  False Negative: IMPOSSIBLE                         │
+│  Space: O(m) bits regardless of items inserted     │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Lead with the key property: Bloom filters have zero false negatives (no misses) but allow tunable false positive rates — this is exactly the right guarantee for 'does this item exist?' pre-checks.</li>
+<li><span class="tip-icon">💡</span> Explain the space efficiency: a Bloom filter for 1 million items with 1% false positive rate uses only ~1.2 MB, compared to storing the items themselves.</li>
+<li><span class="tip-icon">💡</span> Standard Bloom filters do not support deletion — if you delete 'alice,' you cannot unset her bits because other items may share those bits. Mention Counting Bloom Filters as the solution.</li>
+<li><span class="tip-icon">💡</span> The false positive rate formula shows that adding more hash functions and bits decreases false positives — mention this to show you understand the configurable tradeoff.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A Bloom filter is a space-efficient probabilistic data structure that answers 'is this element in the set?' with no false negatives.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> False positives are possible (the filter says 'yes' when the element isn't in the set), but their rate is tunable by adjusting filter size and hash function count.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Bloom filters use O(m) space regardless of the number of items, making them far more compact than storing the actual item set.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Standard Bloom filters do not support deletion; Counting Bloom Filters use counters instead of bits to enable removal.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Bloom filters are used as cheap pre-filters to avoid expensive operations (disk reads, network calls) for items definitely not in a set.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="noopener">Bloom Filter - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's comprehensive Bloom filter article covers the algorithm, mathematical analysis, false positive rate, and variants.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://cassandra.apache.org/doc/latest/" target="_blank" rel="noopener">Apache Cassandra Documentation</a></div>
+      <div class="reading-desc">Cassandra's documentation explains how Bloom filters are used to optimize SSTable key lookups and reduce disk I/O.</div>
+      <div class="reading-url">cassandra.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's SRE book discusses probabilistic data structures and their role in building efficient large-scale systems.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="069-types-of-indexes.html" class="nav-btn nav-prev">← Types of Indexes</a>
+  <a href="071-benefits-and-limitations-of-bloom-filters.html" class="nav-btn nav-next">Benefits & Limitations of Bloom Filters →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

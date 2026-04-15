@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OAuth vs JWT for Authentication — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 084 of 103 &middot; 82% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:82%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › OAuth vs JWT for Authentication
+  </div>
+  <h1 class="hero-title">OAuth vs JWT for Authentication</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">OAuth</span> <span class="hero-tag">JWT</span> <span class="hero-tag">Security</span> <span class="hero-tag">Tokens</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>OAuth and JWT (JSON Web Tokens) are both widely used in the field of web security, but they serve different purposes and are often used in conjunction with each other rather than in opposition. Understanding their distinct roles is key to implementing effective authentication and authorization strategies in web applications.</p>
+<h2 id=h2-oauth>OAuth</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>OAuth</strong> is an open standard for access delegation, commonly used as a way for users to grant websites or applications access to their information on other websites but without giving them the passwords.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Delegation Protocol</strong>: OAuth is not an authentication protocol but a secure delegation mechanism. It's used to grant permissions to a third-party to access user data without exposing user credentials.</li>
+<li><strong>Tokens</strong>: It uses access tokens for authorization.</li>
+<li><strong>Use Cases</strong>: Commonly used to allow users to log in to a third-party application using their credentials from a service like Google, Facebook, or Twitter.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A user logs into a third-party app using their Google account. OAuth allows the app to access some of the user’s Google account data, as authorized, without the need to share Google account credentials with the third-party app.</li>
+</ul>
+<h2 id=h2-jwt-json-web-tokens>JWT (JSON Web Tokens)</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>JWT</strong> is a token format used in authorization and information exchange. It’s a JSON object encoded as a string, which is digitally signed, and optionally encrypted.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Authentication &amp; Information Exchange</strong>: JWT can be used for both authentication and secure data exchange.</li>
+<li><strong>Structure</strong>: A JWT typically consists of three parts: Header, Payload, and Signature.</li>
+<li><strong>Stateless</strong>: JWTs are self-contained, allowing stateless authentication, and are typically used in RESTful APIs.</li>
+<li><strong>Use Cases</strong>: Often used for token-based authentication systems.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>After a user logs in, the server creates a JWT with user information, signs it, and sends it back to the client. The client then uses this JWT to access protected resources by sending it with HTTP requests.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li><strong>OAuth</strong>: A protocol for authorization. It allows one service to utilize another service’s user authentication without the need for credentials.</li>
+<li><strong>JWT</strong>: A format for securely transmitting information. It can be used for authentication and information exchange.</li>
+</ul>
+</li>
+<li>
+<p><strong>Usage in Authentication/Authorization</strong>:</p>
+<ul>
+<li><strong>OAuth</strong>: Used to grant access to user data and services from one site to another.</li>
+<li><strong>JWT</strong>: Often used as the format of the access token in OAuth, but can also be used independently for authentication and information transfer.</li>
+</ul>
+</li>
+<li>
+<p><strong>State</strong>:</p>
+<ul>
+<li><strong>OAuth</strong>: Typically relies on server-side storage to keep track of the issued tokens.</li>
+<li><strong>JWT</strong>: Stateless; it contains all the necessary information within the token.</li>
+</ul>
+</li>
+<li>
+<p><strong>Security</strong>:</p>
+<ul>
+<li><strong>OAuth</strong>: Security depends on the specific implementation but generally relies on SSL/TLS for security during token exchange.</li>
+<li><strong>JWT</strong>: The token itself is secured by its digital signature.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<ul>
+<li><strong>Complementary Technologies</strong>: In many implementations, OAuth uses JWT as the format for its tokens. OAuth manages the authorization process, and JWT provides a secure token format.</li>
+<li><strong>Use JWT for</strong>: Securely transmitting information between parties and stateless authentication.</li>
+<li><strong>Use OAuth for</strong>: Delegating access to user data to third-party applications without exposing user credentials.</li>
+</ul>
+<p>Understanding when to use each and how they can work together is crucial for designing secure and efficient authentication and authorization mechanisms in modern web applications.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">OAuth is like using your Google account to log into a third-party app (Spotify). You don't give Spotify your Google password — instead Google issues a temporary pass that says 'Spotify can read your profile.' JWT is the format of that pass — a tamper-proof card containing your identity and permissions. OAuth is the process; JWT is often the ticket.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's OAuth 2.0 / OpenID Connect is used by millions of apps for 'Sign in with Google'. The OIDC ID token is a JWT containing user identity. The OAuth access token (also often a JWT) grants access to Google APIs on behalf of the user.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub Actions uses OIDC JWTs to authenticate to AWS, Azure, and GCP without storing long-lived secrets. The GitHub-issued JWT is verified by cloud providers via JWKS (public key endpoint), enabling keyless authentication.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔐 Auth0 / Okta</div>
+      <div class="example-text">Auth0 and Okta are identity platforms that implement OAuth 2.0 and OIDC. They issue JWTs (access tokens and ID tokens). Applications verify tokens locally using the provider's public key — no round-trip to Auth0 on each request.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  OAuth 2.0 Authorization Code Flow
+
+  User    Client App    Auth Server    Resource
+   │          │               │            │
+   │──login──▶│               │            │
+   │          │──redirect────▶│            │
+   │◀─────────────── login page ───────────│
+   │──credentials─────────────▶│           │
+   │          │◀── auth code ──│           │
+   │          │──code + secret▶│           │
+   │          │◀── JWT token ──│           │
+   │          │─── token ──────────────────▶
+   │          │◀── data ───────────────────│
+
+  JWT = header.payload.signature (base64)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> JWT access tokens are stateless — the server validates the signature without a database lookup, enabling horizontal scaling.</li>
+<li><span class="tip-icon">💡</span> JWT tokens can't be revoked until they expire — use short expiry (15 min) + refresh tokens for sensitive systems.</li>
+<li><span class="tip-icon">💡</span> Never store JWTs in localStorage if XSS is a concern — use httpOnly cookies instead.</li>
+<li><span class="tip-icon">💡</span> OAuth 2.0 scopes limit what an access token can do — always request minimum scopes.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> OAuth 2.0 is an authorization framework that delegates access without sharing passwords.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> JWT (JSON Web Token) is a compact, self-contained token format with a cryptographic signature.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> OIDC (OpenID Connect) adds identity (authentication) on top of OAuth 2.0.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> JWT tokens are stateless and fast to verify but can't be revoked early without extra infrastructure.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://jwt.io/introduction" target="_blank" rel="noopener">JWT Introduction</a></div>
+      <div class="reading-desc">Clear explanation of JWT structure, signing, and verification.</div>
+      <div class="reading-url">jwt.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://oauth.net/2/" target="_blank" rel="noopener">OAuth 2.0 — oauth.net</a></div>
+      <div class="reading-desc">The official OAuth 2.0 documentation and grant type reference.</div>
+      <div class="reading-url">oauth.net</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP: JWT Security Cheat Sheet</a></div>
+      <div class="reading-desc">Common JWT vulnerabilities and how to prevent them.</div>
+      <div class="reading-url">cheatsheetseries.owasp.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="083-authentication-vs-authorization.html" class="nav-btn nav-prev">← Authentication vs Authorization</a>
+  <a href="085-what-is-encryption.html" class="nav-btn nav-next">What is Encryption →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

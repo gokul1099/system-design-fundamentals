@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scalability and Performance (Advanced) — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 092 of 103 &middot; 89% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:89%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Scalability & Storage › Scalability and Performance (Advanced)
+  </div>
+  <h1 class="hero-title">Scalability and Performance (Advanced)</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Scalability</span> <span class="hero-tag">Performance</span> <span class="hero-tag">Advanced</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Scalability and performance are critical aspects of designing messaging systems in distributed environments. Ensuring that a messaging system can handle a growing number of messages and maintain an acceptable level of performance is crucial for its success. In this section, we will explore different concepts related to scalability and performance for messaging systems, along with examples to illustrate their practical application.</p>
+<h2 id=h2-a-partitioning>a. Partitioning</h2>
+<p>Partitioning is the process of dividing a data set into smaller, manageable pieces called partitions. This approach is used in messaging systems to distribute messages evenly among multiple nodes, ensuring that the system can scale horizontally. For example, Apache Kafka uses partitions to divide a topic's messages across multiple brokers, allowing the system to handle large amounts of data and maintain high throughput.</p>
+<h2 id=h2-b-consumer-groups>b. Consumer Groups</h2>
+<p>Consumer groups are a way to manage multiple consumers of a messaging system that work together to process messages from one or more topics. Each consumer group ensures that all messages in the topic are processed, and each message is processed by only one consumer within the group. This approach allows for parallel processing and load balancing among consumers. For example, in Apache Kafka, a consumer group can have multiple consumers that subscribe to the same topic, allowing the system to process messages in parallel and distribute the workload evenly.</p>
+<h2 id=h2-c-load-balancing-and-parallel-processing>c. Load Balancing and Parallel Processing</h2>
+<p>Load balancing refers to distributing incoming messages evenly among multiple consumers or processing units, while parallel processing involves processing multiple messages simultaneously. In messaging systems, load balancing and parallel processing are achieved through techniques like partitioning, sharding, and consumer groups. For instance, RabbitMQ uses a round-robin algorithm to distribute messages among available consumers, ensuring that the workload is balanced and messages are processed in parallel.</p>
+<h2 id=h2-d-message-batching-and-compression>d. Message Batching and Compression</h2>
+<p>Message batching is the process of combining multiple messages into a single batch before processing or transmitting them. This approach can improve throughput and reduce the overhead of processing individual messages. Compression, on the other hand, reduces the size of the messages, leading to less network bandwidth usage and faster transmission. For example, Apache Kafka supports both batching and compression: Producers can batch messages together, and the system can compress these batches using various compression algorithms like Snappy or Gzip, reducing the amount of data transmitted and improving overall performance.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Advanced scalability is like designing a city's road network. Basic scaling is adding more lanes (horizontal scaling). Advanced scalability considers: which roads get congested first (bottleneck analysis), automated traffic lights that adjust to real-time flow (auto-scaling), predicting rush hour (capacity planning), and designing so you never need to rebuild the whole city at once (incremental scalability).</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses auto-scaling groups in AWS that scale out before anticipated peaks (e.g., new show release) using scheduled scaling, and react to real-time CPU/request metrics with dynamic scaling. Their Chaos Monkey proactively tests scale-down resilience.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter's 'Super Bowl problem' — sudden traffic spikes from live events — led to pre-warming caches and reserving spare capacity. Their timeline fanout system scales by sharding user timelines across thousands of Redis instances.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare handles 50+ million HTTP requests per second globally by distributing load across 300+ PoPs using Anycast routing. Auto-scaling is irrelevant at their scale — they maintain fixed capacity in each PoP and route around failures.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Scalability Strategies
+
+  Vertical Scaling:  [S] → [M] → [L] → [XL]
+  (bigger machine)   ↑ simple  ↑ limits exist
+
+  Horizontal Scaling: [S][S][S][S][S][S]
+  (more machines)     ↑ preferred, but needs LB + stateless
+
+  Auto-Scaling:
+  low traffic  → scale in  (remove nodes, save cost)
+  high traffic → scale out (add nodes, handle load)
+
+  Capacity Planning:
+  measure → model → predict → provision ahead
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Identify the bottleneck first — scaling the wrong layer wastes money. Profile CPU, memory, I/O, and network.</li>
+<li><span class="tip-icon">💡</span> Stateless services scale trivially; stateful services (sessions, caches) need careful shard-aware scaling.</li>
+<li><span class="tip-icon">💡</span> Auto-scaling has a warm-up time — for predictable spikes (events, cron jobs), use scheduled scaling in advance.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Identify bottlenecks before scaling — adding servers doesn't fix a DB query bottleneck.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Auto-scaling reacts to metrics; scheduled scaling proactively handles predicted spikes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stateless architectures scale horizontally with no coordination overhead.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Capacity planning uses historical data to provision before demand arrives.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html" target="_blank" rel="noopener">AWS Auto Scaling Documentation</a></div>
+      <div class="reading-desc">How to configure auto-scaling policies and target tracking.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/handling-overload/" target="_blank" rel="noopener">Google SRE: Handling Overload</a></div>
+      <div class="reading-desc">Google's approach to capacity planning and graceful degradation under load.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Scalability" target="_blank" rel="noopener">Wikipedia: Scalability</a></div>
+      <div class="reading-desc">Definitions, dimensions, and patterns of system scalability.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="091-rabbitmq-vs-kafka-vs-activemq.html" class="nav-btn nav-prev">← RabbitMQ vs Kafka vs ActiveMQ</a>
+  <a href="093-what-is-a-distributed-file-system.html" class="nav-btn nav-next">What is a Distributed File System →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

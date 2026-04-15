@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load Balancing Algorithms — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 003 of 103 &middot; 3% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:3%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Load Balancing Algorithms
+  </div>
+  <h1 class="hero-title">Load Balancing Algorithms</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Load Balancing</span> <span class="hero-tag">Algorithms</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>A load balancing algorithm is a method used by a load balancer to distribute incoming traffic and requests among multiple servers or resources. The primary purpose of a load balancing algorithm is to ensure efficient utilization of available resources, improve overall system performance, and maintain high availability and reliability.</p>
+<p>Load balancing algorithms help to prevent any single server or resource from becoming overwhelmed, which could lead to performance degradation or failure. By distributing the workload, load balancing algorithms can optimize response times, maximize throughput, and enhance user experience. These algorithms can consider factors such as server capacity, active connections, response times, and server health, among others, to make informed decisions on how to best distribute incoming requests.</p>
+<p>Here are the most famous load balancing algorithms:</p>
+<h2 id=h2-1-round-robin>1. Round Robin</h2>
+<p>This algorithm distributes incoming requests to servers in a cyclic order. It assigns a request to the first server, then moves to the second, third, and so on, and after reaching the last server, it starts again at the first.</p>
+<p><strong>Pros:</strong></p>
+<ul>
+<li>Ensures an equal distribution of requests among the servers, as each server gets a turn in a fixed order.</li>
+<li>Easy to implement and understand.</li>
+<li>Works well when servers have similar capacities.</li>
+</ul>
+<p><strong>Cons:</strong></p>
+<ul>
+<li><strong>No Load Awareness</strong>: Does not take into account the current load or capacity of each server. All servers are treated equally regardless of their current state.</li>
+<li><strong>No Session Affinity</strong>: Subsequent requests from the same client may be directed to different servers, which can be problematic for stateful applications.</li>
+<li><strong>Performance Issues with Different Capacities</strong>: May not perform optimally when servers have different capacities or varying workloads.</li>
+<li><strong>Predictable Distribution Pattern</strong>: Round Robin is predictable in its request distribution pattern, which could potentially be exploited by attackers who can observe traffic patterns and might find vulnerabilities in specific servers by predicting which server will handle their requests.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li><strong>Homogeneous Environments</strong>: Suitable for environments where all servers have similar capacity and performance.</li>
+<li><strong>Stateless Applications</strong>: Works well for stateless applications where each request can be handled independently.</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Imagine a taxi dispatcher with different strategies for assigning cabs. Round-robin means giving each cab driver one fare in turn. Least-connections means always calling the driver with the fewest current passengers. IP hash means always assigning the same driver to a specific neighborhood — each strategy has strengths depending on the situation.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber uses weighted load balancing to route ride requests to server clusters of different capacities. Newer, more powerful server farms receive a higher weight and handle proportionally more traffic than older hardware.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses least-connections balancing for its video streaming APIs to ensure that servers already handling many concurrent streams do not receive additional load, keeping start times consistently low.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe routes payment API requests using IP-hash affinity so that a merchant's repeated API calls land on the same backend, reducing cache misses and improving response consistency during a payment session.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌───────────────────────────────────────┐
+  │         LOAD BALANCING ALGORITHMS      │
+  ├───────────────────────────────────────┤
+  │  Round Robin   → S1 → S2 → S3 → S1... │
+  ├───────────────────────────────────────┤
+  │  Weighted RR   → S1(3x) S2(1x) ...    │
+  ├───────────────────────────────────────┤
+  │  Least Conn    → pick server with      │
+  │                  fewest open conns     │
+  ├───────────────────────────────────────┤
+  │  IP Hash       → hash(client_IP)       │
+  │                  → consistent server   │
+  └───────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Name at least three algorithms and explain when you would choose each — round-robin for homogeneous servers, weighted for heterogeneous capacity, least-connections for long-lived or variable-cost requests.</li>
+<li><span class="tip-icon">💡</span> Explain that IP hash provides session affinity but can cause hot spots if many clients share the same NAT IP address.</li>
+<li><span class="tip-icon">💡</span> Mention that random-with-two-choices (power of two choices) is used at massive scale because it approaches least-connections performance with far less coordination overhead.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Round-robin distributes requests evenly in rotation and works best when all servers have equal capacity and request cost.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Least-connections routes to the server with the fewest active connections, ideal when requests have highly variable processing times.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Weighted algorithms allow operators to direct more traffic to higher-capacity nodes without removing lower-capacity ones.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> IP-hash ensures the same client always reaches the same server, providing a form of sticky sessions at the network layer.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> No single algorithm is universally best — the right choice depends on server homogeneity, session requirements, and traffic patterns.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Load_balancing_(computing)" target="_blank" rel="noopener">Load Balancing Algorithms – Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive overview of load balancing algorithms and their computational properties.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/http/load_balancing.html" target="_blank" rel="noopener">NGINX Load Balancing Methods</a></div>
+      <div class="reading-desc">Practical NGINX documentation showing how to configure different load balancing algorithms.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/elasticloadbalancing/" target="_blank" rel="noopener">AWS ELB Load Balancer Types</a></div>
+      <div class="reading-desc">AWS explanation of how different load balancer products implement routing algorithms.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="002-introduction-to-load-balancing.html" class="nav-btn nav-prev">← Introduction to Load Balancing</a>
+  <a href="004-uses-of-load-balancing.html" class="nav-btn nav-next">Uses of Load Balancing →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Checksum — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 077 of 103 &middot; 75% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:75%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Distributed Primitives › What is Checksum
+  </div>
+  <h1 class="hero-title">What is Checksum</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Checksum</span> <span class="hero-tag">Data Integrity</span> <span class="hero-tag">Reliability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-background>Background</h2>
+<p>In a distributed system, while moving data between components, it is possible that the data fetched from a node may arrive corrupted. This corruption can occur because of faults in a storage device, network, software, etc. How can a distributed system ensure data integrity, so that the client receives an error instead of corrupt data?</p>
+<h2 id=h2-solution>Solution</h2>
+<p>Calculate a checksum and store it with data.</p>
+<p>To calculate a checksum, a cryptographic hash function like MD5, SHA-1, SHA-256, or SHA-512 is used. The hash function takes the input data and produces a string (containing letters and numbers) of fixed length; this string is called the checksum.</p>
+<p>When a system is storing some data, it computes a checksum of the data and stores the checksum with the data. When a client retrieves data, it verifies that the data it received from the server matches the checksum stored. If not, then the client can opt to retrieve that data from another replica.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A checksum is like a receipt total at the bottom of a grocery bill. After scanning all items, the register adds them up and prints the total. When you review the receipt, you re-add the items yourself. If your total matches, nothing was missed. If it doesn't, something went wrong.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐙 Git</div>
+      <div class="example-text">Every Git commit, tree, and blob is identified by a SHA-1 (now SHA-256) checksum of its contents. If a single byte changes, the hash changes entirely — making corruption or tampering immediately detectable.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon S3</div>
+      <div class="example-text">S3 computes an MD5 checksum of every object. When you upload a file with the Content-MD5 header, S3 verifies the upload is uncorrupted before accepting it.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🌐 TCP/IP</div>
+      <div class="example-text">Every TCP segment contains a 16-bit checksum computed over the header and data. Receiving hosts verify it; corrupted packets are discarded and retransmission is requested.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Sender                           Receiver
+    │                                  │
+    │  data = [72, 101, 108, 108, 111] │
+    │  checksum = sum % 256 = 190      │
+    │                                  │
+    │──── data + checksum ────────────▶│
+    │                                  │
+    │                  recompute sum % 256
+    │                  if matches: ✅ OK
+    │                  if differs: ❌ corrupted
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain that checksums detect corruption but don't fix it — they trigger retransmission or rejection.</li>
+<li><span class="tip-icon">💡</span> Distinguish checksum (fast, simple, not cryptographic) from hash (e.g. SHA-256, collision-resistant) from HMAC (tamper-proof with a key).</li>
+<li><span class="tip-icon">💡</span> Mention where checksums appear: TCP, disk I/O, file transfer, database pages.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A checksum is a small value computed from data used to detect accidental corruption.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> If the recomputed checksum doesn't match, the data was modified in transit or storage.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Checksums are fast but not cryptographically secure — use SHA-256 or HMAC for security.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Used in TCP/IP, Git, S3, and virtually every storage and transport system.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Checksum" target="_blank" rel="noopener">Wikipedia: Checksum</a></div>
+      <div class="reading-desc">Thorough explanation of checksum algorithms and their applications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cyclic_redundancy_check" target="_blank" rel="noopener">Wikipedia: Cyclic Redundancy Check</a></div>
+      <div class="reading-desc">CRC — the most widely used checksum algorithm in storage and networking.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers" target="_blank" rel="noopener">MDN: HTTP Content-MD5</a></div>
+      <div class="reading-desc">HTTP headers documentation covering integrity verification fields.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="076-what-is-heartbeat.html" class="nav-btn nav-prev">← What is Heartbeat</a>
+  <a href="078-uses-of-checksum.html" class="nav-btn nav-next">Uses of Checksum →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

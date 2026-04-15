@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batch Processing vs Stream Processing — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 096 of 103 &middot; 93% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:93%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Processing & Architecture › Batch Processing vs Stream Processing
+  </div>
+  <h1 class="hero-title">Batch Processing vs Stream Processing</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Batch Processing</span> <span class="hero-tag">Stream Processing</span> <span class="hero-tag">Big Data</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Batch Processing and Stream Processing are two distinct approaches to processing data in computing, each with its own use cases and characteristics. Understanding the differences between them is crucial for choosing the right processing method for a given task or application.</p>
+<h2 id=h2-batch-processing>Batch Processing</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Batch Processing</strong> involves processing large volumes of data in a single, finite batch. This data is collected over a period and processed as a single unit.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ol>
+<li><strong>Delayed Processing</strong>: Data is collected over a time interval and processed later in batches.</li>
+<li><strong>High Throughput</strong>: Efficient for processing large volumes of data, where speed of processing is less critical.</li>
+<li><strong>Complex Computations</strong>: Suitable for complex operations that may not require real-time analytics.</li>
+</ol>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>End-of-day reports.</li>
+<li>Data warehousing and ETL (Extract, Transform, Load) processes.</li>
+<li>Monthly billing processes.</li>
+</ul>
+<h2 id=h2-stream-processing>Stream Processing</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Stream Processing</strong> involves processing data in real-time as it is generated or received.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ol>
+<li><strong>Real-Time Processing</strong>: Data is processed immediately as it arrives, enabling real-time analytics and decision-making.</li>
+<li><strong>Continuous Processing</strong>: Data is processed continuously in small sizes (streams).</li>
+<li><strong>Low Latency</strong>: Ideal for applications that require immediate responses, such as fraud detection systems.</li>
+</ol>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Real-time monitoring and analytics (e.g., stock market analysis).</li>
+<li>Live data feeds (e.g., social media streams).</li>
+<li>IoT (Internet of Things) sensor data processing.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Data Processing Time</strong>:</p>
+<ul>
+<li>Batch processes large chunks of data with some delay.</li>
+<li>Stream processes data immediately and continuously.</li>
+</ul>
+</li>
+<li>
+<p><strong>Latency</strong>:</p>
+<ul>
+<li>Batch has higher latency due to delayed processing.</li>
+<li>Stream has lower latency and is suitable for time-sensitive applications.</li>
+</ul>
+</li>
+<li>
+<p><strong>Complexity of Computations</strong>:</p>
+<ul>
+<li>Batch can handle more complex processing since data is not processed in real-time.</li>
+<li>Stream is more about processing less complex data quickly.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Volume</strong>:</p>
+<ul>
+<li>Batch is designed for high volumes of data.</li>
+<li>Stream handles lower volumes of data at any given time but continuously over a period.</li>
+</ul>
+</li>
+<li>
+<p><strong>Resource Intensity</strong>:</p>
+<ul>
+<li>Batch can be resource-intensive, often run during off-peak hours.</li>
+<li>Stream requires resources to be constantly available but generally uses less resource per unit of data.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>The choice between batch and stream processing depends on the specific needs and constraints of the application, including how quickly the data needs to be processed, the complexity of the processing required, and the volume of the data. While batch processing is efficient for large-scale analysis and reporting, stream processing is essential for applications that require immediate data processing and real-time analytics.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Batch processing is like doing laundry — you collect dirty clothes all week, then wash everything at once on Sunday. Stream processing is like a dishwasher running after every meal — items are cleaned continuously as they arrive. Batch is efficient for large volumes; stream is necessary when you need results immediately.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix (Batch)</div>
+      <div class="example-text">Netflix runs nightly Spark batch jobs to compute personalized recommendation models using the previous day's viewing data. The model is trained overnight and deployed the next morning — a few hours of latency is acceptable for recommendations.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber (Stream)</div>
+      <div class="example-text">Uber's surge pricing uses Apache Flink for real-time stream processing — analyzing driver locations and ride requests in sub-second windows to compute surge multipliers per city zone and update pricing continuously.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn (Both)</div>
+      <div class="example-text">LinkedIn uses Hadoop/Spark batch processing for offline features (career insights, who viewed your profile count) and Kafka Streams for real-time features (live who-viewed-your-profile notifications). The Lambda architecture serves both needs.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Batch vs Stream Processing
+
+  BATCH (Hadoop, Spark):
+  [Data Store] ──▶ [Batch Job] ──▶ [Output]
+  Hourly / Daily          High throughput
+  High latency            High efficiency
+
+  STREAM (Kafka Streams, Flink, Spark Streaming):
+  [Event Stream] ──▶ [Stream Processor] ──▶ [Output]
+  Milliseconds            Continuous
+  Low latency             Per-event or micro-batch
+
+  LAMBDA ARCHITECTURE (both):
+  raw data ──▶ Batch layer  (accurate, slow)
+           ──▶ Speed layer  (fast, approximate)
+           ──▶ Serving layer (merges both)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When to use batch: large volumes, time-insensitive results, complex transformations. When to use stream: real-time decisions, alerting, live dashboards.</li>
+<li><span class="tip-icon">💡</span> Mention Apache Spark (batch + micro-batch), Apache Flink (true streaming), and Kafka Streams (lightweight, embedded) as the main frameworks.</li>
+<li><span class="tip-icon">💡</span> Lambda architecture (batch + speed layers) handles both — but Kappa architecture (stream only, replay for batch) is simpler to maintain.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Batch processes large datasets at scheduled intervals — high throughput, high latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stream processing handles events continuously as they arrive — low latency, event-by-event.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Use batch for analytics, ML training, ETL; use stream for real-time decisions, fraud detection, live metrics.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Lambda architecture combines both; Kappa simplifies by using only streaming with replay.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://flink.apache.org/what-is-flink/" target="_blank" rel="noopener">Apache Flink Documentation</a></div>
+      <div class="reading-desc">Flink is the leading true-streaming framework — start with the architecture overview.</div>
+      <div class="reading-url">flink.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://spark.apache.org/docs/latest/" target="_blank" rel="noopener">Apache Spark Documentation</a></div>
+      <div class="reading-desc">Spark for batch and structured streaming — the most widely used big data framework.</div>
+      <div class="reading-url">spark.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Stream_processing" target="_blank" rel="noopener">Wikipedia: Stream Processing</a></div>
+      <div class="reading-desc">Overview of stream processing concepts and frameworks.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="095-key-components-of-a-dfs.html" class="nav-btn nav-prev">← Key Components of a DFS</a>
+  <a href="097-xml-vs-json.html" class="nav-btn nav-next">XML vs JSON →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

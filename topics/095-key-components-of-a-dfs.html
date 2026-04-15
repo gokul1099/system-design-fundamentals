@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Key Components of a DFS — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 095 of 103 &middot; 92% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:92%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Scalability & Storage › Key Components of a DFS
+  </div>
+  <h1 class="hero-title">Key Components of a DFS</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DFS</span> <span class="hero-tag">Storage</span> <span class="hero-tag">Components</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In a Distributed File System (DFS), replication, scalability, and consistency are key components that ensure the system's reliability, performance, and integrity. Let's delve into how each of these aspects is typically handled:</p>
+<h2 id=h2-1-replication>1. Replication</h2>
+<h3 id=h3-purpose>Purpose</h3>
+<ul>
+<li><strong>Replication</strong> in DFS is primarily about ensuring data availability and durability. By creating multiple copies of data across different nodes, DFS protects against data loss due to node failures.</li>
+</ul>
+<h3 id=h3-implementation>Implementation</h3>
+<ul>
+<li><strong>Data Blocks</strong>: Files are often divided into blocks, and each block is replicated across multiple nodes.</li>
+<li><strong>Replication Factor</strong>: DFS usually allows configuring the replication factor, i.e., the number of replicas for each block.</li>
+<li><strong>Placement Strategy</strong>: Intelligent placement of replicas across different nodes or racks to ensure high availability and fault tolerance.</li>
+</ul>
+<h3 id=h3-challenges>Challenges</h3>
+<ul>
+<li><strong>Network Bandwidth</strong>: Replication consumes network bandwidth, especially during the initial copying of data.</li>
+<li><strong>Storage Overhead</strong>: Requires additional storage capacity for replicas.</li>
+</ul>
+<h2 id=h2-2-scalability>2. Scalability</h2>
+<h3 id=h3-purpose>Purpose</h3>
+<ul>
+<li><strong>Scalability</strong> ensures that the DFS can grow in capacity and performance as the amount of data or the number of users increases.</li>
+</ul>
+<h3 id=h3-implementation>Implementation</h3>
+<ul>
+<li><strong>Horizontal Scaling</strong>: DFS scales out by adding more nodes to the system. This can be done without disrupting the service.</li>
+<li><strong>Load Distribution</strong>: Distributes file blocks evenly across all nodes to balance the load.</li>
+<li><strong>Decentralized Design</strong>: Avoids single points of failure and bottlenecks, allowing for seamless scaling.</li>
+</ul>
+<h3 id=h3-challenges>Challenges</h3>
+<ul>
+<li><strong>Metadata Management</strong>: Scaling up involves efficiently managing metadata so that it doesn't become a bottleneck.</li>
+<li><strong>Balancing the Load</strong>: Ensuring new nodes are effectively utilized and the load is evenly distributed.</li>
+</ul>
+<h2 id=h2-3-consistency>3. Consistency</h2>
+<h3 id=h3-purpose>Purpose</h3>
+<ul>
+<li><strong>Consistency</strong> in DFS is about ensuring that all clients see the same data at any given time, despite data replication and concurrent modifications.</li>
+</ul>
+<h3 id=h3-implementation>Implementation</h3>
+<ul>
+<li><strong>Consistency Models</strong>: Different DFS implementations use different consistency models, from strict consistency (where all nodes see the data at the same time) to eventual consistency (where data updates will eventually propagate to all nodes but are not immediately visible).</li>
+<li><strong>Versioning and Timestamps</strong>: Used to manage updates to replicated data.</li>
+<li><strong>Locking and Synchronization Mechanisms</strong>: Ensuring that write operations are properly synchronized across replicas.</li>
+</ul>
+<h3 id=h3-challenges>Challenges</h3>
+<ul>
+<li><strong>Trade-off with Performance</strong>: Strong consistency can impact system performance and latency.</li>
+<li><strong>Handling Concurrency</strong>: Ensuring data integrity in the presence of concurrent accesses and updates.</li>
+</ul>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>In a DFS, replication ensures data is not lost and is accessible even under failures, scalability allows the system to grow and accommodate more data and users, and consistency ensures that all users have a coherent view of the data. The specific implementation details can vary among different DFS solutions, and there are often trade-offs to consider. For instance, achieving higher levels of consistency might impact performance, and ensuring effective replication and scalability requires careful architectural planning and resource management.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A DFS has the same key components as a hospital. The NameNode is the hospital administrator who knows which room every patient is in. DataNodes are the patient rooms where care actually happens. Replication is like having backup rooms prepared. The client is like a visitor — they ask the administrator which room, then go directly there.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon S3</div>
+      <div class="example-text">S3's key components: object storage (DataNode equivalent), bucket metadata (NameNode equivalent), multi-AZ replication, access control (IAM), versioning, and lifecycle policies. All are managed — you interact only via the REST API.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 Ceph</div>
+      <div class="example-text">Ceph's key components: MONs (monitors — cluster map, quorum), OSDs (object storage daemons — data + replication), MDS (metadata servers for CephFS). Ceph uses CRUSH algorithm to determine data placement without a central metadata server.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔵 Azure Data Lake Storage</div>
+      <div class="example-text">ADLS Gen2 combines blob storage with a hierarchical namespace (like HDFS). Key components: storage account, containers (buckets), blobs (files), and Azure Active Directory-based ACLs — purpose-built for big data analytics on Azure.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Key DFS Components
+
+  ┌──────────────────────────────────────┐
+  │  1. Metadata Service  (NameNode/MDS) │
+  │     • file→block mapping             │
+  │     • namespace tree                 │
+  ├──────────────────────────────────────┤
+  │  2. Data Storage      (DataNodes)    │
+  │     • block storage + checksums      │
+  │     • heartbeat to metadata service  │
+  ├──────────────────────────────────────┤
+  │  3. Replication Manager              │
+  │     • rack-aware placement           │
+  │     • re-replicate on node failure   │
+  ├──────────────────────────────────────┤
+  │  4. Client Library                   │
+  │     • read/write API                 │
+  │     • direct data node access        │
+  └──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Metadata service is the most critical component — single NameNode is a bottleneck; use HA or federation for scale.</li>
+<li><span class="tip-icon">💡</span> Checksums on every block are essential — without them, silent corruption is undetectable.</li>
+<li><span class="tip-icon">💡</span> Replication factor and rack awareness together determine fault tolerance — know the math (3 replicas, 2 racks means you survive any 2-node failure within a rack).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The four key DFS components are: metadata service, data storage, replication manager, and client library.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Metadata service holds all file-to-block mappings — it's the most critical and often the bottleneck.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Replication ensures durability; rack-aware placement ensures data survives rack failures.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern cloud DFS (S3, ADLS, GCS) manage all components for you.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html" target="_blank" rel="noopener">HDFS Architecture</a></div>
+      <div class="reading-desc">Deep dive into HDFS components and their interactions.</div>
+      <div class="reading-url">hadoop.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.ceph.com/en/latest/architecture/" target="_blank" rel="noopener">Ceph Architecture Documentation</a></div>
+      <div class="reading-desc">How Ceph eliminates the central metadata bottleneck with CRUSH.</div>
+      <div class="reading-url">docs.ceph.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/s3/index.html" target="_blank" rel="noopener">Amazon S3 Documentation</a></div>
+      <div class="reading-desc">S3 as a managed DFS — the simplest way to get started with distributed storage.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="094-architecture-of-a-distributed-file-system.html" class="nav-btn nav-prev">← Architecture of a Distributed File System</a>
+  <a href="096-batch-processing-vs-stream-processing.html" class="nav-btn nav-next">Batch Processing vs Stream Processing →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

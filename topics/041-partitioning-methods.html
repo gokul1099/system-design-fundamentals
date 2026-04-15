@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partitioning Methods — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 041 of 103 &middot; 40% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:40%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Data Partitioning › Partitioning Methods
+  </div>
+  <h1 class="hero-title">Partitioning Methods</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Partitioning</span> <span class="hero-tag">Sharding</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Designing an effective partitioning scheme can be challenging and requires careful consideration of the application requirements and the characteristics of the data being processed. Below are three of the most popular schemes used by various large-scale applications.</p>
+<h2 id=h2-a-horizontal-partitioning>a. Horizontal Partitioning</h2>
+<p>Also known as sharding, horizontal data partitioning involves dividing a database table into multiple partitions or shards, with each partition containing a subset of rows. Each shard is typically assigned to a different database server, which allows for parallel processing and faster query execution times.</p>
+<p>For example, consider a social media platform that stores user data in a database table. The platform might partition the user table horizontally based on the geographic location of the users, so that users in the United States are stored in one shard, users in Europe are stored in another shard, and so on. This way, when a user logs in and their data needs to be accessed, the query can be directed to the appropriate shard, minimizing the amount of data that needs to be scanned.</p>
+<p>The key problem with this approach is that if the value whose range is used for partitioning isn’t chosen carefully, then the partitioning scheme will lead to unbalanced servers. For instance, partitioning users based on their geographic location assumes an even distribution of users across different regions, which may not be valid due to the presence of densely or sparsely populated areas.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Partitioning methods are like different ways to divide a school into classes. Range partitioning is like dividing by last name — A through F in one class, G through P in another. Hash partitioning is like randomly assigning students by their student ID number modulo the number of classes, ensuring each class is the same size. List partitioning is like manually assigning specific students to specific classes by hand. Each method has different trade-offs for balance and query efficiency.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon uses hash partitioning for DynamoDB, where the partition key is hashed to determine which physical partition stores the item. This ensures an even distribution of data and prevents hot partitions. For time-series data like order history, range partitioning on timestamp is used to allow efficient range queries.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber uses list partitioning by geographic region for city-specific operational data — NYC, SF, and London are distinct partitions. This allows Uber to comply with data residency laws (EU data stays in EU) and localize operations. Global analytics queries that need all regions must query across partitions.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│  Range Partitioning                  │
+│  ID 1-1000 → Shard A                 │
+│  ID 1001-2000 → Shard B              │
+├──────────────────────────────────────┤
+│  Hash Partitioning                   │
+│  hash(ID) % 3 = 0 → Shard A         │
+│  hash(ID) % 3 = 1 → Shard B         │
+│  hash(ID) % 3 = 2 → Shard C         │
+├──────────────────────────────────────┤
+│  List Partitioning                   │
+│  US, CA → Shard A                    │
+│  EU, UK → Shard B                    │
+│  APAC   → Shard C                    │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the three main methods: range (by sorted value ranges), hash (by hash function), and list (by explicit value enumeration).</li>
+<li><span class="tip-icon">💡</span> Discuss range partitioning's advantage for range queries (e.g., 'all orders in the last month') but its risk of hot spots on monotonically increasing keys like timestamps.</li>
+<li><span class="tip-icon">💡</span> Hash partitioning solves hot spots and ensures even distribution but makes range queries expensive since adjacent rows are in different partitions.</li>
+<li><span class="tip-icon">💡</span> Explain consistent hashing as a special case of hash partitioning used in distributed systems to minimize data movement when nodes are added or removed.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Range partitioning assigns contiguous ranges of key values to partitions — efficient for range queries but risks hot spots.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Hash partitioning applies a hash function to keys to distribute rows evenly — prevents hot spots but makes range queries expensive.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> List partitioning explicitly maps specific values to specific partitions — useful for geographic or categorical distributions.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Consistent hashing is a special hash partitioning method that minimizes data reshuffling when the number of partitions changes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The right partitioning method depends on the predominant query patterns and the distribution of data values.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Partition_(database)" target="_blank" rel="noopener">Partition (Database) — Wikipedia</a></div>
+      <div class="reading-desc">Covers range, list, hash, and composite partitioning strategies with examples.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Consistent_hashing" target="_blank" rel="noopener">Consistent Hashing — Wikipedia</a></div>
+      <div class="reading-desc">Explains consistent hashing and why it is preferred over simple modulo hashing in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Shard_(database_architecture)" target="_blank" rel="noopener">Shard (Database Architecture) — Wikipedia</a></div>
+      <div class="reading-desc">Overview of sharding as a horizontal partitioning technique and implementation approaches.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="040-introduction-to-data-partitioning.html" class="nav-btn nav-prev">← Introduction to Data Partitioning</a>
+  <a href="042-data-sharding-techniques.html" class="nav-btn nav-next">Data Sharding Techniques →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

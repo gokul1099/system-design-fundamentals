@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CDN Architecture — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 038 of 103 &middot; 37% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:37%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › CDN Architecture
+  </div>
+  <h1 class="hero-title">CDN Architecture</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CDN</span> <span class="hero-tag">Architecture</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-points-of-presence-pops-and-edge-servers>Points of Presence (PoPs) and Edge Servers</h2>
+<p>A Point of Presence (PoP) is a physical location containing a group of edge servers within the CDN's distributed network. PoPs are strategically situated across various geographical regions to minimize the latency experienced by users when requesting content. Each PoP typically consists of multiple edge servers to provide redundancy, fault tolerance, and load balancing.</p>
+<p>Edge servers are the servers within a PoP that store cached content and serve it to users. When a user makes a request for content, the request is directed to the nearest edge server, which either serves the content from its cache or fetches it from the origin server and then caches it for future requests. By serving content from the geographically nearest server, CDNs can significantly reduce latency and improve the overall user experience.</p>
+<h2 id=h2-cdn-routing-and-request-handling>CDN Routing and Request Handling</h2>
+<p>CDN routing is the process of directing user requests to the most suitable edge server. Routing decisions are typically based on factors such as network latency, server load, and the user's geographical location. Various techniques can be employed to determine the optimal edge server for handling a request, including:</p>
+<ul>
+<li>
+<p><strong>Anycast Routing:</strong> In anycast routing, multiple edge servers share a single IP address. When a user sends a request to that IP address, the network's routing system directs the request to the nearest edge server based on network latency or the number of hops. This approach helps ensure that requests are automatically routed to the most appropriate server.</p>
+</li>
+<li>
+<p><strong>DNS-based Routing:</strong> With DNS-based routing, when a user requests content, the CDN's DNS server responds with the IP address of the most suitable edge server. This approach can take into account factors such as geographical proximity and server load to select the best edge server for handling the request.</p>
+</li>
+<li>
+<p><strong>GeoIP-based Routing:</strong> In this approach, the user's geographical location is determined based on their IP address. The request is then directed to the nearest edge server in terms of geographical distance, which often corresponds to lower network latency.</p>
+</li>
+</ul>
+<h2 id=h2-caching-mechanisms>Caching Mechanisms</h2>
+<p>Caching is a crucial component of CDN architecture. Edge servers cache content to reduce latency and offload traffic from the origin server. Various caching mechanisms can be employed to determine what content is stored, when it is updated, and when it should be removed from the cache. Some common caching mechanisms include:</p>
+<ul>
+<li>
+<p><strong>Time-to-Live (TTL):</strong> TTL is a value set by the origin server that determines how long a piece of content should be stored in the cache before it is considered stale and needs to be fetched again from the origin server.</p>
+</li>
+<li>
+<p><strong>Cache Invalidation:</strong> Cache invalidation is the process of removing content from the cache before its TTL expires. This is typically done when content is updated or deleted on the origin server and needs to be reflected immediately in the CDN.</p>
+</li>
+<li>
+<p><strong>Cache Control Headers:</strong> Cache control headers are used by the origin server to provide instructions to the CDN regarding caching behavior. These headers can dictate the cacheability of content, its TTL, and other caching-related settings.</p>
+</li>
+</ul>
+<h2 id=h2-cdn-network-topologies>CDN Network Topologies</h2>
+<p>CDN network topologies describe the structure and organization of the CDN's distributed network. Different topologies can be employed to optimize content delivery based on factors such as performance, reliability, and cost. Some common CDN network topologies include:</p>
+<ul>
+<li>
+<p><strong>Flat Topology:</strong> In a flat topology, all edge servers in the CDN are directly connected to the origin server. This approach can be effective for smaller CDNs, but may not scale well as the network grows.</p>
+</li>
+<li>
+<p><strong>Hierarchical Topology:</strong> In a hierarchical topology, edge servers are organized into multiple tiers, with each tier being responsible for serving content to the tier below it. This approach can improve scalability by distributing the load among multiple levels of servers and reducing the number of direct connections to the origin server.</p>
+</li>
+<li>
+<p><strong>Mesh Topology:</strong> In a mesh topology, edge servers are interconnected, allowing them to share content and load with each other. This approach can enhance the redundancy and fault tolerance of the CDN, as well as improve content delivery performance by reducing the need to fetch content from the origin server.</p>
+</li>
+<li>
+<p><strong>Hybrid Topology:</strong> A hybrid topology combines elements from various topologies to create an optimized CDN architecture tailored to specific needs. For example, a CDN could use a hierarchical structure for serving static content, while employing a mesh topology for dynamic content delivery.</p>
+</li>
+</ul>
+<h2 id=h2-summary>Summary</h2>
+<p>CDN architecture involves the strategic placement of PoPs and edge servers, efficient routing and request handling mechanisms, effective caching strategies, and the appropriate selection of network topologies to optimize content delivery. By considering these factors, CDNs can provide significant improvements in latency, performance, reliability, and security for web applications.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">CDN architecture is like a franchise restaurant chain. Corporate headquarters (origin) develops and controls all the recipes. Regional distribution centers (PoP — Points of Presence) receive pre-prepared ingredients and serve local franchise locations. Individual restaurants (edge nodes) serve customers directly and only call the regional center when they need something that isn't pre-stocked. The entire system is designed so that most customers never interact with headquarters.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's CDN architecture uses Anycast routing so that DNS resolves to the same IP worldwide, but each user's packets are automatically routed to the nearest Cloudflare PoP. Within each PoP, intelligent caching decisions are made by Cloudflare Workers. This architecture handles over 2 trillion requests per day.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon CloudFront's architecture includes 600+ points of presence in 90+ cities, connected to AWS Regional Edge Caches that serve as an intermediate tier between PoPs and customer origins. When a PoP cache misses, it first checks the Regional Edge Cache before querying the origin, significantly reducing origin load.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│            Origin Server             │
+└──────────────────┬───────────────────┘
+                   │
+      ┌────────────┴────────────┐
+      ▼                         ▼
+┌───────────┐             ┌───────────┐
+│ Regional  │             │ Regional  │
+│Edge Cache │             │Edge Cache │
+│  (US)     │             │  (EU)     │
+└─────┬─────┘             └─────┬─────┘
+  ┌───┴───┐                 ┌───┴───┐
+  ▼       ▼                 ▼       ▼
+┌────┐  ┌────┐            ┌────┐  ┌────┐
+│PoP │  │PoP │            │PoP │  │PoP │
+│ NY │  │ LA │            │ FR │  │ UK │
+└────┘  └────┘            └────┘  └────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain the three-tier CDN architecture: origin servers → regional edge caches → edge PoPs → end users.</li>
+<li><span class="tip-icon">💡</span> Describe Anycast routing: the same IP is announced from multiple locations, and BGP routing automatically sends traffic to the nearest PoP — this is how Cloudflare and other CDNs scale globally.</li>
+<li><span class="tip-icon">💡</span> Discuss PoP (Point of Presence): a data center with CDN edge servers in a specific city or region, designed to minimize round-trip time for nearby users.</li>
+<li><span class="tip-icon">💡</span> Mention that modern CDN architecture includes not just caching but also load balancing, DDoS protection, TLS termination, and edge compute (e.g., Lambda@Edge, Cloudflare Workers).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CDN architecture typically has three tiers: origin, regional edge caches, and edge PoPs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Anycast routing directs each user to the nearest CDN PoP automatically using BGP routing.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Regional Edge Caches sit between PoPs and origins to further reduce origin load on cache misses.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Points of Presence (PoPs) are geographically distributed data centers with CDN servers for local users.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern CDNs provide compute, security, and routing capabilities at the edge beyond simple caching.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-a-cdn/" target="_blank" rel="noopener">CDN Architecture — Cloudflare</a></div>
+      <div class="reading-desc">Visual explanation of CDN architecture including PoPs, Anycast routing, and origin interaction.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/cloudfront/" target="_blank" rel="noopener">Amazon CloudFront Architecture</a></div>
+      <div class="reading-desc">AWS documentation on CloudFront's multi-tier architecture including Regional Edge Caches.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Content_delivery_network" target="_blank" rel="noopener">Content Delivery Network — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive coverage of CDN architecture, routing mechanisms, and design considerations.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="037-origin-server-vs-edge-server.html" class="nav-btn nav-prev">← Origin Server vs Edge Server</a>
+  <a href="039-push-cdn-vs-pull-cdn.html" class="nav-btn nav-next">Push CDN vs Pull CDN →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

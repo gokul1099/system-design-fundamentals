@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microservices vs Serverless Architecture — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 100 of 103 &middot; 97% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:97%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Processing & Architecture › Microservices vs Serverless Architecture
+  </div>
+  <h1 class="hero-title">Microservices vs Serverless Architecture</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Microservices</span> <span class="hero-tag">Serverless</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Microservices and Serverless Architecture are two popular approaches in designing scalable, modern applications. They share some principles but differ significantly in how they are structured and managed.</p>
+<h2 id=h2-microservices>Microservices</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Microservices</strong> architecture is a method of developing software systems that structures an application as a collection of loosely coupled services, which are fine-grained and independently deployable.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Modularity</strong>: The application is broken down into smaller, independent services.</li>
+<li><strong>Scalability</strong>: Each service can be scaled independently, based on demand.</li>
+<li><strong>Deployment</strong>: Services are deployed individually, allowing for continuous integration and continuous delivery (CI/CD).</li>
+<li><strong>Language Agnostic</strong>: Each microservice can be written in a different programming language, depending on its requirements.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Large applications where different modules have differing requirements or scaling needs.</li>
+<li>Teams that prefer to work independently on different parts of an application.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>An e-commerce application where inventory management, order processing, and user authentication are developed and operated as separate microservices.</li>
+</ul>
+<h2 id=h2-serverless-architecture>Serverless Architecture</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Serverless Architecture</strong> refers to a cloud computing model where the cloud provider dynamically manages the allocation and provisioning of servers. A serverless model allows developers to build and run applications without managing infrastructure.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>No Server Management</strong>: Developers don't need to manage the server infrastructure.</li>
+<li><strong>Auto-scaling</strong>: Automatically scales up or down to handle the workload.</li>
+<li><strong>Cost-Effective</strong>: Generally billed based on the actual usage, not on pre-allocated capacity.</li>
+<li><strong>Event-Driven</strong>: Often used for applications that respond to events and triggers.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Applications with variable or unpredictable workloads.</li>
+<li>Lightweight APIs, web apps, or automated tasks that run in response to events or requests.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A photo processing function that automatically resizes images when uploaded to a cloud storage, triggered each time a new photo is uploaded.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Infrastructure Management</strong>:</p>
+<ul>
+<li><strong>Microservices</strong>: Requires managing the infrastructure, although this can be abstracted away using containers and orchestration tools like Kubernetes.</li>
+<li><strong>Serverless</strong>: No infrastructure management; the cloud provider handles it.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scalability</strong>:</p>
+<ul>
+<li><strong>Microservices</strong>: Scalability is managed by the development team, although it allows for fine-tuned control.</li>
+<li><strong>Serverless</strong>: Automatic scalability based on demand.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cost Model</strong>:</p>
+<ul>
+<li><strong>Microservices</strong>: Costs are based on the infrastructure provisioned, regardless of usage.</li>
+<li><strong>Serverless</strong>: Pay-per-use model, often based on the number of executions and the duration of execution.</li>
+</ul>
+</li>
+<li>
+<p><strong>Development and Operational Complexity</strong>:</p>
+<ul>
+<li><strong>Microservices</strong>: Higher operational complexity due to the need to manage multiple services and their interactions.</li>
+<li><strong>Serverless</strong>: Simpler from an operational standpoint, but can have limitations in terms of function execution times and resource limits.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Case Suitability</strong>:</p>
+<ul>
+<li><strong>Microservices</strong>: Suitable for large, complex applications where each service may have different resource requirements.</li>
+<li><strong>Serverless</strong>: Ideal for event-driven scenarios, short-lived jobs, or applications with highly variable traffic.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>While both microservices and serverless architectures offer ways to build scalable, modern applications, they cater to different needs. Microservices provide greater control over each service component but require managing the infrastructure. Serverless architectures abstract away the infrastructure concerns, offering a simpler model for deploying code, especially for event-driven applications or those with fluctuating workloads. The choice between the two often depends on the specific requirements of the application, team capabilities, and the desired level of control over the infrastructure.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Microservices are like a restaurant with specialized stations — one chef for sushi, one for grilled food, one for desserts. Each is independently skilled and can be replaced or scaled. Serverless is like a food court where each vendor only cooks when ordered and cleans up immediately after — you never pay for idle time, but there's a startup delay on the first order.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix (Microservices)</div>
+      <div class="example-text">Netflix has 1000+ microservices — separate services for streaming, recommendations, user profiles, billing, and search. Each can be deployed independently. A bug in the recommendations service doesn't affect streaming.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS Lambda (Serverless)</div>
+      <div class="example-text">AWS Lambda runs functions in response to events — API Gateway requests, S3 uploads, SQS messages. You pay per invocation (millisecond billing). A Lambda handling S3 image processing scales from 0 to 10,000 concurrent executions automatically.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb (Microservices)</div>
+      <div class="example-text">Airbnb migrated from a Rails monolith to microservices — separate services for search, pricing, payments, and messaging. They use a service mesh (Envoy) for inter-service communication and feature flags for progressive rollouts.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Microservices vs Serverless
+
+  MICROSERVICES:
+  [API Gateway] ──▶ [User Service]    (always running)
+               ──▶ [Order Service]   (always running)
+               ──▶ [Payment Service] (always running)
+  ✅ Full control  ✅ No cold start  ❌ Manage servers
+
+  SERVERLESS:
+  [Event / Request] ──▶ [Function] (spins up, runs, dies)
+  ✅ No servers  ✅ Auto-scale to zero  ❌ Cold start
+  ✅ Pay per use  ❌ Short max duration (15 min)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Microservices introduce distributed systems complexity — mention service discovery, distributed tracing, and eventual consistency.</li>
+<li><span class="tip-icon">💡</span> Serverless cold starts are a real problem for latency-sensitive apps — use provisioned concurrency or keep functions warm.</li>
+<li><span class="tip-icon">💡</span> For event-driven, bursty workloads serverless is ideal. For long-running, stateful workloads, microservices or monolith is better.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Microservices: independently deployable services, each owning its data — great for large teams and complex domains.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Serverless: functions invoked on demand, no server management, pay per use — great for event-driven and bursty workloads.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Microservices trade deployment complexity for operational flexibility. Serverless trades control for simplicity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Both can coexist: microservices for core services, serverless for background tasks and integrations.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Martin Fowler: Microservices</a></div>
+      <div class="reading-desc">The definitive introduction to the microservices architecture style.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="noopener">AWS Lambda Documentation</a></div>
+      <div class="reading-desc">Complete guide to building and deploying serverless functions on AWS.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Microservices" target="_blank" rel="noopener">Wikipedia: Microservices</a></div>
+      <div class="reading-desc">Overview of microservices principles, benefits, and challenges.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="099-push-vs-pull-notification-systems.html" class="nav-btn nav-prev">← Push vs Pull Notification Systems</a>
+  <a href="101-message-queues-vs-service-bus.html" class="nav-btn nav-next">Message Queues vs Service Bus →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

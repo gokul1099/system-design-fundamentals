@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Caching — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 027 of 103 &middot; 26% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:26%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Introduction to Caching
+  </div>
+  <h1 class="hero-title">Introduction to Caching</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Performance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-what-is-caching>What is Caching?</h2>
+<p>The cache is a high-speed storage layer that sits between the application and the original source of the data, such as a database, a file system, or a remote web service. When data is requested by the application, it is first checked in the cache. If the data is found in the cache, it is returned to the application. If the data is not found in the cache, it is retrieved from its original source, stored in the cache for future use, and returned to the application.</p>
+<p>Caching can be used for various types of data, such as web pages, database queries, API responses, images, and videos. The goal of caching is to reduce the number of times data needs to be fetched from its original source, which can result in faster processing and reduced latency.</p>
+<p>Caching can be implemented in various ways, including in-memory caching, disk caching, database caching, and CDN caching. In-memory caching stores data in the main memory of the computer, which is faster to access than disk storage. Disk caching stores data on the hard disk, which is slower than main memory but faster than retrieving data from a remote source. Database caching stores frequently accessed data in the database itself, reducing the need to access external storage. CDN caching stores data on a distributed network of servers, reducing the latency of accessing data from remote locations.</p>
+<h2 id=h2-key-terminology-and-concepts>Key terminology and concepts</h2>
+<p><strong>1. Cache:</strong> A temporary storage location for data or computation results, typically designed for fast access and retrieval.</p>
+<p><strong>2. Cache hit:</strong> When a requested data item or computation result is found in the cache.</p>
+<p><strong>3. Cache miss:</strong> When a requested data item or computation result is not found in the cache and needs to be fetched from the original data source or recalculated.</p>
+<p><strong>4. Cache eviction:</strong> The process of removing data from the cache, typically to make room for new data or based on a predefined cache eviction policy.</p>
+<p><strong>5. Cache staleness:</strong> When the data in the cache is outdated compared to the original data source.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Caching is like keeping your most-used tools on your workbench instead of walking to the storage room every time. The storage room has everything, but it takes time to get there. By keeping frequently needed tools within arm's reach, you finish jobs much faster. The trade-off is that your workbench has limited space, so you must choose what to keep handy.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">👍 Facebook/Meta</div>
+      <div class="example-text">Facebook uses Memcached at a massive scale to cache social graph data, news feed items, and user profile information. Without caching, every page load would require thousands of database queries. Their Memcached deployment handles billions of requests per second across thousands of servers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter caches timelines in Redis to avoid recomputing the tweet feed for every request. When a user logs in, their pre-computed timeline is served from cache in milliseconds. This is critical given the read-heavy nature of timeline consumption.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌────────────────────────────────┐
+│           Application          │
+└───────────────┬────────────────┘
+                │ Request data
+                ▼
+┌────────────────────────────────┐
+│           Cache Layer          │
+│  (Redis / Memcached / Local)   │
+│                                │
+│  Cache HIT  ──► Return data    │
+│  Cache MISS ──► Go to DB       │
+└───────────────┬────────────────┘
+                │ (on miss)
+                ▼
+┌────────────────────────────────┐
+│         Database / Origin      │
+│   (Slow but authoritative)     │
+└────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always start by defining what caching is and why it matters — storing copies of expensive-to-compute or frequently-accessed data closer to the consumer.</li>
+<li><span class="tip-icon">💡</span> Discuss the cache hit ratio: a high hit ratio means most requests are served from cache, avoiding expensive backend calls.</li>
+<li><span class="tip-icon">💡</span> Mention different caching layers: CPU caches, browser caches, CDN caches, application-level caches, and database query caches.</li>
+<li><span class="tip-icon">💡</span> Be ready to discuss when NOT to cache — data that changes frequently or must always be consistent across all users.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching stores frequently accessed data in a fast, temporary storage layer to reduce latency and backend load.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A cache hit returns data without touching the source; a cache miss requires fetching from the origin and storing in cache.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching is most effective for read-heavy workloads with data that doesn't change too frequently.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Every caching strategy involves a trade-off between freshness (consistency) and performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Redis and Memcached are the two most widely used distributed caching systems in production.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">Caching Overview — AWS</a></div>
+      <div class="reading-desc">AWS explains different caching strategies and how their managed services implement them.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">HTTP Caching — MDN Web Docs</a></div>
+      <div class="reading-desc">Comprehensive guide to browser and HTTP-level caching headers and mechanisms.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Caching Documentation</a></div>
+      <div class="reading-desc">Official Redis documentation covering data structures and caching patterns.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="026-dns-load-balancing-and-high-availability.html" class="nav-btn nav-prev">← DNS Load Balancing and High Availability</a>
+  <a href="028-why-is-caching-important.html" class="nav-btn nav-next">Why is Caching Important →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

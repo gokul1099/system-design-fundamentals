@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What are DDoS Attacks — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 086 of 103 &middot; 83% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:83%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › What are DDoS Attacks
+  </div>
+  <h1 class="hero-title">What are DDoS Attacks</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DDoS</span> <span class="hero-tag">Security</span> <span class="hero-tag">Attacks</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>A Distributed Denial of Service (DDoS) attack is a malicious attempt to disrupt normal traffic of a targeted server, service, or network by overwhelming the target or its surrounding infrastructure with a flood of Internet traffic. DDoS attacks achieve effectiveness by utilizing multiple compromised computer systems as sources of attack traffic. These systems can include computers and other networked resources such as IoT devices.</p>
+<h3 id=h3-how-ddos-attacks-work>How DDoS Attacks Work</h3>
+<ul>
+<li><strong>How It Happens</strong>: Hackers use a network of compromised computers and devices (botnets) to send a flood of internet traffic to a target, like a website or server.</li>
+<li><strong>Goal</strong>: To overload the server's capacity to handle requests, causing slow service or complete shutdown.</li>
+<li><strong>Types</strong>: Volume-based attacks (overwhelming bandwidth), protocol attacks (targeting server resources), and application layer attacks (targeting web applications).</li>
+</ul>
+<h3 id=h3-common-types-of-ddos-attacks>Common Types of DDoS Attacks</h3>
+<ul>
+<li><strong>Volumetric Attacks</strong>: The most common form, these attacks flood the network with a substantial amount of traffic.</li>
+<li><strong>Protocol Attacks</strong>: These target network layer or transport layer protocols to consume server resources or bandwidth.</li>
+<li><strong>Application Layer Attacks</strong>: These are more sophisticated, targeting specific aspects of an application or server.</li>
+</ul>
+<h3 id=h3-mitigation-strategies>Mitigation Strategies</h3>
+<ol>
+<li><strong>Network Redundancy</strong>: Having multiple pathways for network traffic can help avoid single points of failure.</li>
+<li><strong>DDoS Protection Services</strong>: These services can detect and mitigate DDoS attacks, often through large-scale network infrastructure capable of absorbing and diffusing attack traffic.</li>
+<li><strong>Firewalls and Anti-DDoS Software</strong>: Implementing advanced firewall systems and specific anti-DDoS software can help identify and block attack traffic.</li>
+<li><strong>Traffic Analysis</strong>: Continuously monitoring network traffic can help in identifying anomalies indicative of a DDoS attack.</li>
+<li><strong>Responsive Plan</strong>: Having a response plan in place, including procedures for identifying, mitigating, and recovering from an attack, is crucial for minimizing damage.</li>
+<li><strong>Good Security Hygiene</strong>: Regularly updating security protocols and educating users about the risks of malware can help reduce the number of devices that can be used in DDoS attacks.</li>
+<li><strong>Scalable Infrastructure</strong>: Utilizing cloud services with the ability to scale rapidly can absorb and disperse high traffic loads during an attack.</li>
+</ol>
+<p>Mitigating a DDoS attack involves both preventative measures and reactive strategies. It's about having a robust defense to either prevent the traffic jam or clear it quickly if it happens. Regularly updating security protocols and being prepared to respond swiftly are key to minimizing the impact of such attacks.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A DDoS attack is like thousands of people calling a pizza restaurant at the same time, none of them ordering anything — just tying up every phone line. Legitimate customers can't get through. The restaurant isn't hacked; it's simply overwhelmed. The fix isn't answering faster — it's recognizing and blocking the fake callers.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare absorbs some of the largest DDoS attacks ever recorded (3.8 Tbps in 2024) using its global Anycast network. Traffic is filtered at the edge before it reaches the origin — the attack never hits your servers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛡️ AWS Shield</div>
+      <div class="example-text">AWS Shield Standard protects all AWS customers automatically from common layer 3/4 attacks. Shield Advanced adds DDoS cost protection, 24/7 DRT support, and application-layer (layer 7) protection via WAF integration.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub (2018)</div>
+      <div class="example-text">GitHub suffered a 1.35 Tbps memcached amplification DDoS attack in 2018 — the largest recorded at the time. GitHub mitigated it in 10 minutes by routing traffic through Akamai's scrubbing centers, limiting downtime to brief degradation.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  DDoS Attack Layers
+
+  Layer 7 (Application):  HTTP floods, Slowloris
+  Layer 4 (Transport):    SYN floods, UDP floods
+  Layer 3 (Network):      ICMP floods, IP spoofing
+
+  Mitigation Layers:
+  ┌─────────────────────────────────┐
+  │  CDN / Scrubbing Center         │ ← absorb volumetric
+  ├─────────────────────────────────┤
+  │  Rate Limiting / WAF            │ ← filter app-layer
+  ├─────────────────────────────────┤
+  │  IP Reputation / Geo-blocking   │ ← block sources
+  ├─────────────────────────────────┤
+  │  Your Origin Servers            │ ← protected
+  └─────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Distinguish volumetric attacks (flood bandwidth) from protocol attacks (exploit TCP/IP) from application-layer attacks (overwhelm app logic).</li>
+<li><span class="tip-icon">💡</span> Rate limiting at the API gateway is your first line of defense for layer 7 attacks.</li>
+<li><span class="tip-icon">💡</span> For large-scale systems, always put a CDN (Cloudflare, Akamai) in front — they absorb volumetric attacks before traffic reaches origin.</li>
+<li><span class="tip-icon">💡</span> CAPTCHAs and proof-of-work challenges can filter bots without blocking real users.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DDoS floods a target with traffic from many sources, making it unavailable to real users.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Attacks happen at layer 3 (network), layer 4 (transport), and layer 7 (application).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CDNs and scrubbing services absorb volumetric attacks; WAFs and rate limiting handle app-layer attacks.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> No single defense is sufficient — defense in depth is essential.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/ddos/what-is-a-ddos-attack/" target="_blank" rel="noopener">Cloudflare: What is a DDoS Attack?</a></div>
+      <div class="reading-desc">Clear explanation of DDoS types, anatomy, and mitigation strategies.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/waf/latest/developerguide/shield-chapter.html" target="_blank" rel="noopener">AWS Shield Documentation</a></div>
+      <div class="reading-desc">How AWS provides DDoS protection at different layers.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Denial-of-service_attack" target="_blank" rel="noopener">Wikipedia: Denial-of-service attack</a></div>
+      <div class="reading-desc">Technical overview of attack types, amplification techniques, and defenses.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="085-what-is-encryption.html" class="nav-btn nav-prev">← What is Encryption</a>
+  <a href="087-introduction-to-messaging-system.html" class="nav-btn nav-next">Introduction to Messaging System →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

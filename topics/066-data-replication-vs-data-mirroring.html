@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Replication vs Data Mirroring — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 066 of 103 &middot; 64% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:64%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › Data Replication vs Data Mirroring
+  </div>
+  <h1 class="hero-title">Data Replication vs Data Mirroring</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Replication</span> <span class="hero-tag">Mirroring</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Data replication and data mirroring are both methods used in managing and safeguarding data, particularly in the context of databases and storage systems. While they share similarities in creating copies of data, they serve different purposes and have distinct operational characteristics.</p>
+<h2 id=h2-data-replication>Data Replication</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Data Replication</strong> involves copying data from one location to another. The replication can be synchronous or asynchronous.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Asynchronous/Synchronous</strong>: Data replication can be done in real-time (synchronous) or with some delay (asynchronous).</li>
+<li><strong>Multiple Copies</strong>: Often creates multiple copies of data, which can be stored across different servers or locations.</li>
+<li><strong>Purpose</strong>: Enhances data availability and accessibility, used for load balancing, and enables data analysis without impacting the primary data source.</li>
+<li><strong>Use Cases</strong>: In distributed databases, backup systems, and data warehouses.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A company might replicate its database across multiple data centers to ensure that if one data center goes down, the others can still serve the data.</li>
+</ul>
+<h2 id=h2-data-mirroring>Data Mirroring</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Data Mirroring</strong> refers to the process of creating an exact replica of a database or storage system, usually in real-time.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Synchronous</strong>: Mirroring is typically synchronous, meaning the data in the primary and mirror locations are always in sync.</li>
+<li><strong>Redundancy for High Availability</strong>: Primarily used for redundancy and high availability.</li>
+<li><strong>Mirror Copy</strong>: Usually involves a one-to-one relationship between the original and the mirror. If data changes in the original location, it is immediately written to the mirror.</li>
+<li><strong>Use Cases</strong>: In critical applications requiring high availability and data integrity, such as financial transaction systems.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A financial services firm may use data mirroring to ensure that all transactional data is instantly copied to a secondary server, which can take over with no data loss in case the primary server fails.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Real-Time Synchronization</strong>:</p>
+<ul>
+<li><strong>Replication</strong>: Can be either synchronous or asynchronous.</li>
+<li><strong>Mirroring</strong>: Typically synchronous.</li>
+</ul>
+</li>
+<li>
+<p><strong>Purpose and Use</strong>:</p>
+<ul>
+<li><strong>Replication</strong>: Used for load balancing, data localization, and reporting.</li>
+<li><strong>Mirroring</strong>: Primarily for disaster recovery and high availability.</li>
+</ul>
+</li>
+<li>
+<p><strong>Number of Copies</strong>:</p>
+<ul>
+<li><strong>Replication</strong>: Can create multiple copies of data in different locations.</li>
+<li><strong>Mirroring</strong>: Usually involves a single mirror copy.</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance Impact</strong>:</p>
+<ul>
+<li><strong>Replication</strong>: Can be designed to minimize performance impact.</li>
+<li><strong>Mirroring</strong>: Since it’s synchronous, it might have a more significant impact on performance.</li>
+</ul>
+</li>
+<li>
+<p><strong>Flexibility</strong>:</p>
+<ul>
+<li><strong>Replication</strong>: More flexible in terms of configuration and use cases.</li>
+<li><strong>Mirroring</strong>: More rigid, focused on creating a real-time exact copy for redundancy.</li>
+</ul>
+</li>
+</ol>
+<p>Choosing between data replication and data mirroring depends on the specific requirements of the system in terms of availability, performance, and the nature of the data being managed. In many systems, both techniques are used in conjunction to achieve both scalability and high availability.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Data replication is like having multiple musicians play the same piece simultaneously — if one gets sick, the concert continues without interruption, and audience members in different cities can hear the music locally. Data mirroring is more like making a physical copy of a painting — you have an identical backup, but displaying the mirror requires moving it to the main frame if the original is damaged. Replication is active redundancy; mirroring is passive duplication.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses multi-region database replication so that a user in Europe reads from a replica closest to them rather than hitting a US primary. Writes go to the primary and asynchronously propagate to replicas, accepting a small replication lag in exchange for dramatically lower global read latency.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub uses MySQL replication with a primary-replica topology where all writes go to the primary and multiple read replicas absorb the heavy read traffic from developers browsing code. If the primary fails, a replica is promoted — replication provides both read scalability and high availability.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Dropbox</div>
+      <div class="example-text">Dropbox mirrors user files to geographically separate data centers for disaster recovery purposes. Unlike active replication, the mirrored datacenter is not serving live traffic — it exists as a warm standby that can be activated if the primary datacenter suffers a catastrophic failure.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│      Replication vs Mirroring                       │
+├──────────────────────┬──────────────────────────────┤
+│  Replication         │  Mirroring                   │
+├──────────────────────┼──────────────────────────────┤
+│ Active copies        │ Passive copies               │
+│ Serve live traffic   │ Standby / DR only            │
+│ Sync or async        │ Usually synchronous          │
+│ Scale reads out      │ No read scaling benefit      │
+│ Failover capable     │ Failover capable             │
+├──────────────────────┴──────────────────────────────┤
+│  Replication Topology:                              │
+│  ┌──────────┐     ┌──────────┐  ┌──────────┐       │
+│  │ Primary  │────▶│ Replica1 │  │ Replica2 │       │
+│  └──────────┘     └──────────┘  └──────────┘       │
+│     writes         reads         reads              │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Distinguish synchronous replication (write confirmed only after replica acknowledges — strong consistency, higher latency) from asynchronous replication (write confirmed after primary write — lower latency, risk of data loss on failover).</li>
+<li><span class="tip-icon">💡</span> Explain replication lag and its implications: in async replication, a replica might be seconds behind the primary — reading from a replica after a write may return stale data.</li>
+<li><span class="tip-icon">💡</span> Use the primary-replica pattern to explain read scaling: direct writes to primary, distribute reads across replicas — this is how most SQL databases achieve horizontal read scaling.</li>
+<li><span class="tip-icon">💡</span> Mention that mirroring is more common in SAN/storage contexts, while replication is a database-level concept — knowing this distinction shows breadth.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Replication maintains active copies of data that serve live traffic, providing both read scalability and high availability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Mirroring creates passive copies for disaster recovery purposes, typically not serving live traffic.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Synchronous replication ensures zero data loss but increases write latency; asynchronous replication is faster but risks losing recent writes on failover.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Primary-replica database topology is the most common pattern for scaling reads while maintaining a single authoritative write source.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Replication lag is the time delay between a write on the primary and its propagation to replicas, which must be accounted for in read-your-writes consistency requirements.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Replication_(computing)" target="_blank" rel="noopener">Replication (computing) - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's overview of data replication strategies, consistency models, and failure handling in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL's documentation covers streaming replication, logical replication, and standby server configuration in detail.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's SRE book discusses data durability, replication, and the operational considerations for managing replicated systems.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="065-in-memory-vs-on-disk-database.html" class="nav-btn nav-prev">← In-Memory Database vs On-Disk Database</a>
+  <a href="067-database-federation.html" class="nav-btn nav-next">Database Federation →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

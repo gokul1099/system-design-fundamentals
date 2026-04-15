@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Databases — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 058 of 103 &middot; 56% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:56%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › Introduction to Databases
+  </div>
+  <h1 class="hero-title">Introduction to Databases</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Databases</span> <span class="hero-tag">Fundamentals</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>A database is an organized collection of structured data that is stored and managed electronically. Databases are essential tools for managing, storing, and retrieving data efficiently, and they play a vital role in modern applications.</p>
+<h2 id=h2-database-management-systems-dbms>Database Management Systems (DBMS)</h2>
+<p>A Database Management System (DBMS) is software that interacts with users, applications, and the database itself to capture, store, and manage data. It provides an interface for performing various operations on the data, such as inserting, updating, deleting, and retrieving data. The primary goal of a DBMS is to ensure that data remains consistent, secure, and easily accessible.</p>
+<p>There are two main types of DBMSs:</p>
+<ul>
+<li>
+<p><strong>Relational Database Management Systems (RDBMS):</strong> These systems store data in tables with predefined relationships between them. The most common query language for RDBMSs is SQL (Structured Query Language).</p>
+</li>
+<li>
+<p><strong>Non-Relational Database Management Systems (NoSQL):</strong> These systems store data in various formats, such as key-value, document, column-family, or graph. NoSQL databases are known for their ability to scale horizontally and handle unstructured or semi-structured data.</p>
+</li>
+</ul>
+<h2 id=h2-overview-of-sql-and-nosql-databases>Overview of SQL and NoSQL databases</h2>
+<p>Databases can be broadly classified into two categories: SQL (Structured Query Language) and NoSQL (Not only SQL) databases. SQL databases, also known as relational databases, are based on the relational model, where data is stored in tables with predefined schema and relationships between them. Some popular SQL databases include MySQL, PostgreSQL, Microsoft SQL Server, and Oracle. SQL databases are known for their consistency, reliability, and powerful query capabilities.</p>
+<p>On the other hand, NoSQL databases are a diverse group of non-relational databases that prioritize flexibility, scalability, and performance under specific workloads. NoSQL databases can be further categorized into document databases, key-value stores, column-family stores, and graph databases, each with their unique data models and use cases. Some widely-used NoSQL databases are MongoDB, Redis, Apache Cassandra, and Neo4j.</p>
+<h2 id=h2-high-level-differences-between-sql-and-nosql>High level differences between SQL and NoSQL</h2>
+<p><strong>1. Storage:</strong> SQL stores data in tables where each row represents an entity and each column represents a data point about that entity; for example, if we are storing a car entity in a table, different columns could be ‘Color’, ‘Make’, ‘Model’, and so on.</p>
+<p>NoSQL databases have different data storage models. The main ones are key-value, document, graph, and columnar. We will discuss differences between these databases below.</p>
+<p><strong>2. Schema:</strong> In SQL, each record conforms to a fixed schema, meaning the columns must be decided and chosen before data entry and each row must have data for each column. The schema can be altered later, but it involves modifying the whole database and going offline.</p>
+<p>In NoSQL, schemas are dynamic. Columns can be added on the fly and each ‘row’ (or equivalent) doesn’t have to contain data for each ‘column.'</p>
+<p><strong>3. Querying:</strong> SQL databases use SQL (structured query language) for defining and manipulating the data, which is very powerful. In a NoSQL database, queries are focused on a collection of documents. Sometimes it is also called UnQL (Unstructured Query Language). Different databases have different syntax for using UnQL.</p>
+<p><strong>4. Scalability:</strong> In most common situations, SQL databases are vertically scalable, i.e., by increasing the horsepower (higher Memory, CPU, etc.) of the hardware, which can get very expensive. It is possible to scale a relational database across multiple servers, but this is a challenging and time-consuming process.</p>
+<p>On the other hand, NoSQL databases are horizontally scalable, meaning we can add more servers easily in our NoSQL database infrastructure to handle a lot of traffic. Any cheap commodity hardware or cloud instances can host NoSQL databases, thus making it a lot more cost-effective than vertical scaling. A lot of NoSQL technologies also distribute data across servers automatically.</p>
+<p><strong>5. Reliability or ACID Compliancy (Atomicity, Consistency, Isolation, Durability):</strong> The vast majority of relational databases are ACID compliant. So, when it comes to data reliability and safe guarantee of performing transactions, SQL databases are still the better bet.</p>
+<p>Most of the NoSQL solutions sacrifice ACID compliance for availability, performance, and scalability.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A database is like a well-organized library. The librarian (database engine) knows exactly where every book (data record) is stored, can retrieve any book quickly, ensures that when you borrow a book it's properly logged, and prevents two people from checking out the same book simultaneously. Without the librarian's system, you'd have a pile of books with no way to find what you need.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn uses multiple database systems: MySQL for user profiles and connections (structured relational data), Espresso (a document store) for messaging, and Voldemort (key-value) for session data. This polyglot persistence approach assigns the right database type to each access pattern.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb stores listing data in MySQL with carefully managed schemas, search indexes in Elasticsearch, and session data in Redis. Each layer was chosen because its data model and access pattern perfectly matched the database's strengths — structured storage, full-text search, and ephemeral key-value respectively.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              Database Landscape                     │
+├──────────────────────┬──────────────────────────────┤
+│  Relational (SQL)    │  Non-Relational (NoSQL)      │
+├──────────────────────┼──────────────────────────────┤
+│ Tables, rows, cols   │ Documents, key-value,        │
+│ Fixed schema         │ column-family, graph         │
+│ ACID transactions    │ BASE / tunable consistency   │
+│ PostgreSQL, MySQL    │ MongoDB, Cassandra, Redis    │
+├──────────────────────┴──────────────────────────────┤
+│  Core DB Concepts                                   │
+│  ├─ Storage: how data is persisted (disk/memory)    │
+│  ├─ Indexing: how data is found quickly             │
+│  ├─ Querying: how data is retrieved and filtered    │
+│  └─ Transactions: how operations are grouped        │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Start any database discussion by identifying the data model — is it structured, semi-structured, or unstructured? This immediately narrows the choice to SQL vs. NoSQL.</li>
+<li><span class="tip-icon">💡</span> Know the two key metrics for any database choice: read/write ratio and whether you need complex queries with joins or simple key-based lookups.</li>
+<li><span class="tip-icon">💡</span> Mention that databases abstract away storage details but their internal design (B-trees, LSM-trees, hash tables) fundamentally affects performance characteristics.</li>
+<li><span class="tip-icon">💡</span> Always ask about data volume and access patterns before recommending a database — a billion-record table accessed by primary key is very different from a million-record table requiring complex joins.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A database is a structured system for storing, retrieving, and managing data with guarantees around integrity and concurrency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The two major categories are relational (SQL) databases and non-relational (NoSQL) databases, each with distinct data models and tradeoffs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Choosing a database requires understanding the data model, access patterns, consistency requirements, and scale requirements.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Polyglot persistence — using multiple database types within one system — is common in large-scale architectures.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Internal storage structures like B-trees and LSM-trees determine a database's read vs. write performance characteristics.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">Database - Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive overview of database history, types, and fundamental concepts including the relational model.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL's official documentation is an excellent resource for understanding relational database internals and features.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS NoSQL Guide</a></div>
+      <div class="reading-desc">AWS provides a practical guide to NoSQL database types and when to choose each over a relational database.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="057-system-design-tradeoffs-in-interviews.html" class="nav-btn nav-prev">← System Design Tradeoffs in Interviews</a>
+  <a href="059-sql-databases.html" class="nav-btn nav-next">SQL Databases →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

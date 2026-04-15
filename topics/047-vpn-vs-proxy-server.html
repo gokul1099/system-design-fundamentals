@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN vs Proxy Server — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 047 of 103 &middot; 46% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:46%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › VPN vs Proxy Server
+  </div>
+  <h1 class="hero-title">VPN vs Proxy Server</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">VPN</span> <span class="hero-tag">Proxy</span> <span class="hero-tag">Security</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>VPN (Virtual Private Network) and Proxy Servers are both tools used for privacy and security online, but they function differently and serve distinct purposes. Understanding their differences is essential in determining which one to use based on your needs.</p>
+<h2 id=h2-vpn-virtual-private-network>VPN (Virtual Private Network)</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li>A <strong>VPN</strong> creates a secure, encrypted tunnel between your device and a remote server operated by the VPN service. All your internet traffic is routed through this tunnel, meaning that your data is secure from external observation.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Encryption</strong>: Offers end-to-end encryption for all data transmitted.</li>
+<li><strong>Traffic Routing</strong>: Routes all internet traffic through the VPN server.</li>
+<li><strong>IP Masking</strong>: Hides your IP address and makes it appear as if your traffic is coming from the VPN server’s location.</li>
+<li><strong>Security and Privacy</strong>: Provides a high level of security and privacy.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Securing data while using public Wi-Fi networks.</li>
+<li>Bypassing geographical restrictions and censorship.</li>
+<li>Protecting sensitive transactions (like online banking).</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>Using a VPN service while connecting to a public Wi-Fi network at a coffee shop to securely access your personal and work accounts.</li>
+</ul>
+<h2 id=h2-proxy-server>Proxy Server</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li>A <strong>Proxy Server</strong> acts as an intermediary between your device and the internet. It receives your requests, forwards them to the internet, and then relays the response back to you.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>IP Masking</strong>: Hides your IP address, making it appear as if the requests are coming from the proxy’s location.</li>
+<li><strong>Limited Scope</strong>: Usually, only browser traffic or traffic from specific applications is rerouted.</li>
+<li><strong>No Encryption</strong>: Does not inherently encrypt data (except for secure proxy servers like HTTPS proxies).</li>
+<li><strong>Caching</strong>: Some proxies cache data, which can speed up subsequent requests to the same sites.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Encryption</strong>:</p>
+<ul>
+<li><strong>VPN</strong>: Encrypts all data between your device and the VPN server.</li>
+<li><strong>Proxy Server</strong>: Does not encrypt data (unless it’s a special type of proxy like an HTTPS proxy).</li>
+</ul>
+</li>
+<li>
+<p><strong>Traffic Routing</strong>:</p>
+<ul>
+<li><strong>VPN</strong>: Reroutes and encrypts all internet traffic from your device.</li>
+<li><strong>Proxy Server</strong>: Only reroutes traffic from your browser or specific apps, not necessarily encrypting it.</li>
+</ul>
+</li>
+<li>
+<p><strong>Privacy and Security</strong>:</p>
+<ul>
+<li><strong>VPN</strong>: Offers more privacy and security due to encryption and comprehensive traffic routing.</li>
+<li><strong>Proxy Server</strong>: Provides IP masking but limited security features.</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance</strong>:</p>
+<ul>
+<li><strong>VPN</strong>: Can be slower due to encryption overhead.</li>
+<li><strong>Proxy Server</strong>: Usually faster than VPN as there’s no encryption, but can be slower if many users access the same proxy.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Case Suitability</strong>:</p>
+<ul>
+<li><strong>VPN</strong>: Suitable for users concerned with privacy and security, especially when using public Wi-Fi networks.</li>
+<li><strong>Proxy Server</strong>: Good for bypassing content restrictions or simple IP masking without the need for encryption.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>The choice between a VPN and a proxy server depends on your specific needs. If you prioritize privacy and security, especially when handling sensitive data, a VPN is the better choice. If you simply need to bypass geo-restrictions or internet filters for browsing purposes, a proxy server might suffice. For the best security, a VPN is recommended due to its encryption capabilities and comprehensive coverage of all internet traffic.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A VPN vs. a proxy is like the difference between a fully encrypted private tunnel versus a mail forwarding service. A VPN wraps all your network traffic in an encrypted tunnel — everything you do online is protected and routed through the VPN server. A proxy is more like a mail forwarder that just changes the 'from' address on your letters — the content of your letters isn't protected unless you've separately sealed them with encryption. The VPN is stronger but heavier; the proxy is lighter but narrower in scope.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare offers both proxy services (Cloudflare CDN/WAF for websites) and VPN services (WARP for individual users). The proxy protects specific web traffic for configured domains, while WARP encrypts all device traffic through Cloudflare's network. Enterprises use Cloudflare Access as a zero-trust VPN alternative, enforcing identity-based access policies.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix actively works to block VPN usage because VPNs allow users to appear to be in a different region and access content licensed only for a specific country. Proxies are generally easier for Netflix to block since they have known IP ranges, while VPNs using residential IP addresses are harder to detect. This cat-and-mouse dynamic illustrates a key practical difference between the two.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌────────────────────────────────────┐
+│           PROXY                    │
+│ Client ──► Proxy ──► Internet      │
+│ - Specific app/protocol only       │
+│ - No encryption by default         │
+│ - Hides client IP                  │
+│ - Faster, lighter                  │
+├────────────────────────────────────┤
+│            VPN                     │
+│ Client ══► VPN ══► Internet        │
+│ (encrypted tunnel)                 │
+│ - ALL traffic routed through VPN   │
+│ - Encrypted end-to-end             │
+│ - Hides IP + encrypts content      │
+│ - Slower, more overhead            │
+└────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Key distinction: a proxy operates at the application layer for specific traffic (usually HTTP/S), while a VPN operates at the network layer and tunnels all traffic.</li>
+<li><span class="tip-icon">💡</span> VPNs encrypt traffic between client and VPN server; proxies do not provide encryption themselves (though HTTPS can be used through a proxy).</li>
+<li><span class="tip-icon">💡</span> Performance difference: VPNs add encryption/decryption overhead to all traffic; proxies are lighter since they handle only specific protocols.</li>
+<li><span class="tip-icon">💡</span> Use case distinction: proxies are best for performance (caching, load balancing, anonymity for specific requests); VPNs are best for security (encrypting all traffic, remote network access).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A VPN encrypts all network traffic and routes it through a remote server, providing full network-level privacy.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A proxy forwards specific application traffic through an intermediary server without necessarily encrypting it.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> VPNs operate at the network layer; proxies typically operate at the application layer (HTTP/S).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> VPNs are preferred for security and corporate remote access; proxies are preferred for performance optimization and content filtering.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Both VPNs and proxies hide the client's true IP address but differ significantly in scope, encryption, and overhead.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Proxy_server" target="_blank" rel="noopener">Proxy Server — Wikipedia</a></div>
+      <div class="reading-desc">Covers the differences between proxy types and their relationship to VPN technology.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Virtual_private_network" target="_blank" rel="noopener">Virtual Private Network — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive explanation of VPN protocols, use cases, and comparison to proxy alternatives.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/network-layer/what-is-a-proxy-server/" target="_blank" rel="noopener">What is a Proxy Server? — Cloudflare</a></div>
+      <div class="reading-desc">Cloudflare compares proxy and VPN functionality and explains when to use each.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="046-uses-of-proxies.html" class="nav-btn nav-prev">← Uses of Proxies</a>
+  <a href="048-what-is-redundancy.html" class="nav-btn nav-next">What is Redundancy →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

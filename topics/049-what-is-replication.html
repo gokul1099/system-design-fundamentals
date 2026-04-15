@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Replication — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 049 of 103 &middot; 48% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:48%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › What is Replication
+  </div>
+  <h1 class="hero-title">What is Replication</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Replication</span> <span class="hero-tag">Databases</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Database replication is the process of copying and synchronizing data from one database to one or more additional databases. This is commonly used in distributed systems where multiple copies of the same data are required to ensure data availability, fault tolerance, and scalability.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Replication is like making photocopies of an important document and storing them in different filing cabinets across the office. If one cabinet gets damaged, you still have the document in the others. But unlike physical copies that are made once and forgotten, database replication keeps all copies continuously synchronized as the original document changes. The more copies you have and the more spread out they are, the safer and more accessible your data becomes.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub replicates Git repositories across multiple geographic regions to ensure that if one data center fails, repositories remain accessible from replicas elsewhere. Repository data is written to primary storage and asynchronously replicated to secondary locations. This means millions of developers can continue working even during a regional AWS outage.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix replicates its Cassandra database across three AWS availability zones for every region. A write to Netflix's systems is only acknowledged after it has been written to two of the three replicas (quorum write). This provides durability — even if one AZ experiences a complete failure, no data is lost and reads continue from the remaining replicas.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────┐
+│             Replication             │
+│                                     │
+│  Primary (Master)                   │
+│  ┌─────────────┐                    │
+│  │  Writes ──► │──► Replica 1       │
+│  │    DB       │──► Replica 2       │
+│  └─────────────┘──► Replica 3       │
+│                                     │
+│  Benefits:                          │
+│  - Fault tolerance (data safety)    │
+│  - Read scaling (spread reads)      │
+│  - Geographic distribution          │
+│  - Backup / disaster recovery       │
+└─────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Define replication: maintaining copies of the same data on multiple nodes to provide fault tolerance, read scalability, and geographic distribution.</li>
+<li><span class="tip-icon">💡</span> Distinguish replication from backup: replicas are live, continuously synchronized copies for operational use; backups are point-in-time snapshots for disaster recovery.</li>
+<li><span class="tip-icon">💡</span> Explain the read-scaling benefit: by directing read traffic to replicas, the primary database handles only writes, dramatically increasing total read throughput.</li>
+<li><span class="tip-icon">💡</span> Discuss the consistency challenge: asynchronous replication means replicas may lag behind the primary, causing stale reads — synchronous replication eliminates this but adds write latency.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Replication maintains multiple synchronized copies of data across different nodes or locations.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Replicas provide fault tolerance — if one node fails, others continue serving data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Read replicas offload read traffic from the primary, scaling total read throughput horizontally.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Synchronous replication ensures no data loss but adds write latency; asynchronous replication is faster but risks losing recent writes on failure.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Geographic replication reduces read latency for global users and provides disaster recovery across regions.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Replication_(computing)" target="_blank" rel="noopener">Replication (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive overview of database and file system replication concepts and approaches.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Replication_(computing)" target="_blank" rel="noopener">Database Replication — Wikipedia</a></div>
+      <div class="reading-desc">Detailed coverage of primary-replica replication, consistency models, and replication lag.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Replication</a></div>
+      <div class="reading-desc">Redis documentation on master-replica replication configuration and consistency behavior.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="048-what-is-redundancy.html" class="nav-btn nav-prev">← What is Redundancy</a>
+  <a href="050-replication-methods.html" class="nav-btn nav-next">Replication Methods →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

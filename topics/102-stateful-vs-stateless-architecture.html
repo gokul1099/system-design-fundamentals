@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stateful vs Stateless Architecture — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 102 of 103 &middot; 99% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:99%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Processing & Architecture › Stateful vs Stateless Architecture
+  </div>
+  <h1 class="hero-title">Stateful vs Stateless Architecture</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Stateful</span> <span class="hero-tag">Stateless</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Stateful and Stateless architectures represent two different approaches to managing user information and server interactions in software design, particularly in web services and applications. Understanding the distinctions between them is crucial for designing systems that efficiently handle user sessions and data.</p>
+<h2 id=h2-stateful-architecture>Stateful Architecture</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Stateful Architecture</strong> means the server retains a record of previous interactions and uses this information for subsequent transactions. Each session is unique to a user, and the server stores the session state.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Session Memory</strong>: The server remembers previous interactions and may store data like user preferences or activity history.</li>
+<li><strong>Resource Usage</strong>: Typically requires more resources to maintain state information.</li>
+<li><strong>User Experience</strong>: Can offer a more personalized user experience as it retains user context.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Applications requiring a persistent user state, like online banking or e-commerce sites where a user's logged-in session and shopping cart need to be maintained.</li>
+<li>Real-time applications where the current state is critical, like online gaming.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>A shopping website where your shopping cart is remembered across different pages and visits during the same session.</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A stateless service is like a vending machine — every transaction is independent. The machine doesn't remember your last purchase or your preferences. You insert coins, make a selection, get a result. Stateful is like a bank teller who knows your account history, your preferences, and picks up where you left off last time — but you must visit the same teller every time.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon (Stateless)</div>
+      <div class="example-text">Amazon's product browse and search services are stateless — each request includes the user's auth token, and the service queries the database. Any of thousands of servers can handle any request. This enables trivial horizontal scaling.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎮 Online Gaming (Stateful)</div>
+      <div class="example-text">Multiplayer game servers are inherently stateful — the game world state (positions, scores, physics) is held in memory and must be consistent across all players. Session stickiness ensures players stay connected to their game server.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔴 Redis Sessions</div>
+      <div class="example-text">Many apps externalize state to Redis to make otherwise-stateful services stateless. The app server stores session data in Redis keyed by session ID. Any app server can then handle any request by looking up the session in Redis.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Stateless vs Stateful
+
+  STATELESS:
+  Request 1 ──▶ Server A (no memory)
+  Request 2 ──▶ Server B (no memory)   ✅ any server works
+  Request 3 ──▶ Server C (no memory)   ✅ easy to scale
+
+  STATEFUL:
+  Request 1 ──▶ Server A (holds session) ┐
+  Request 2 ──▶ Server A (same session)  ├ must be same server
+  Request 3 ──▶ Server A (same session)  ┘ ❌ sticky routing needed
+
+  BEST OF BOTH:
+  App Servers (stateless) + External State (Redis/DB)
+  Any server ──▶ Redis ──▶ get session
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Stateless services scale horizontally with no coordination — always prefer stateless where possible.</li>
+<li><span class="tip-icon">💡</span> When state is unavoidable, externalize it to Redis, Memcached, or a database so the app tier remains stateless.</li>
+<li><span class="tip-icon">💡</span> JWT tokens move session state to the client — the server stays stateless by validating the token on each request.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stateless services treat each request as independent — any server can handle any request.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stateful services maintain client context between requests — require sticky sessions or shared state.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The best pattern: stateless app servers + external state store (Redis/DB) — scalable and flexible.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> JWT enables stateless authentication by embedding session info in the token itself.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://12factor.net/processes" target="_blank" rel="noopener">12 Factor App: Processes</a></div>
+      <div class="reading-desc">The 12 Factor App principle on why services should be stateless processes.</div>
+      <div class="reading-url">12factor.net</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Stateless_protocol" target="_blank" rel="noopener">Wikipedia: Stateless Protocol</a></div>
+      <div class="reading-desc">Definition and examples of stateless protocols including HTTP.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Documentation</a></div>
+      <div class="reading-desc">How Redis is used as an external state store to make services stateless.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="101-message-queues-vs-service-bus.html" class="nav-btn nav-prev">← Message Queues vs Service Bus</a>
+  <a href="103-event-driven-vs-polling-architecture.html" class="nav-btn nav-next">Event-Driven vs Polling Architecture →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cache Replacement Policies — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 030 of 103 &middot; 29% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:29%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Cache Replacement Policies
+  </div>
+  <h1 class="hero-title">Cache Replacement Policies</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Algorithms</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>When implementing caching, it’s important to have a cache replacement policy to determine which items in the cache should be removed when the cache becomes full. Here are some of the most common cache replacement policies:</p>
+<h2 id=h2-1-least-recently-used-lru>1. Least Recently Used (LRU)</h2>
+<p>LRU is a cache replacement policy that removes the least recently used item from the cache when it becomes full. This policy assumes that items that have been accessed more recently are more likely to be accessed again in the future.</p>
+<h2 id=h2-2-least-frequently-used-lfu>2. Least Frequently Used (LFU)</h2>
+<p>LFU is a cache replacement policy that removes the least frequently used item from the cache when it becomes full. This policy assumes that items that have been accessed more frequently are more likely to be accessed again in the future.</p>
+<h2 id=h2-3-first-in-first-out-fifo>3. First In, First Out (FIFO)</h2>
+<p>FIFO is a cache replacement policy that removes the oldest item from the cache when it becomes full. This policy assumes that the oldest items in the cache are the least likely to be accessed again in the future.</p>
+<h2 id=h2-4-random-replacement>4. Random Replacement</h2>
+<p>Random replacement is a cache replacement policy that removes a random item from the cache when it becomes full. This policy doesn’t make any assumptions about the likelihood of future access and can be useful when the access pattern is unpredictable.</p>
+<h1 id=h1-comparison-of-different-replacement-policies>Comparison of different replacement policies</h1>
+<p>Each cache replacement policy has its advantages and disadvantages, and the best policy to use depends on the specific use case. LRU and LFU are generally more effective than FIFO and random replacement since they take into account the access pattern of the cache. However, LRU and LFU can be more expensive to implement since they require maintaining additional data structures to track access patterns. FIFO and random replacement are simpler to implement but may not be as effective in optimizing cache performance. Overall, the cache replacement policy used should be chosen carefully to balance the trade-off between performance and complexity.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache replacement policies are like deciding which books to keep on a small shelf when it gets full. LRU (Least Recently Used) removes the book you haven't opened in the longest time. LFU (Least Frequently Used) removes the book you've opened the fewest times overall. FIFO (First In, First Out) removes whichever book has been on the shelf the longest, regardless of use. Each strategy makes a different bet about which content will be needed next.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔴 Redis</div>
+      <div class="example-text">Redis supports multiple eviction policies including allkeys-lru, volatile-lru, allkeys-lfu, and noeviction. Production deployments choose based on access patterns: LRU works well for time-sensitive data like sessions, while LFU is better for stable popular data like product catalogs. Redis tracks access frequency using a probabilistic counter to keep LFU efficient.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's web search index uses sophisticated variants of LFU for caching query results, favoring results for high-traffic search terms. An obscure long-tail query is evicted before a common popular query even if the common query was cached more recently. This maximizes the cache hit rate for the majority of user traffic.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb uses LRU caching for property listing data, reasoning that recently viewed listings are more likely to be viewed again during an active search session. TTL-based expiration ensures that even LRU-retained items don't become stale. Combining LRU with TTL gives both recency-based eviction and freshness guarantees.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+LRU (Least Recently Used)
+ [A][B][C][D] ← D most recent
+ Add E (full): evict A (oldest used)
+ [B][C][D][E]
+
+LFU (Least Frequently Used)
+ A(5) B(2) C(8) D(1) ← counts
+ Add E (full): evict D (lowest count)
+ A(5) B(2) C(8) E(1)
+
+FIFO (First In, First Out)
+ [A][B][C][D] ← A arrived first
+ Add E (full): evict A (arrived first)
+ [B][C][D][E]
+
+TTL (Time To Live)
+ Each item expires after fixed time
+ Expired items evicted on access/bg
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the three main policies cold: LRU evicts the least recently accessed item, LFU evicts the least frequently accessed item, and FIFO evicts the oldest-inserted item.</li>
+<li><span class="tip-icon">💡</span> Discuss the LRU implementation: it requires a doubly linked list plus a hash map to achieve O(1) get and put — this is a classic interview question in itself.</li>
+<li><span class="tip-icon">💡</span> Explain when LFU outperforms LRU: when some items are accessed very frequently over a long period and LRU would evict them during a burst of one-time requests.</li>
+<li><span class="tip-icon">💡</span> Mention that many production caches (like Redis) combine policies — for example, LRU with TTL ensures both recency-based eviction and time-based expiration.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> LRU evicts the item that was least recently accessed and is the most widely used replacement policy.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> LFU evicts the item that has been accessed least often overall — better when popularity is stable.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> FIFO is simple but often suboptimal because it ignores access patterns.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TTL (Time-To-Live) is a complementary mechanism that expires items after a set time regardless of access.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> LRU can be implemented in O(1) time using a hash map paired with a doubly linked list.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_replacement_policies" target="_blank" rel="noopener">Cache Replacement Policies — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive academic coverage of all major cache eviction algorithms with complexity analysis.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Key Eviction Policies</a></div>
+      <div class="reading-desc">Official Redis documentation on configuring and choosing eviction policies for production caches.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">HTTP Caching — MDN Web Docs</a></div>
+      <div class="reading-desc">Explains TTL-based expiration in the context of browser and HTTP caching.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="029-types-of-caching.html" class="nav-btn nav-prev">← Types of Caching</a>
+  <a href="031-cache-invalidation.html" class="nav-btn nav-next">Cache Invalidation →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

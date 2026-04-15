@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scalability and Performance — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 008 of 103 &middot; 8% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:8%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Scalability and Performance
+  </div>
+  <h1 class="hero-title">Scalability and Performance</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Scalability</span> <span class="hero-tag">Performance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-horizontal-and-vertical-scaling-of-load-balancers>Horizontal and vertical scaling of load balancers</h2>
+<p>As traffic to an application increases, it is essential to ensure that the load balancer can handle the increased demand. There are two primary methods for scaling load balancers:</p>
+<ul>
+<li>
+<p><strong>Horizontal scaling:</strong> This involves adding more load balancer instances to distribute traffic among them. Horizontal scaling is particularly effective for active-active configurations, where each load balancer instance actively processes traffic. Horizontal scaling can be achieved using DNS load balancing or by implementing an additional load balancer layer to distribute traffic among the instances.</p>
+</li>
+<li>
+<p><strong>Vertical scaling:</strong> This involves increasing the resources (e.g., CPU, memory, and network capacity) of the existing load balancer instance(s) to handle increased traffic. Vertical scaling is often limited by the maximum capacity of a single instance, which is why horizontal scaling is typically preferred for large-scale applications.</p>
+</li>
+</ul>
+<h2 id=h2-connection-and-request-rate-limits>Connection and request rate limits</h2>
+<p>Managing the number of connections and request rates is crucial for optimizing the performance of load balancers. Overloading a load balancer or backend servers can result in decreased performance or even service outages. Implementing rate limiting and connection limits at the load balancer level can help prevent overloading and ensure consistent performance.</p>
+<p>Load balancers can enforce rate limits based on various criteria, such as IP addresses, client domains, or URL patterns. Implementing these limits can also help mitigate the impact of Denial of Service (DoS) attacks and prevent individual clients from monopolizing resources.</p>
+<h2 id=h2-caching-and-content-optimization>Caching and content optimization</h2>
+<p>Caching and content optimization can significantly improve the performance of load-balanced applications. Load balancers can cache static content, such as images, CSS, and JavaScript files, to reduce the load on backend servers and improve response times. Additionally, some load balancers support content optimization features like compression or minification, which can further improve performance and reduce bandwidth consumption.</p>
+<h2 id=h2-impact-of-load-balancers-on-latency>Impact of load balancers on latency</h2>
+<p>Introducing a load balancer into the request-response path adds an additional network hop, which can result in increased latency. While the impact is typically minimal, it is important to consider the potential latency introduced by the load balancer and optimize its performance accordingly.</p>
+<p>Optimizing the performance of the load balancer can be achieved through various strategies, including:</p>
+<ul>
+<li>
+<p><strong>Geographical distribution:</strong> Deploying load balancers and backend servers in geographically distributed locations can help reduce latency for users by ensuring that their requests are processed by a nearby instance.</p>
+</li>
+<li>
+<p><strong>Connection reuse:</strong> Many load balancers support connection reuse or keep-alive connections, which reduce the overhead of establishing new connections between the load balancer and backend servers for each request.</p>
+</li>
+<li>
+<p><strong>Protocol optimizations:</strong> Some load balancers support protocol optimizations, such as HTTP/2 or QUIC, which can improve performance by reducing latency and increasing throughput.</p>
+</li>
+</ul>
+<p>By focusing on these aspects of scalability and performance, you can ensure that your load balancer can handle increased traffic and provide consistent, fast service for your application's users.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Scalability in the context of load balancing is like a highway that can add more lanes during rush hour. When traffic increases, you simply open more lanes (add servers) rather than making each car faster. Performance means each car travels at maximum speed — both together mean you handle more traffic without anyone slowing down.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix scales its streaming infrastructure automatically using AWS Auto Scaling groups behind Elastic Load Balancers. When a popular show premieres and concurrent streams spike, new server instances are provisioned and added to the load balancer pool within minutes.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber experiences massive load spikes on New Year's Eve and during major events. Their load balancers work with auto-scaling to add ride-matching servers when request rates exceed thresholds, keeping dispatch latency below 100ms.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter scaled tweet delivery performance by sharding its load balancers by user segment. This reduced the blast radius of hot users while maintaining low latency for timeline delivery across millions of connections.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Low Load:                High Load:
+  ┌──────────┐            ┌──────────┐
+  │    LB    │            │    LB    │
+  └────┬─────┘            └──┬──┬───┘
+       │                     │  │   
+  ┌────▼────┐         ┌──────▼┐ ┌▼──────┐ ┌───────┐
+  │Server 1 │         │Server1│ │Server2│ │Server3│
+  └─────────┘         └───────┘ └───────┘ └───────┘
+  1 server enough      Auto-scaled to 3 servers
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain horizontal scaling (add more servers) vs vertical scaling (bigger servers) — load balancers are what make horizontal scaling effective.</li>
+<li><span class="tip-icon">💡</span> Mention that auto-scaling groups paired with load balancers achieve elastic scalability: the system grows and shrinks with demand automatically.</li>
+<li><span class="tip-icon">💡</span> Discuss connection draining: when scaling in (removing servers), the load balancer must wait for in-flight requests to complete before deregistering a node.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Load balancers are the enabler of horizontal scalability — without them, adding more servers does not help clients.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Auto-scaling integrations allow the server pool to grow and shrink based on real-time load metrics.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Performance is maximized when the load is evenly distributed so no single server becomes the bottleneck.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Connection draining ensures graceful scale-in without dropping active requests.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Scalability" target="_blank" rel="noopener">Scalability – Wikipedia</a></div>
+      <div class="reading-desc">Formal definition and taxonomy of scalability in computing systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/elasticloadbalancing/" target="_blank" rel="noopener">AWS Elastic Load Balancing with Auto Scaling</a></div>
+      <div class="reading-desc">How AWS ELB integrates with Auto Scaling groups for elastic capacity management.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/" target="_blank" rel="noopener">NGINX Performance Tuning</a></div>
+      <div class="reading-desc">NGINX documentation covering configuration for high-performance load balancing.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="007-high-availability-and-fault-tolerance.html" class="nav-btn nav-prev">← High Availability and Fault Tolerance</a>
+  <a href="009-challenges-of-load-balancers.html" class="nav-btn nav-next">Challenges of Load Balancers →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

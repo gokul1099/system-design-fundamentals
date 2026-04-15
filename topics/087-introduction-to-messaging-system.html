@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Messaging System — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 087 of 103 &middot; 84% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:84%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Messaging & Kafka › Introduction to Messaging System
+  </div>
+  <h1 class="hero-title">Introduction to Messaging System</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Messaging</span> <span class="hero-tag">Queue</span> <span class="hero-tag">Async</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-background>Background</h2>
+<p>One of the common challenges among distributed systems is handling a continuous influx of data from multiple sources. Imagine a log aggregation service that is receiving hundreds of log entries per second from different sources. The function of this log aggregation service is to store these logs on disk at a shared server and also build an index so that the logs can be searched later. A few challenges of this service are:</p>
+<ol>
+<li>How will the log aggregation service handle a spike of messages? If the service can handle (or buffer) 500 messages per second, what will happen if it starts receiving a higher number of messages per second? If we decide to have multiple instances of the log aggregation service, how do we divide the work among these instances?</li>
+<li>How can we receive messages from different types of sources? The sources producing (or consuming) these logs need to decide upon a common protocol and data format to send log messages to the log aggregation service. This leads us to a strongly coupled architecture between the producer and consumer of the log messages.</li>
+<li>What will happen to the log messages if the log aggregation service is down or unresponsive for some time?</li>
+</ol>
+<p>To efficiently manage such scenarios, distributed systems depend upon a messaging system.</p>
+<h2 id=h2-what-is-a-messaging-system>What is a messaging system?</h2>
+<p>A <strong>messaging system</strong> is responsible for transferring data among services, applications, processes, or servers. Such a system helps <strong>decouple</strong> different parts of a distributed system by providing an <strong>asynchronous</strong> way of transferring messaging between the sender and the receiver. Hence, all senders (or producers) and receivers (or consumers) focus on the data/message without worrying about the mechanism used to share the data.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A messaging system is like a postal service between applications. Instead of calling each other directly (phone call = synchronous), services drop letters into a post box (queue). The postal service (broker) holds and delivers them. The sender doesn't wait for the recipient to be home — they just leave the letter and move on.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon SQS</div>
+      <div class="example-text">SQS is AWS's managed message queue. It decouples order submission (front-end) from order processing (back-end). During a flash sale, millions of orders queue up in SQS without overwhelming the processing service.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber uses messaging queues to decouple ride requests from dispatch logic. A driver accepting a ride publishes an event to a queue; downstream services (notifications, billing, analytics) each consume it independently.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn built Kafka (originally) to handle activity stream events — profile views, connection requests, message sends. A single message can be consumed by multiple services: feed aggregator, notifications, analytics.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Messaging System Architecture
+
+  Producer A ──▶ ┌──────────────┐ ──▶ Consumer 1
+  Producer B ──▶ │   MESSAGE    │ ──▶ Consumer 2
+  Producer C ──▶ │   BROKER     │ ──▶ Consumer 3
+                 │  (Queue/Topic│
+                 └──────────────┘
+
+  Benefits:
+  ✅ Decoupling    ✅ Load leveling
+  ✅ Async         ✅ Durability
+  ✅ Fan-out       ✅ Replay
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always mention messaging when a system needs to handle traffic spikes — queues absorb bursts.</li>
+<li><span class="tip-icon">💡</span> Distinguish at-most-once, at-least-once, and exactly-once delivery semantics — they have different performance/complexity trade-offs.</li>
+<li><span class="tip-icon">💡</span> Dead letter queues (DLQs) are essential for handling poison messages that repeatedly fail processing.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Messaging systems decouple producers and consumers, enabling async communication.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Queues absorb traffic spikes — producers can write faster than consumers process.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Delivery guarantees: at-most-once (fast, may lose), at-least-once (safe, may duplicate), exactly-once (complex).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Fan-out: one message can be consumed by multiple independent consumers.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank" rel="noopener">AWS SQS Developer Guide</a></div>
+      <div class="reading-desc">Comprehensive guide to managed message queuing with SQS.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Message_queue" target="_blank" rel="noopener">Wikipedia: Message Queue</a></div>
+      <div class="reading-desc">Overview of message queue concepts, patterns, and implementations.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.enterpriseintegrationpatterns.com/" target="_blank" rel="noopener">Martin Fowler: Messaging Patterns</a></div>
+      <div class="reading-desc">Enterprise Integration Patterns — the definitive resource on messaging patterns.</div>
+      <div class="reading-url">enterpriseintegrationpatterns.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="086-what-are-ddos-attacks.html" class="nav-btn nav-prev">← What are DDoS Attacks</a>
+  <a href="088-introduction-to-kafka.html" class="nav-btn nav-next">Introduction to Kafka →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

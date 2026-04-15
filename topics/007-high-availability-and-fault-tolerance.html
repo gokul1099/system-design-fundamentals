@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>High Availability and Fault Tolerance — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 007 of 103 &middot; 7% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:7%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › High Availability and Fault Tolerance
+  </div>
+  <h1 class="hero-title">High Availability and Fault Tolerance</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">High Availability</span> <span class="hero-tag">Fault Tolerance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-redundancy-and-failover-strategies-for-load-balancers>Redundancy and failover strategies for load balancers</h2>
+<p>To ensure high availability and fault tolerance, load balancers should be designed and deployed with redundancy in mind. This means having multiple instances of load balancers that can take over if one fails. Redundancy can be achieved through several failover strategies:</p>
+<ul>
+<li>
+<p><strong>Active-passive configuration:</strong> In this setup, one load balancer (the active instance) handles all incoming traffic while the other (the passive instance) remains on standby. If the active load balancer fails, the passive instance takes over and starts processing requests. This configuration provides a simple and reliable failover mechanism but does not utilize the resources of the passive instance during normal operation.</p>
+</li>
+<li>
+<p><strong>Active-active configuration:</strong> In this setup, multiple load balancer instances actively process incoming traffic simultaneously. Traffic is distributed among the instances using methods such as DNS load balancing or an additional load balancer layer. If one instance fails, the others continue to process traffic with minimal disruption. This configuration provides better resource utilization and increased fault tolerance compared to the active-passive setup.</p>
+</li>
+</ul>
+<h2 id=h2-health-checks-and-monitoring>Health checks and monitoring</h2>
+<p>Effective health checks and monitoring are essential components of high availability and fault tolerance for load balancers. Health checks are periodic tests performed by the load balancer to determine the availability and performance of backend servers. By monitoring the health of backend servers, load balancers can automatically remove unhealthy servers from the server pool and avoid sending traffic to them, ensuring a better user experience and preventing cascading failures.</p>
+<p>Monitoring the load balancer itself is also crucial. By keeping track of performance metrics, such as response times, error rates, and resource utilization, we can detect potential issues and take corrective action before they lead to failures or service degradation.</p>
+<p>In addition to regular health checks and monitoring, it is essential to have proper alerting and incident response procedures in place. This ensures that the appropriate personnel are notified of any issues and can take action to resolve them quickly.</p>
+<h2 id=h2-synchronization-and-state-sharing>Synchronization and State Sharing</h2>
+<p>In active-active and active-passive configurations, it is crucial to ensure that the load balancer instances maintain a consistent view of the system's state, including the status of backend servers, session data, and other configuration settings. This can be achieved through various mechanisms, such as:</p>
+<ul>
+<li>
+<p><strong>Centralized configuration management:</strong> Using a centralized configuration store (e.g., etcd, Consul, or ZooKeeper) to maintain and distribute configuration data among load balancer instances ensures that all instances are using the same settings and are aware of changes.</p>
+</li>
+<li>
+<p><strong>State sharing and replication:</strong> In scenarios where load balancers must maintain session data or other state information, it is crucial to ensure that this data is synchronized and replicated across instances. This can be achieved through database replication, distributed caching systems (e.g., Redis or Memcached), or built-in state-sharing mechanisms provided by the load balancer software or hardware.</p>
+</li>
+</ul>
+<p>By addressing these aspects of high availability and fault tolerance, we can design and deploy load balancers that provide reliable, consistent service even in the face of failures or other issues.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">High availability is like a hospital with backup generators — even when the main power fails, critical systems keep running without interruption. Fault tolerance is like an airplane with multiple redundant engines — it can continue flying safely even if one engine fails mid-flight. Both aim for continuous operation, but fault tolerance means the system keeps working perfectly through failures, not just quickly recovering afterward.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon targets five-nines availability (99.999%) for its core shopping services, meaning less than 5 minutes of downtime per year. This is achieved through active-active multi-region deployments where multiple regions serve traffic simultaneously.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search uses fault tolerance through redundant index replicas and automatic request retries. If a serving shard fails, the query is transparently rerouted to a replica shard, maintaining sub-200ms response times.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare runs an Anycast network where every edge location is active. If an entire data center goes offline, BGP routing automatically redirects traffic to the next nearest location within seconds, without user impact.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌─────────────────────────────────────────┐
+  │         HIGH AVAILABILITY SETUP          │
+  └──────────────────┬──────────────────────┘
+                     │
+     ┌───────────────┴──────────────┐
+     │         LOAD BALANCER         │
+     └───────┬───────────┬───────────┘
+             │           │
+  ┌──────────▼──┐   ┌────▼────────┐
+  │  Region A   │   │  Region B   │
+  │  (active)   │   │  (active)   │
+  └─────────────┘   └─────────────┘
+   Active-Active: both serve traffic
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the availability nines table: 99.9% = 8.7 hrs/yr downtime, 99.99% = 52 min/yr, 99.999% = 5 min/yr — cite these to show quantitative thinking.</li>
+<li><span class="tip-icon">💡</span> Distinguish active-active (both nodes serve traffic) from active-passive (one standby) — active-active provides better utilization but requires conflict resolution.</li>
+<li><span class="tip-icon">💡</span> Explain that HA is a system property achieved through redundancy at every layer: load balancers, servers, databases, and network paths.</li>
+<li><span class="tip-icon">💡</span> Mention that health checks and automatic failover timers are critical — a system with redundancy but slow failover detection still has high MTTR.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> High availability ensures a system remains operational for a high percentage of time, typically measured in nines (99.9%, 99.99%).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Fault tolerance means the system continues operating correctly even when components fail, often requiring hardware or software redundancy.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Active-active deployments improve both availability and utilization compared to active-passive setups.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Every single point of failure (SPOF) in the critical path must be eliminated or mitigated for true high availability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SLAs define the contractual availability commitment; SLOs define internal targets that should be more stringent than SLAs.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/High_availability" target="_blank" rel="noopener">High Availability – Wikipedia</a></div>
+      <div class="reading-desc">Technical definition and approaches to high availability in computer systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Fault_tolerance" target="_blank" rel="noopener">Fault Tolerance – Wikipedia</a></div>
+      <div class="reading-desc">Covers fault tolerance mechanisms and how they differ from simple redundancy.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book – Availability</a></div>
+      <div class="reading-desc">Google SRE practices for measuring and achieving high availability at internet scale.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="006-stateless-vs-stateful-load-balancing.html" class="nav-btn nav-prev">← Stateless vs Stateful Load Balancing</a>
+  <a href="008-scalability-and-performance.html" class="nav-btn nav-next">Scalability and Performance →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

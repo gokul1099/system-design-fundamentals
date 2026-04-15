@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cache Read Strategies — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 032 of 103 &middot; 31% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:31%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Cache Read Strategies
+  </div>
+  <h1 class="hero-title">Cache Read Strategies</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Patterns</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Here are the two famous cache read strategies:</p>
+<h2 id=h2-read-through-cache>Read through cache</h2>
+<p>A read-through cache strategy is a caching mechanism where the cache itself is responsible for retrieving the data from the underlying data store when a cache miss occurs. In this strategy, the application requests data from the cache instead of the data store directly. If the requested data is not found in the cache (cache miss), the cache retrieves the data from the data store, updates the cache with the retrieved data, and returns the data to the application.</p>
+<p>This approach helps to maintain consistency between the cache and the data store, as the cache is always responsible for retrieving and updating the data. It also simplifies the application code since the application doesn't need to handle cache misses and data retrieval logic. The read-through cache strategy can significantly improve performance in scenarios where data retrieval from the data store is expensive, and cache misses are relatively infrequent.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache read and write strategies are like different systems a librarian might use for managing book checkouts. In cache-aside, the librarian checks the shelf first and only fetches from the warehouse on a miss — the patron does the legwork. In read-through, the librarian always handles fetching transparently. In write-through, every returned book is shelved immediately in both the shelf and the catalogue. In write-behind, the librarian batches catalogue updates for later, handling returns quickly but risking the catalogue being briefly out of date.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses cache-aside (lazy loading) for metadata like show descriptions and ratings. The application checks the cache first; on a miss, it fetches from the database and populates the cache. This pattern keeps unused data out of the cache and is simple to implement.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe uses write-through caching for payment state data to ensure that every write is immediately reflected in both the cache and the database. Given the financial nature of the data, consistency is paramount and the additional write latency is acceptable. This prevents a situation where a payment status is stale in cache.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter uses a read-through cache for timeline construction — the cache layer transparently fetches from the database on misses and populates itself. This simplifies application code by hiding cache population logic. Write-behind buffering is used for less critical metrics like view counts to absorb write spikes.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│ Cache-Aside (Lazy Loading)           │
+│ App → Cache (HIT: return)            │
+│ App → Cache (MISS) → DB → App→Cache  │
+├──────────────────────────────────────┤
+│ Read-Through                         │
+│ App → Cache → DB (on miss, auto)     │
+│ Cache populates itself transparently │
+├──────────────────────────────────────┤
+│ Write-Through                        │
+│ App writes → Cache → DB (sync)       │
+│ Always consistent, higher write cost │
+├──────────────────────────────────────┤
+│ Write-Behind (Write-Back)            │
+│ App writes → Cache → DB (async)      │
+│ Fast writes, risk of data loss       │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Be able to name and sketch all four strategies: cache-aside, read-through, write-through, and write-behind — interviewers often ask you to compare them.</li>
+<li><span class="tip-icon">💡</span> Cache-aside is the most commonly used in practice because it gives the application full control and prevents caching unused data.</li>
+<li><span class="tip-icon">💡</span> Write-behind improves write performance by batching DB writes asynchronously, but risks data loss if the cache fails before flushing.</li>
+<li><span class="tip-icon">💡</span> Discuss when to combine strategies: use read-through with write-through for strong consistency, or cache-aside with TTL for simplicity and resilience.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache-aside loads data into the cache only on a miss, giving the application full control over caching logic.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Read-through makes the cache layer responsible for fetching from the database transparently on misses.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Write-through updates both cache and database synchronously on every write, ensuring consistency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Write-behind (write-back) updates the cache immediately and the database asynchronously, improving write throughput.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Strategy choice depends on consistency requirements, write frequency, and acceptable risk of data loss.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">Caching Strategies — AWS</a></div>
+      <div class="reading-desc">AWS compares lazy loading, write-through, and other caching strategies with implementation guidance.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Caching Patterns</a></div>
+      <div class="reading-desc">Redis documentation covering read/write patterns and how to implement them with Redis.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_(computing)" target="_blank" rel="noopener">Cache (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">Academic overview of read and write strategies including write-back and write-through policies.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="031-cache-invalidation.html" class="nav-btn nav-prev">← Cache Invalidation</a>
+  <a href="033-cache-coherence-and-consistency-models.html" class="nav-btn nav-next">Cache Coherence and Consistency Models →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

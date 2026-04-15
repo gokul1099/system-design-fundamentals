@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is a Distributed File System — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 093 of 103 &middot; 90% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:90%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Scalability & Storage › What is a Distributed File System
+  </div>
+  <h1 class="hero-title">What is a Distributed File System</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DFS</span> <span class="hero-tag">Storage</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Distributed File Systems are a type of file system that manage the storage and retrieval of data across multiple servers and locations, making the distributed nature of the storage transparent to the user. These systems are designed to provide reliable, efficient access to files over a network, typically in a large-scale environment.</p>
+<h2 id=h2-key-characteristics>Key Characteristics</h2>
+<h3 id=h3-data-distribution>Data Distribution</h3>
+<ul>
+<li>Files are stored across multiple physical servers, which may be spread across different geographic locations. This distribution enhances data availability and reliability.</li>
+</ul>
+<h3 id=h3-transparency>Transparency</h3>
+<ul>
+<li>The complexity of the underlying distributed architecture is abstracted away from the user. Users interact with the system as if it were a local file system.</li>
+</ul>
+<h3 id=h3-scalability>Scalability</h3>
+<ul>
+<li>They can handle large amounts of data and a large number of users or clients. The system can be scaled by adding more servers.</li>
+</ul>
+<h3 id=h3-fault-tolerance>Fault Tolerance</h3>
+<ul>
+<li>Most distributed file systems are designed to handle failures gracefully. Data is often replicated across multiple nodes to ensure availability and durability.</li>
+</ul>
+<h3 id=h3-consistency>Consistency</h3>
+<ul>
+<li>Ensures that file updates are propagated across the system, maintaining consistency. Some systems provide strong consistency while others offer eventual consistency.</li>
+</ul>
+<h2 id=h2-common-use-cases>Common Use Cases</h2>
+<ol>
+<li>
+<p><strong>Cloud Storage Services</strong>: Services like Google Drive, Dropbox, and others use distributed file systems to store user files across many servers.</p>
+</li>
+<li>
+<p><strong>Big Data Applications</strong>: Systems like Hadoop Distributed File System (HDFS) are specifically designed for storing and processing large datasets.</p>
+</li>
+<li>
+<p><strong>Content Delivery Networks</strong>: Distributing content across different regions to improve access speed and reliability.</p>
+</li>
+<li>
+<p><strong>High-Performance Computing</strong>: Where large datasets need to be accessed and processed concurrently by multiple systems.</p>
+</li>
+</ol>
+<h2 id=h2-examples-of-distributed-file-systems>Examples of Distributed File Systems</h2>
+<ol>
+<li>
+<p><strong>Hadoop Distributed File System (HDFS)</strong>: Designed to store large data sets reliably and stream them at high bandwidth to user applications.</p>
+</li>
+<li>
+<p><strong>Google File System (GFS)</strong>: Optimized for Google's own large-scale data processing needs.</p>
+</li>
+<li>
+<p><strong>Microsoft Distributed File System (DFS)</strong>: Used in Windows Server environments, allowing files distributed across multiple servers to appear as if they are in one place.</p>
+</li>
+<li>
+<p><strong>Amazon Elastic File System (EFS)</strong>: A cloud-based file storage service for use with Amazon EC2.</p>
+</li>
+<li>
+<p><strong>Ceph File System (CephFS)</strong>: A POSIX-compliant file system that uses the Ceph storage architecture to store data across a network.</p>
+</li>
+</ol>
+<h2 id=h2-challenges>Challenges</h2>
+<ul>
+<li><strong>Data Synchronization</strong>: Keeping data synchronized across multiple nodes is challenging, especially under heavy load or in the event of network partitions.</li>
+<li><strong>Security</strong>: Ensuring data security across a distributed network can be complex.</li>
+<li><strong>Performance</strong>: Network latency can impact performance, especially when compared to local file systems.</li>
+</ul>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>Distributed File Systems are crucial for modern computing environments where large-scale data storage, high availability, and remote access are required. They provide an effective solution for managing data across multiple locations but come with challenges that need careful management, especially regarding synchronization, security, and performance.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A distributed file system is like a massive shared hard drive that secretly spans hundreds of machines. From your application's perspective, you just write files to a path and read them back. Behind the scenes, the DFS splits files into blocks and stores copies on multiple machines — so even if several machines fail, your files survive.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google (GFS)</div>
+      <div class="example-text">Google File System (GFS), described in the 2003 paper, was designed for large files written once and read many times (MapReduce input). It uses 64MB chunks, 3 replicas per chunk, and a single master for metadata — inspiring HDFS.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐘 Hadoop (HDFS)</div>
+      <div class="example-text">HDFS powers data lakes at Yahoo, Facebook, and LinkedIn. A 10,000-node HDFS cluster can store exabytes of data. DataNodes store 128MB blocks; the NameNode holds the entire file system metadata in RAM.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon S3</div>
+      <div class="example-text">S3 is a cloud-native distributed file/object store. Objects are replicated across multiple AZs automatically. The simple REST API (PUT/GET/DELETE) hides the distributed complexity — it's the most widely used DFS in the world.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Distributed File System Architecture
+
+  Client
+    │
+    ├──▶ Metadata Server (NameNode)
+    │        stores: file→block mappings
+    │
+    └──▶ Data Nodes (DataNodes)
+             ┌──────┬──────┬──────┐
+             │ DN 1 │ DN 2 │ DN 3 │
+             │blk A │blk A │blk B │  ← 3× replication
+             │blk C │blk B │blk A │
+             └──────┴──────┴──────┘
+
+  Read: client asks NameNode → gets block locations
+         → reads directly from nearest DataNode
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> The NameNode is a single point of failure in classic HDFS — mention HA NameNode (standby) and HDFS Federation.</li>
+<li><span class="tip-icon">💡</span> S3 is the modern answer for most DFS use cases — managed, scalable, and integrates with everything.</li>
+<li><span class="tip-icon">💡</span> DFS is optimized for large sequential reads, not small random I/O — don't use HDFS for a transactional database.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A DFS splits files into blocks and distributes them across many machines with replication.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Metadata server knows where every block lives; data nodes store the actual data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HDFS replicates each block 3 times across different rack-aware nodes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> S3 is the cloud-native DFS — use it unless you have specific on-premise or latency requirements.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://research.google/pubs/the-google-file-system/" target="_blank" rel="noopener">Google File System Paper (2003)</a></div>
+      <div class="reading-desc">The seminal paper that described GFS and inspired HDFS.</div>
+      <div class="reading-url">research.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HdfsDesign.html" target="_blank" rel="noopener">HDFS Architecture Guide</a></div>
+      <div class="reading-desc">Official HDFS design document covering NameNode, DataNode, and replication.</div>
+      <div class="reading-url">hadoop.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/s3/index.html" target="_blank" rel="noopener">Amazon S3 Documentation</a></div>
+      <div class="reading-desc">Complete S3 reference — the most widely used distributed storage system.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="092-scalability-and-performance-2.html" class="nav-btn nav-prev">← Scalability and Performance (Advanced)</a>
+  <a href="094-architecture-of-a-distributed-file-system.html" class="nav-btn nav-next">Architecture of a Distributed File System →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

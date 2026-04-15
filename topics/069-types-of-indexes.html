@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Types of Indexes — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 069 of 103 &middot; 67% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:67%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › Types of Indexes
+  </div>
+  <h1 class="hero-title">Types of Indexes</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Indexes</span> <span class="hero-tag">Databases</span> <span class="hero-tag">Performance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Database indexes are designed to improve the speed and efficiency of data retrieval operations. They function by maintaining a separate structure that points to the rows in a table, allowing the database to look up data more quickly without scanning the entire table.</p>
+<p>There are various types of database indexes, each with its unique characteristics and use cases. Understanding these different index types is crucial for optimizing the performance of database systems and ensuring efficient data retrieval.</p>
+<p>In this section, we will explore several common types of database indexes.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Different index types are like different kinds of reference tools. A B-tree index is like a sorted card catalog — you can find exact entries or browse ranges alphabetically. A hash index is like a numbered locker system — you instantly know locker 2847 from a combination, but you can't browse 'all lockers in the 2000s.' A full-text index is like a book's word index — it helps you find documents containing specific words but doesn't help with numeric ranges. A composite index is like a catalog sorted first by author, then by title — incredibly fast for 'author + title' searches, but the author part must come first.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🌳 PostgreSQL/Airbnb</div>
+      <div class="example-text">Airbnb uses B-tree indexes on listing price and date fields, which support range queries like 'price BETWEEN 50 AND 150' or 'available_date > tomorrow.' B-tree indexes maintain sorted order, making them the best choice when queries involve comparison operators and range scans.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">⚡ Redis</div>
+      <div class="example-text">Redis's hash data structure underpins its key-value lookup — the hash function maps any key string to an O(1) bucket lookup. This is pure hash indexing: exact-match lookups are instant, but you cannot ask Redis for 'all keys starting with user:' efficiently without a separate index structure.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search uses inverted full-text indexes — for the query 'distributed systems,' the full-text index finds all documents containing both words instantly. Elasticsearch, widely used at LinkedIn, Twitter, and Cloudflare, is built entirely around full-text inverted indexes for search functionality.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              Index Types Comparison                 │
+├──────────────┬─────────────┬────────────────────────┤
+│  Type        │  Structure  │  Best For              │
+├──────────────┼─────────────┼────────────────────────┤
+│ B-tree       │ Sorted tree │ Range, equality, sort  │
+│ Hash         │ Hash table  │ Exact equality only    │
+│ Full-text    │ Inverted    │ Text search / keywords │
+│ Composite    │ Multi-col   │ Multi-column queries   │
+│ Bitmap       │ Bit array   │ Low-cardinality cols   │
+├──────────────┴─────────────┴────────────────────────┤
+│  Composite Index Column Order Rule:                 │
+│  INDEX(a, b, c) → queries on (a), (a,b), (a,b,c)  │
+│  NOT efficient for queries on (b) or (c) alone      │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know that B-tree is the default index in PostgreSQL and MySQL — it supports equality, range, and sort operations efficiently and is the right choice for most situations.</li>
+<li><span class="tip-icon">💡</span> Explain the composite index prefix rule: an index on (last_name, first_name) accelerates queries filtering by last_name or last_name + first_name, but NOT queries filtering only by first_name.</li>
+<li><span class="tip-icon">💡</span> Hash indexes are O(1) for equality lookups but cannot support range queries or sorting — mention this constraint when discussing hash index use cases.</li>
+<li><span class="tip-icon">💡</span> Full-text indexes use inverted index structures to map words to documents — they're the foundation of any search feature and require specialized query syntax (MATCH/AGAINST or similar).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> B-tree indexes are the universal default, supporting range queries, equality, and sorting in O(log N) time.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Hash indexes provide O(1) exact-match lookups but cannot support range queries, making them suitable only for equality comparisons.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Full-text indexes use inverted structures to enable efficient text search across document content.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Composite indexes cover multiple columns, but query filters must use the leftmost prefix of the indexed columns to benefit from the index.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Choosing the right index type requires understanding the query patterns — range queries need B-trees, text search needs full-text, and pure key lookups can use hash indexes.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database_index" target="_blank" rel="noopener">Database Index - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia covers B-tree, hash, bitmap, and full-text index structures with performance characteristics for each.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/B-tree" target="_blank" rel="noopener">B-tree - Wikipedia</a></div>
+      <div class="reading-desc">Deep dive into B-tree data structure, the foundation of most database indexes, including insertion, deletion, and search algorithms.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL's index documentation covers B-tree, hash, GIN, GiST, and partial indexes with concrete SQL examples.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="068-what-are-indexes.html" class="nav-btn nav-prev">← What are Indexes</a>
+  <a href="070-introduction-to-bloom-filters.html" class="nav-btn nav-next">Introduction to Bloom Filters →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

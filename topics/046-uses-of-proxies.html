@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uses of Proxies — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 046 of 103 &middot; 45% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:45%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › Uses of Proxies
+  </div>
+  <h1 class="hero-title">Uses of Proxies</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Proxy</span> <span class="hero-tag">Use Cases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Proxy servers serve a variety of purposes in networked environments, often enhancing performance, security, and privacy. The following are some common uses of proxy servers:</p>
+<h2 id=h2-1-performance-enhancement>1. Performance enhancement</h2>
+<p>Proxy servers can cache frequently accessed content, reducing the need for repeated requests to the target server. This caching mechanism can improve response times, reduce bandwidth usage, and decrease the load on target servers.</p>
+<h2 id=h2-2-security-enhancement>2. Security enhancement</h2>
+<p>Proxy servers can act as a protective barrier between clients and target servers, enforcing access control policies and filtering malicious or harmful content. By monitoring and filtering network traffic, proxy servers can help protect internal networks from external threats and prevent unauthorized access to sensitive resources.</p>
+<h2 id=h2-3-anonymity-and-privacy>3. Anonymity and privacy</h2>
+<p>Proxy servers can mask the client's IP address and other identifying information, providing a level of anonymity and privacy when accessing the internet or other network resources. This is particularly useful for clients who wish to access content that is restricted based on geographic location or to avoid tracking and surveillance.</p>
+<h2 id=h2-4-load-balancing>4. Load balancing</h2>
+<p>Reverse proxy servers can distribute client requests across multiple target servers, preventing individual servers from becoming overburdened and ensuring high availability and performance. Load balancing can be particularly beneficial for large-scale applications and services with high levels of concurrent users or requests.</p>
+<h2 id=h2-5-centralized-control-and-monitoring>5. Centralized control and monitoring</h2>
+<p>Proxy servers enable centralized control and monitoring of network traffic, facilitating easier administration and management of network resources. Administrators can implement policies, filters, and other configurations on the proxy server to manage traffic and optimize network performance.</p>
+<h2 id=h2-6-content-filtering-and-access-control>6. Content filtering and access control</h2>
+<p>Proxy servers can be configured to block or filter specific content types, websites, or services based on predetermined policies. This functionality is often used in educational and corporate environments to enforce acceptable use policies or comply with regulatory requirements.</p>
+<h2 id=h2-7-content-adaptation-and-transformation>7. Content adaptation and transformation</h2>
+<p>Proxy servers can modify and adapt content to suit specific client requirements, such as altering image formats, compressing data, or adjusting content for mobile or low-bandwidth devices. This capability enhances the user experience by ensuring that content is optimized for the client's device and network conditions.</p>
+<h2 id=h2-8-logging-and-auditing>8. Logging and auditing</h2>
+<p>Proxy servers can log and record network traffic, providing a valuable source of information for auditing, troubleshooting, and monitoring purposes. Detailed logs can help administrators identify performance issues, security vulnerabilities, or policy violations and take appropriate corrective action.</p>
+<h2 id=h2-9-ssl-termination>9. SSL termination</h2>
+<p>Reverse proxy servers can handle SSL/TLS encryption and decryption, offloading this task from the target servers. This process, known as SSL termination, can improve the performance of target servers by reducing the computational overhead associated with encryption and decryption.</p>
+<h2 id=h2-10-application-level-gateway>10. Application-level gateway</h2>
+<p>Proxy servers can act as an application-level gateway, processing and forwarding application-specific requests and responses between clients and servers. This capability allows proxy servers to provide added functionality, such as authentication, content filtering, or protocol translation, at the application level.</p>
+<p>Proxy servers play a crucial role in enhancing the performance, security, and privacy of networked environments, providing numerous benefits to both clients and target servers.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Proxies serve many roles, like a versatile office manager who handles different tasks for different people. For employees (clients), the manager can filter what websites they visit (content filtering), keep their identity hidden when making external calls (anonymity), and enforce company policies. For the company's services (servers), the manager receives all incoming visitors, routes them to the right department (load balancing), checks their credentials at the door (authentication), and handles paperwork (SSL, logging).</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's reverse proxy handles SSL/TLS termination for millions of websites, decrypting HTTPS traffic at the edge before forwarding over HTTP to origin servers. This offloads expensive cryptographic operations from origin servers and allows Cloudflare to inspect and filter traffic. Customers get HTTPS support without managing certificates themselves.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's corporate network uses forward proxies to filter employee internet access, log traffic for security compliance, and enforce access control policies. All outbound traffic from internal networks flows through these proxies. Security teams can monitor for data exfiltration attempts and block malicious or unauthorized destinations.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe uses reverse proxies as API gateways that handle rate limiting, authentication, and request routing to internal services. All external API calls hit the proxy first, which validates API keys and enforces per-customer rate limits before any internal service is involved. This centralizes security enforcement in one place.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│          Uses of Proxies             │
+│                                      │
+│  Load Balancing                      │
+│  Proxy → Server A / B / C           │
+│                                      │
+│  SSL Termination                     │
+│  HTTPS → Proxy → HTTP → Server       │
+│                                      │
+│  Caching                             │
+│  Proxy caches responses              │
+│                                      │
+│  Authentication / Rate Limiting      │
+│  Proxy validates before forwarding   │
+│                                      │
+│  Anonymity / Privacy                 │
+│  Hides client or server identity     │
+│                                      │
+│  Content Filtering                   │
+│  Proxy blocks restricted content     │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> List the key uses systematically: load balancing, SSL termination, caching, authentication/authorization, rate limiting, logging, content filtering, and anonymity.</li>
+<li><span class="tip-icon">💡</span> Explain that centralizing these concerns at the proxy layer follows the single-responsibility principle for the services behind it — backend services can focus on business logic.</li>
+<li><span class="tip-icon">💡</span> Service mesh proxies (like Envoy, used in Istio) are a modern evolution where each microservice gets a sidecar proxy that handles all network concerns automatically.</li>
+<li><span class="tip-icon">💡</span> Discuss the trade-off: proxies add a network hop and can become a bottleneck or single point of failure if not properly deployed with redundancy.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Proxies centralize cross-cutting concerns like SSL termination, authentication, and rate limiting away from backend services.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Load balancing proxies distribute incoming requests across multiple backend servers based on configurable algorithms.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching proxies store responses and serve them directly without forwarding every request to the backend.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Content-filtering proxies inspect and block traffic based on policy — common in corporate networks and parental controls.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Service mesh sidecar proxies handle all network communication for microservices automatically, enabling observability and security.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Proxy_server" target="_blank" rel="noopener">Proxy Server — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive coverage of all proxy use cases including anonymity, filtering, and load balancing.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/network-layer/what-is-a-proxy-server/" target="_blank" rel="noopener">What is a Proxy Server? — Cloudflare</a></div>
+      <div class="reading-desc">Clear explanation of proxy server use cases including SSL termination and DDoS protection.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/" target="_blank" rel="noopener">Nginx as a Reverse Proxy</a></div>
+      <div class="reading-desc">Official Nginx documentation demonstrating proxy use cases for SSL, caching, and load balancing.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="045-what-is-a-proxy-server.html" class="nav-btn nav-prev">← What is a Proxy Server</a>
+  <a href="047-vpn-vs-proxy-server.html" class="nav-btn nav-next">VPN vs Proxy Server →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

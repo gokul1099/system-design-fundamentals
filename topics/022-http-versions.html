@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTTP 1.0 vs 1.1 vs 2.0 vs 3.0 — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 022 of 103 &middot; 21% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:21%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Networking › HTTP 1.0 vs 1.1 vs 2.0 vs 3.0
+  </div>
+  <h1 class="hero-title">HTTP 1.0 vs 1.1 vs 2.0 vs 3.0</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 9 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">HTTP</span> <span class="hero-tag">Performance</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>The <strong>HyperText Transfer Protocol (HTTP)</strong> is the backbone of data communication on the World Wide Web. Over the years, HTTP has evolved through various versions—<strong>1.0</strong>, <strong>1.1</strong>, <strong>2.0</strong>, and <strong>3.0</strong>—each introducing enhancements to improve performance, security, and efficiency. Understanding these versions is essential for software engineers to design and optimize web applications effectively.</p>
+<h2 id=h2-overview-of-http-versions>Overview of HTTP Versions</h2>
+<ol>
+<li><strong>HTTP/1.0</strong> (Released in 1996)</li>
+<li><strong>HTTP/1.1</strong> (Released in 1997, updated multiple times)</li>
+<li><strong>HTTP/2.0</strong> (Released in 2015)</li>
+<li><strong>HTTP/3.0</strong> (Released in 2020)</li>
+</ol>
+<h2 id=h2-http10>HTTP/1.0</h2>
+<h3 id=h3-key-features>Key Features:</h3>
+<ul>
+<li><strong>Simple Request-Response Model:</strong> Each request opens a new TCP connection, and the connection is closed after the response.</li>
+<li><strong>Stateless Protocol:</strong> Does not retain session information between requests.</li>
+<li><strong>Basic Headers:</strong> Supports essential headers for content negotiation and caching.</li>
+</ul>
+<h3 id=h3-improvements-over-previous-protocols>Improvements Over Previous Protocols:</h3>
+<ul>
+<li>Introduced the concept of persistent connections, albeit limited.</li>
+<li>Allowed for more structured and standardized requests and responses compared to earlier, more primitive protocols.</li>
+</ul>
+<h3 id=h3-practical-use-case>Practical Use Case:</h3>
+<p>In the early days of the web, HTTP/1.0 was sufficient for serving simple web pages with minimal resources. For example, static websites or early blogs that didn’t require dynamic content benefited from HTTP/1.0’s straightforward approach.</p>
+<h2 id=h2-http11>HTTP/1.1</h2>
+<h3 id=h3-key-features>Key Features:</h3>
+<ul>
+<li><strong>Persistent Connections:</strong> Keeps the TCP connection open for multiple requests/responses, reducing latency.</li>
+<li><strong>Chunked Transfer Encoding:</strong> Allows data to be sent in chunks, enabling the server to start sending a response before knowing its total size.</li>
+<li><strong>Enhanced Caching Mechanisms:</strong> Improved headers for better caching strategies.</li>
+<li><strong>Host Header:</strong> Supports virtual hosting by allowing multiple domains to share the same IP address.</li>
+</ul>
+<h3 id=h3-improvements-over-http10>Improvements Over HTTP/1.0:</h3>
+<ul>
+<li><strong>Reduced Latency:</strong> Persistent connections minimize the overhead of establishing new connections for each request.</li>
+<li><strong>Better Resource Management:</strong> More efficient use of network resources through pipelining (though limited in practice).</li>
+<li><strong>Support for Virtual Hosting:</strong> Enables hosting multiple websites on a single server/IP address.</li>
+</ul>
+<h3 id=h3-practical-use-case>Practical Use Case:</h3>
+<p>Modern websites rely heavily on HTTP/1.1 for handling multiple simultaneous requests efficiently. For instance, an e-commerce site serving product images, scripts, and stylesheets benefits from persistent connections to load resources faster.</p>
+<h2 id=h2-http20>HTTP/2.0</h2>
+<h3 id=h3-key-features>Key Features:</h3>
+<ul>
+<li><strong>Binary Protocol:</strong> Translates HTTP into a binary format, making it more efficient to parse and less error-prone.</li>
+<li><strong>Multiplexing:</strong> Allows multiple requests and responses to be in flight simultaneously over a single connection, eliminating head-of-line blocking.</li>
+<li><strong>Header Compression (HPACK):</strong> Reduces the size of HTTP headers, decreasing bandwidth usage.</li>
+<li><strong>Server Push:</strong> Enables servers to send resources to clients proactively, anticipating future requests.</li>
+</ul>
+<h3 id=h3-improvements-over-http11>Improvements Over HTTP/1.1:</h3>
+<ul>
+<li><strong>Performance Boost:</strong> Significant reductions in page load times due to multiplexing and header compression.</li>
+<li><strong>Efficient Resource Utilization:</strong> Better management of network resources with a single connection handling multiple streams.</li>
+<li><strong>Enhanced User Experience:</strong> Faster interactions and smoother performance for users accessing complex web applications.</li>
+</ul>
+<h3 id=h3-practical-use-case>Practical Use Case:</h3>
+<p>High-traffic websites like social media platforms, streaming services, and large e-commerce sites leverage HTTP/2.0 to deliver rich, interactive content swiftly. For example, streaming a high-definition video on a platform like YouTube benefits from HTTP/2.0’s ability to handle multiple data streams efficiently.</p>
+<h2 id=h2-http30>HTTP/3.0</h2>
+<h3 id=h3-key-features>Key Features:</h3>
+<ul>
+<li><strong>Built on QUIC Protocol:</strong> Utilizes QUIC (Quick UDP Internet Connections) instead of TCP, enhancing speed and reliability.</li>
+<li><strong>Improved Latency:</strong> Faster connection establishment with 0-RTT (Zero Round Trip Time) handshake.</li>
+<li><strong>Better Handling of Packet Loss:</strong> Enhanced resilience to network issues, maintaining performance even in unstable conditions.</li>
+<li><strong>Built-in Encryption:</strong> QUIC integrates TLS 1.3, ensuring secure data transmission by default.</li>
+</ul>
+<h3 id=h3-improvements-over-http20>Improvements Over HTTP/2.0:</h3>
+<ul>
+<li><strong>Faster Connections:</strong> QUIC’s UDP-based approach allows quicker data transfer and reduced latency.</li>
+<li><strong>Enhanced Security:</strong> Built-in encryption simplifies secure communication without additional overhead.</li>
+<li><strong>Superior Performance in Real-World Conditions:</strong> More robust against packet loss and varying network conditions, ensuring consistent performance.</li>
+</ul>
+<h3 id=h3-practical-use-case>Practical Use Case:</h3>
+<p>Applications requiring real-time data transmission, such as online gaming, video conferencing, and live streaming, greatly benefit from HTTP/3.0. For instance, video conferencing tools like Zoom or Microsoft Teams can achieve lower latency and smoother video streams using HTTP/3.0’s QUIC protocol.</p>
+<h2 id=h2-key-differences-summary>Key Differences Summary</h2>
+<div class="MuiBox-root css-1h3kb9f"><table class="MuiTable-root css-122pvub"><thead><tr><th>Feature<th>HTTP/1.0<th>HTTP/1.1<th>HTTP/2.0<th>HTTP/3.0<tbody><tr><td><strong>Release Year</strong><td>1996<td>1997<td>2015<td>2020<tr><td><strong>Connection Model</strong><td>New connection per request<td>Persistent connections<td>Multiplexed streams over single connection<td>Single connection using QUIC (UDP)<tr><td><strong>Protocol Type</strong><td>Text-based<td>Text-based<td>Binary<td>Binary<tr><td><strong>Latency</strong><td>Higher due to multiple connections<td>Reduced with persistent connections<td>Lower with multiplexing<td>Even lower with QUIC’s faster handshake<tr><td><strong>Header Compression</strong><td>No<td>Limited<td>Yes (HPACK)<td>Enhanced (QPACK in QUIC)<tr><td><strong>Security</strong><td>Optional (usually none)<td>Optional (usually none)<td>Optional (usually with TLS)<td>Mandatory (integrated TLS 1.3)<tr><td><strong>Performance in Packet Loss</strong><td>Poor<td>Poor<td>Better<td>Excellent<tr><td><strong>Use Cases</strong><td>Simple, static websites<td>Dynamic websites, e-commerce<td>High-traffic, interactive web apps<td>Real-time applications, streaming</table></div>
+<h2 id=h2-why-upgrade-to-newer-http-versions>Why Upgrade to Newer HTTP Versions?</h2>
+<ol>
+<li><strong>Performance Enhancements:</strong> Newer versions significantly reduce load times and improve user experience.</li>
+<li><strong>Security Improvements:</strong> Enhanced encryption and secure protocols protect data better.</li>
+<li><strong>Scalability:</strong> Efficient handling of multiple requests supports larger, more complex applications.</li>
+<li><strong>Future-Proofing:</strong> Adopting the latest standards ensures compatibility with emerging technologies and user expectations.</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>The evolution of HTTP from <strong>1.0</strong> to <strong>3.0</strong> showcases the web’s ongoing quest for speed, efficiency, and security. Each version builds upon its predecessor, introducing features that address the growing demands of modern web applications. As a software engineer, leveraging the advancements in HTTP protocols can lead to more robust, performant, and secure applications.</p>
+<h2 id=h2-quick-reference>Quick Reference</h2>
+<ul>
+<li>
+<p><strong>HTTP/1.0</strong></p>
+<ul>
+<li><strong>Release Year:</strong> 1996</li>
+<li><strong>Connection:</strong> New per request</li>
+<li><strong>Use Case:</strong> Simple, static websites</li>
+</ul>
+</li>
+<li>
+<p><strong>HTTP/1.1</strong></p>
+<ul>
+<li><strong>Release Year:</strong> 1997</li>
+<li><strong>Connection:</strong> Persistent</li>
+<li><strong>Use Case:</strong> Dynamic websites, e-commerce</li>
+</ul>
+</li>
+<li>
+<p><strong>HTTP/2.0</strong></p>
+<ul>
+<li><strong>Release Year:</strong> 2015</li>
+<li><strong>Connection:</strong> Multiplexed streams</li>
+<li><strong>Use Case:</strong> High-traffic, interactive web apps</li>
+</ul>
+</li>
+<li>
+<p><strong>HTTP/3.0</strong></p>
+<ul>
+<li><strong>Release Year:</strong> 2020</li>
+<li><strong>Connection:</strong> QUIC (UDP-based)</li>
+<li><strong>Use Case:</strong> Real-time applications, streaming</li>
+</ul>
+</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">HTTP versions are like generations of a highway system. HTTP 1.0 is a single-lane dirt road — one car (request) at a time, and you must return to the start after each trip. HTTP 1.1 added a multi-lane highway with persistent connections. HTTP/2 is like a smart interchange routing multiple cars simultaneously. HTTP/3 is a Hyperloop — it abandons the old road entirely for a faster, more reliable tunnel (QUIC over UDP).</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google invented SPDY, which became HTTP/2, to address performance limitations they experienced at scale. HTTP/2 multiplexing eliminated head-of-line blocking for Google Search's many parallel sub-requests, reducing page load times measurably.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare was among the first CDNs to support HTTP/3 (QUIC) in production, finding that mobile users on lossy networks benefit most from QUIC's independent stream delivery — a lost packet only affects one stream, not all multiplexed requests as in HTTP/2.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">👤 Facebook/Meta</div>
+      <div class="example-text">Facebook adopted HTTP/2 for their mobile API traffic, using header compression (HPACK) to reduce the overhead of repeated headers like cookie and authorization tokens that appear in every API call from the mobile app.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  HTTP/1.0  req1──resp1──req2──resp2 (no persist)
+  HTTP/1.1  req1──req2──resp1──resp2 (pipelining)
+            [persistent connection, head-of-line blocking]
+  HTTP/2    ┌───────────────────────────┐
+            │ Stream1: req──────────resp │
+            │ Stream2: req────resp       │ (multiplexed)
+            │ Stream3: req──resp         │
+            └───────────────────────────┘
+  HTTP/3    Same as HTTP/2 but over QUIC/UDP
+            [no TCP head-of-line blocking]
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> For each HTTP version, state the key problem it solved: 1.0→persistent connections (1.1), head-of-line blocking (2), TCP-level HOL blocking (3).</li>
+<li><span class="tip-icon">💡</span> HTTP/2 multiplexing is the most important feature to explain: multiple streams over a single TCP connection, each prioritized independently.</li>
+<li><span class="tip-icon">💡</span> Mention that HTTP/2 server push (proactively sending resources) was largely a failed experiment and most implementations deprecated it — showing you know nuanced real-world outcomes.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HTTP/1.0 uses a new TCP connection per request; HTTP/1.1 introduced persistent connections and pipelining.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HTTP/2 introduces full request multiplexing over a single TCP connection, eliminating application-level head-of-line blocking.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HTTP/2 HPACK header compression significantly reduces overhead for APIs that send large headers (cookies, auth tokens) on every request.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HTTP/3 replaces TCP with QUIC (UDP-based), eliminating TCP-level head-of-line blocking and enabling connection migration.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> HTTP/3 is especially beneficial for mobile users on unreliable networks where TCP suffers from frequent retransmissions.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP" target="_blank" rel="noopener">Evolution of HTTP – MDN</a></div>
+      <div class="reading-desc">MDN documentation tracing HTTP from version 1.0 through HTTP/3 with technical detail.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/HTTP/2" target="_blank" rel="noopener">HTTP/2 – Wikipedia</a></div>
+      <div class="reading-desc">Technical overview of HTTP/2 features including multiplexing, header compression, and server push.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/HTTP/3" target="_blank" rel="noopener">HTTP/3 – Wikipedia</a></div>
+      <div class="reading-desc">Covers HTTP/3 and QUIC protocol design, motivation, and differences from HTTP/2.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="021-tcp-vs-udp.html" class="nav-btn nav-prev">← TCP vs UDP</a>
+  <a href="023-url-vs-uri-vs-urn.html" class="nav-btn nav-next">URL vs URI vs URN →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

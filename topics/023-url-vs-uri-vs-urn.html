@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL vs URI vs URN — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 023 of 103 &middot; 22% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:22%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Networking › URL vs URI vs URN
+  </div>
+  <h1 class="hero-title">URL vs URI vs URN</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">URL</span> <span class="hero-tag">URI</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Understanding the differences between URL, URI, and URN can be crucial in web development and networking. Let's break down these concepts:</p>
+<h2 id=h2-url-uniform-resource-locator>URL (Uniform Resource Locator):</h2>
+<ul>
+<li><strong>Definition</strong>: A URL is a specific type of URI that not only identifies a resource on the internet but also provides a method to locate it by describing its primary access mechanism, usually its network location.</li>
+<li><strong>Components</strong>: It typically includes a protocol (such as HTTP, HTTPS, FTP), domain name, and path, optionally followed by query parameters or a fragment identifier.</li>
+<li><strong>Example</strong>: <code>https://www.example.com/path?query=term#section</code></li>
+<li><strong>Key Characteristics</strong>:
+<ul>
+<li>Specifies how the resource can be accessed (protocol).</li>
+<li>Includes the location of the resource (like a web address).</li>
+</ul>
+</li>
+</ul>
+<h2 id=h2-uri-uniform-resource-identifier>URI (Uniform Resource Identifier):</h2>
+<ul>
+<li><strong>Definition</strong>: A URI is a generic term used to identify a resource either by location, name, or both. It serves as a universal identifier for resources on the internet.</li>
+<li><strong>Scope</strong>: All URLs and URNs are URIs, but not all URIs are URLs or URNs.</li>
+<li><strong>Example</strong>: A URL <code>https://www.example.com</code> is also a URI, and a URN like <code>urn:isbn:0451450523</code> (identifying a book by its ISBN) is also a URI.</li>
+<li><strong>Key Characteristics</strong>:
+<ul>
+<li>A more general concept than both URL and URN.</li>
+<li>It can be either a locator (URL), a name (URN), or both.</li>
+</ul>
+</li>
+</ul>
+<h2 id=h2-urn-uniform-resource-name>URN (Uniform Resource Name):</h2>
+<ul>
+<li><strong>Definition</strong>: A URN is a type of URI that names a resource without describing how to locate it. It’s used to assign a unique and persistent identifier to a resource.</li>
+<li><strong>Example</strong>: <code>urn:isbn:0451450523</code> uniquely identifies a book using its ISBN, irrespective of where it exists.</li>
+<li><strong>Key Characteristics</strong>:
+<ul>
+<li>Provides a unique and persistent identifier.</li>
+<li>Does not specify a location or method to access the resource.</li>
+</ul>
+</li>
+</ul>
+<h2 id=h2-summary-of-differences>Summary of Differences:</h2>
+<ul>
+<li><strong>URL</strong>: Specifies both the identity and the location of a resource (How and Where).</li>
+<li><strong>URI</strong>: A more comprehensive term covering both URLs (identifying and locating) and URNs (just identifying).</li>
+<li><strong>URN</strong>: Focuses only on uniquely identifying a resource, not on where it is located or how to access it.</li>
+</ul>
+<p>In practical terms, when you’re browsing the internet, you're mostly dealing with URLs. URIs and URNs come more into play in specific contexts like software development, digital libraries, and systems where unique and persistent identification of a resource is crucial.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of a library catalog system. A URL is like the full shelf location: 'Floor 2, Aisle 3, Shelf B, Book 42 (available at the Main Library on Oak Street)'. A URN is just the book's unique ISBN — it identifies the book forever regardless of where it is stored. A URI is the general concept that covers both shelf locations and ISBNs — any string that identifies a resource.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's search URLs are technically URIs: 'https://www.google.com/search?q=system+design' is a URL (a locator) because it specifies both the protocol, host, path, and query parameters needed to locate and retrieve a specific search result page.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon uses URNs to identify digital books in their Kindle ecosystem: an Amazon Standard Identification Number (ASIN) acts as a URN — it permanently identifies a specific edition of a book regardless of which server currently hosts the file.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub repository URLs are URIs that are also URLs: 'https://github.com/user/repo' specifies the protocol, host, and path. These URLs are stable enough to serve as permanent identifiers for open-source projects referenced in academic papers and documentation.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌────────────────────────────────────────┐
+  │              URI (superset)             │
+  │  ┌──────────────┐  ┌────────────────┐  │
+  │  │     URL      │  │      URN       │  │
+  │  │  (locator)   │  │  (identifier)  │  │
+  │  │ https://...  │  │ urn:isbn:...   │  │
+  │  │ ftp://...    │  │ urn:uuid:...   │  │
+  │  └──────────────┘  └────────────────┘  │
+  └────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> State the hierarchy clearly: URI is the superset; URL and URN are subtypes. Every URL is a URI, but not every URI is a URL.</li>
+<li><span class="tip-icon">💡</span> A URL includes location/access information (protocol + host); a URN provides a persistent name without specifying where to find the resource.</li>
+<li><span class="tip-icon">💡</span> In practice, 'URL' is the term used in everyday engineering conversations; knowing the formal URI/URN distinction demonstrates attention to specification detail.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> URI (Uniform Resource Identifier) is the broadest concept — any string that identifies a resource.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> URL (Uniform Resource Locator) is a URI that also specifies how to locate the resource (protocol, host, path).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> URN (Uniform Resource Name) is a URI that provides a persistent, location-independent identifier (e.g., ISBN, UUID).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> All URLs are URIs, but not all URIs are URLs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> In practice, 'URL' is used colloquially even when 'URI' is technically correct.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier" target="_blank" rel="noopener">Uniform Resource Identifier – Wikipedia</a></div>
+      <div class="reading-desc">Formal definition and hierarchy of URI, URL, and URN with examples.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/URL" target="_blank" rel="noopener">URL – Wikipedia</a></div>
+      <div class="reading-desc">Detailed breakdown of URL structure, components, and syntax.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">HTTP Overview – MDN</a></div>
+      <div class="reading-desc">MDN documentation covering URLs in the context of HTTP resource identification.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="022-http-versions.html" class="nav-btn nav-prev">← HTTP 1.0 vs 1.1 vs 2.0 vs 3.0</a>
+  <a href="024-introduction-to-dns.html" class="nav-btn nav-next">Introduction to DNS →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

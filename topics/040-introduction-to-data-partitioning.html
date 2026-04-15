@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Data Partitioning — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 040 of 103 &middot; 39% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:39%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Data Partitioning › Introduction to Data Partitioning
+  </div>
+  <h1 class="hero-title">Introduction to Data Partitioning</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Partitioning</span> <span class="hero-tag">Scalability</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Data partitioning is a technique used in distributed systems and databases to divide a large dataset into smaller, more manageable parts, referred to as partitions. Each partition is independent and contains a subset of the overall data.</p>
+<p>In data partitioning, the dataset is typically partitioned based on a certain criterion, such as data range, data size, or data type. Each partition is then assigned to a separate processing node, which can perform operations on its assigned data subset independently of the others.</p>
+<p>Data partitioning can help improve the performance and scalability of large-scale data processing applications, as it allows processing to be distributed across multiple nodes, minimizing data transfer and reducing processing time. Secondly, by distributing the data across multiple nodes or servers, the workload can be balanced, and the system can handle more requests and process data more efficiently.</p>
+<h2 id=h2-key-terminology-and-concepts>Key terminology and concepts</h2>
+<ul>
+<li>
+<p><strong>Partition:</strong> A partition is a smaller, more manageable part of a larger dataset, created as a result of data partitioning.</p>
+</li>
+<li>
+<p><strong>Partition key:</strong> The partition key is a data attribute used to determine how data is distributed across partitions. An effective partition key should provide an even distribution of data and support efficient query patterns.</p>
+</li>
+<li>
+<p><strong>Shard:</strong> A shard is a term often used interchangeably with a partition, particularly in the context of horizontal partitioning (will be discussed later).</p>
+</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Data partitioning is like dividing the work among multiple cashiers at a grocery store. Instead of one cashier handling every customer (and creating a huge line), the store opens multiple lanes and divides customers by lane number, last name, or which items they have. Each cashier handles only their assigned customers and works independently. The store can serve far more people simultaneously, and adding a new cashier is easy.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber partitions trip data by geographic region, with separate database partitions for different cities and countries. A query for rides in New York only touches the New York partition, not the global dataset. This geographic partitioning reduces query scope and allows regional data to be stored in data centers physically close to where it's needed.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter partitions its tweet storage by user ID, distributing users across many database shards. Each shard holds a subset of user accounts and their tweets. When you load a user's timeline, the system queries only the shard containing that user, rather than scanning all tweet storage globally.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+WITHOUT PARTITIONING          WITH PARTITIONING
+
+┌─────────────────┐      ┌────┐ ┌────┐ ┌────┐
+│   Monolith DB   │      │DB 1│ │DB 2│ │DB 3│
+│  All data here  │      │A-F │ │G-P │ │Q-Z │
+│  Single point   │      └────┘ └────┘ └────┘
+│  of bottleneck  │          ↑      ↑      ↑
+└─────────────────┘      Parallel queries
+        ↑                 No single bottleneck
+  All queries hit         Horizontally scalable
+  same node
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Define data partitioning: dividing a large dataset into smaller, independent pieces (partitions or shards) stored across multiple nodes.</li>
+<li><span class="tip-icon">💡</span> Explain the primary motivation: a single database node has physical limits on storage, memory, and throughput — partitioning allows horizontal scaling beyond those limits.</li>
+<li><span class="tip-icon">💡</span> Distinguish between vertical partitioning (splitting by columns/features) and horizontal partitioning (splitting by rows, also called sharding).</li>
+<li><span class="tip-icon">💡</span> Mention that partitioning decisions have long-term architectural consequences — the partition key choice is difficult to change once data is distributed.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Data partitioning divides a large dataset across multiple nodes to overcome single-node capacity and throughput limits.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Horizontal partitioning (sharding) splits data by rows across nodes; vertical partitioning splits by columns or features.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Partitioning enables horizontal scaling — adding more nodes to handle more data and more traffic.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The choice of partition key is critical and determines how evenly load is distributed and how efficiently queries can be routed.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Well-designed partitioning improves performance and availability; poorly designed partitioning creates hot spots and complex queries.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Partition_(database)" target="_blank" rel="noopener">Partition (Database) — Wikipedia</a></div>
+      <div class="reading-desc">Academic overview of horizontal and vertical partitioning strategies in relational and NoSQL databases.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Shard_(database_architecture)" target="_blank" rel="noopener">Database Sharding — Wikipedia</a></div>
+      <div class="reading-desc">Explains sharding as a horizontal partitioning technique and the trade-offs involved.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">Amazon DynamoDB Partitioning</a></div>
+      <div class="reading-desc">AWS explains how DynamoDB automatically partitions data and how partition key choice affects performance.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="039-push-cdn-vs-pull-cdn.html" class="nav-btn nav-prev">← Push CDN vs Pull CDN</a>
+  <a href="041-partitioning-methods.html" class="nav-btn nav-next">Partitioning Methods →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Federation — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 067 of 103 &middot; 65% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:65%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › Database Federation
+  </div>
+  <h1 class="hero-title">Database Federation</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Federation</span> <span class="hero-tag">Databases</span> <span class="hero-tag">Scalability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p><strong>Database federation</strong> (also known as a <em>federated database system</em>) is an approach where multiple independent databases are virtually integrated to appear as one single database to the end user. Each underlying database (often called a <em>component database</em> or <em>data source</em>) remains autonomous and self-contained – it keeps its own data, schema, and database engine. The federation layer or system acts as a coordinator, so when an application issues a query, it doesn’t need to know which database holds the data. The federated system will route the request to the appropriate source(s) and combine the results for the application.</p>
+<p>In simpler terms, database federation is like having a <em>virtual single database</em> on top of many databases. For example, imagine a city library system with several branch libraries. Each branch library has its own catalog of books (akin to separate databases). Database federation is like a <strong>unified catalog</strong> that lets you search all branch libraries at once. You submit one book query, and the system figures out which branches have that book and brings the information back to you, as if you searched one big library. From the user’s perspective, it all feels like one database, even though the data is actually distributed across multiple libraries.</p>
+<p><strong>Key characteristics of federated databases</strong> include transparency, heterogeneity, and autonomy:</p>
+<ul>
+<li><strong>Transparency:</strong> The federation hides the complexity from users – you don’t need to know where the data lives or which database engine is used. The separate data sources are masked behind a unified interface.</li>
+<li><strong>Heterogeneity:</strong> The different databases in the federation can be of various types or vendors (SQL, NoSQL, different schemas, etc.). A well-designed federated system can handle different hardware, DBMS software, or data models and still query them together.</li>
+<li><strong>Autonomy:</strong> Each component database operates independently and is not modified by the federation. They maintain their own schemas and controls. The federated layer doesn’t force a single schema on all members; instead, it maps or translates between the sources and the unified view.</li>
+</ul>
+<p>Another term you might hear is <strong>functional partitioning</strong>, which refers to a form of federation where databases are split by function or domain. For instance, an e-commerce system might have separate databases for user accounts, orders, and product catalog. Through federation, these can function together as one logical database, even though they serve different functions.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Database federation is like a large hospital system with specialized departments — cardiology, orthopedics, and neurology each maintain their own patient records system optimized for their specialty, rather than sharing one massive universal record. Patients (queries) are routed to the right department automatically. Each department's system can scale independently, and a problem in one doesn't crash the others.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn federated its database early in its growth: member profiles, job listings, and messaging were each given their own database cluster rather than sharing one monolithic database. This prevented a surge in job search queries from affecting profile view performance, and allowed each cluster to be scaled and tuned independently.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber's microservices architecture naturally leads to database federation — each microservice (trips, drivers, pricing, payments) owns its own database, preventing a schema change in the payments service from causing a migration in the trips service. This 'database per service' pattern is a cornerstone of microservices.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon decomposed its retail platform into service-specific databases early on. The product catalog database, order management database, and inventory database are separate systems, allowing Amazon's catalog team to evolve their schema without coordinating with the orders team — enabling autonomous team velocity.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              Database Federation                    │
+├─────────────────────────────────────────────────────┤
+│              Application Layer                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐          │
+│  │  Users   │  │ Products │  │ Orders   │          │
+│  │  Service │  │ Service  │  │ Service  │          │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘          │
+│       │              │              │               │
+│  ┌────▼─────┐  ┌────▼─────┐  ┌────▼─────┐          │
+│  │ Users DB │  │Products  │  │ Orders   │          │
+│  │ (MySQL)  │  │   DB     │  │   DB     │          │
+│  └──────────┘  └──────────┘  └──────────┘          │
+├─────────────────────────────────────────────────────┤
+│  Each DB: independent scaling, schema, team         │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain that federation solves both performance problems (no single DB bottleneck) and organizational problems (teams can evolve schemas independently).</li>
+<li><span class="tip-icon">💡</span> Acknowledge the main drawback: cross-database joins become impossible at the database layer, requiring the application to perform join logic — this increases complexity.</li>
+<li><span class="tip-icon">💡</span> Mention that federation is the database counterpart to microservices — 'database per service' is the accepted pattern, and tight coupling through a shared database is an anti-pattern.</li>
+<li><span class="tip-icon">💡</span> Discuss referential integrity: federated databases lose cross-service foreign key enforcement, requiring application-level consistency checks or eventual consistency patterns.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Database federation splits a single large database into smaller, functionally specialized databases, each serving one domain or service.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Federation enables independent scaling of each database cluster based on the specific load profile of its service.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The main tradeoff is that cross-database JOINs become application-level operations, increasing code complexity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Database federation aligns with microservices architecture through the 'database per service' pattern.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Teams gain schema independence and deployment autonomy when each service owns its own federated database.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Martin Fowler - Microservices</a></div>
+      <div class="reading-desc">Fowler's microservices article discusses decentralized data management and the database-per-service pattern fundamental to federation.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database" target="_blank" rel="noopener">Database - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's database article provides context for federation within the broader landscape of database architectures.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/NoSQL" target="_blank" rel="noopener">NoSQL - Wikipedia</a></div>
+      <div class="reading-desc">NoSQL databases are often used in federated architectures because their flexible schemas suit service-specific data models.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="066-data-replication-vs-data-mirroring.html" class="nav-btn nav-prev">← Data Replication vs Data Mirroring</a>
+  <a href="068-what-are-indexes.html" class="nav-btn nav-next">What are Indexes →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

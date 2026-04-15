@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Redundancy — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 048 of 103 &middot; 47% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:47%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › What is Redundancy
+  </div>
+  <h1 class="hero-title">What is Redundancy</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Redundancy</span> <span class="hero-tag">High Availability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Redundancy refers to the duplication of critical components or functions to increase the reliability, availability, and fault tolerance of a system. The primary purpose of redundancy is to prevent system failures and ensure continuous operation, even in the event of hardware, software, or network issues. Redundant systems are designed to maintain functionality and performance despite component failures, providing increased resilience against downtime and data loss.</p>
+<p>Redundancy plays a key role in removing the single points of failure in the system and provides backups if needed in a crisis. For example, if we have two instances of a service running in production and one fails, the system can failover to the other one.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Redundancy is like having a spare tire in your car. You hope you never need it, but when a tire blows on a highway, having that spare means you're back on the road in minutes instead of waiting hours for a tow truck. In systems, redundancy means having backup components that can take over instantly when the primary fails. The spare costs something to carry but pays for itself entirely in the moment you need it.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon Web Services deploys all critical infrastructure with N+1 or N+2 redundancy — there are always more servers than the minimum needed to handle load. If one availability zone fails, the remaining zones absorb the traffic without any customer-visible impact. This redundancy is a core reason AWS can offer 99.99%+ SLAs.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's data centers are powered by redundant power feeds from different utility substations, backed by on-site generators and UPS systems. If the main power feed fails, the UPS provides instant bridging power while generators spin up within seconds. This multi-layer power redundancy ensures Google services stay online even during major power outages.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses anycast routing with redundant PoPs so that if one data center fails, BGP routing automatically directs traffic to the next nearest PoP within seconds. They also run redundant fiber paths and maintain multiple internet exchange connections at each location. This architectural redundancy is what allows them to absorb DDoS attacks without going offline.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│          Redundancy Patterns         │
+│                                      │
+│  Active-Active                       │
+│  Server A ──┐                        │
+│             ├── Both serving traffic │
+│  Server B ──┘                        │
+│                                      │
+│  Active-Passive (Hot Standby)        │
+│  Server A ── Active (serving)        │
+│  Server B ── Standby (ready)         │
+│  Failover: B takes over on A failure │
+│                                      │
+│  Active-Passive (Cold Standby)       │
+│  Server A ── Active                  │
+│  Server B ── Off (must start up)     │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Define redundancy clearly: having duplicate components so the system can continue operating when one component fails.</li>
+<li><span class="tip-icon">💡</span> Distinguish active-active (all redundant components serve traffic simultaneously) from active-passive (standby takes over on failure) — active-active gives better resource utilization but is more complex.</li>
+<li><span class="tip-icon">💡</span> Discuss the redundancy-cost trade-off: every redundant component adds cost; the right level depends on the cost of downtime versus the cost of the spare capacity.</li>
+<li><span class="tip-icon">💡</span> Mention that redundancy alone is not enough without automated failover — a standby server that requires manual intervention to activate provides much weaker availability guarantees.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Redundancy is having backup components ready to take over if a primary component fails, preventing service interruption.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Active-active redundancy has all nodes serving traffic simultaneously, maximizing resource utilization.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Active-passive (hot standby) keeps a backup ready to activate instantly but does not serve production traffic normally.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Redundancy should exist at every layer: hardware, power, network, application, and data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Automated failover detection and switchover is essential for redundancy to provide meaningful availability guarantees.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Redundancy_(engineering)" target="_blank" rel="noopener">Redundancy (Engineering) — Wikipedia</a></div>
+      <div class="reading-desc">Engineering principles of redundancy, including active-active and active-passive configurations.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/High_availability" target="_blank" rel="noopener">High Availability — Wikipedia</a></div>
+      <div class="reading-desc">Covers high availability architecture patterns including redundancy, failover, and fault tolerance.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/caching/" target="_blank" rel="noopener">AWS High Availability and Fault Tolerance</a></div>
+      <div class="reading-desc">AWS guidance on building redundant, highly available architectures in the cloud.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="047-vpn-vs-proxy-server.html" class="nav-btn nav-prev">← VPN vs Proxy Server</a>
+  <a href="049-what-is-replication.html" class="nav-btn nav-next">What is Replication →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

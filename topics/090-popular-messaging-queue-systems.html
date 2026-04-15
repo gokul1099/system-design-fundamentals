@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Popular Messaging Queue Systems — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 090 of 103 &middot; 87% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:87%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Messaging & Kafka › Popular Messaging Queue Systems
+  </div>
+  <h1 class="hero-title">Popular Messaging Queue Systems</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Messaging</span> <span class="hero-tag">Kafka</span> <span class="hero-tag">RabbitMQ</span> <span class="hero-tag">SQS</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In this section, we will discuss some popular messaging queue systems and provide a brief overview of their key features and use cases. The following messaging queue systems have gained popularity due to their robustness, scalability, and performance:</p>
+<h2 id=h2-a-rabbitmq>a. RabbitMQ</h2>
+<p>RabbitMQ is an open-source message broker that provides support for various messaging patterns, including publish-subscribe, request-reply, and point-to-point communication. Key features of RabbitMQ include:</p>
+<ul>
+<li>Flexibility: RabbitMQ supports various messaging patterns and protocols.</li>
+<li>Clustering and high availability: RabbitMQ can be deployed in clustered configurations for fault tolerance and load balancing.</li>
+<li>Extensibility: RabbitMQ provides a plugin system to extend its functionality, such as adding support for additional protocols.</li>
+<li>Monitoring and management: RabbitMQ includes built-in tools for monitoring and managing the message broker.</li>
+</ul>
+<h2 id=h2-b-apache-kafka>b. Apache Kafka</h2>
+<p>Apache Kafka is a distributed streaming platform designed for high-throughput, fault-tolerant, and scalable messaging. Kafka is widely used for stream processing, log aggregation, and event-driven architectures. Key features of Apache Kafka include:</p>
+<ul>
+<li>Distributed architecture: Kafka scales horizontally, allowing it to handle high-throughput and provide fault tolerance.</li>
+<li>Durability: Kafka stores messages persistently on disk, ensuring data durability and allowing for message replay.</li>
+<li>Low latency: Kafka is designed for real-time processing and provides low-latency messaging.</li>
+<li>Stream processing: Kafka includes a stream processing API for building real-time data processing applications.</li>
+</ul>
+<h2 id=h2-c-amazon-simple-queue-service-sqs>c. Amazon Simple Queue Service (SQS)</h2>
+<p>Amazon SQS is a fully managed message queuing service provided by Amazon Web Services (AWS). It enables decoupling of components in a distributed system, ensuring reliable and scalable communication. Key features of Amazon SQS include:</p>
+<ul>
+<li>Scalability: SQS automatically scales with the number of messages and the number of consumers.</li>
+<li>Reliability: SQS guarantees at-least-once message delivery and provides visibility timeouts for message processing.</li>
+<li>Security: SQS integrates with AWS Identity and Access Management (IAM) to control access to queues and messages.</li>
+<li>Cost-effective: SQS operates on a pay-as-you-go pricing model, making it cost-effective for various workloads.</li>
+</ul>
+<h2 id=h2-d-apache-activemq>d. Apache ActiveMQ</h2>
+<p>Apache ActiveMQ is an open-source, multi-protocol message broker that supports a variety of messaging patterns. Key features of Apache ActiveMQ include:</p>
+<ul>
+<li>High availability: ActiveMQ provides support for primary-replica replication and network of brokers for increased availability and load balancing.</li>
+<li>Message persistence: ActiveMQ supports various persistence options, such as file-based, in-memory, and JDBC-based storage.</li>
+<li>Integration: ActiveMQ can be easily integrated with various platforms, such as Java EE and Spring.</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Choosing a messaging system is like choosing a delivery service. RabbitMQ is FedEx — reliable, feature-rich, great for complex routing. Kafka is a conveyor belt in a factory — built for massive throughput and keeping a complete history of everything. Amazon SQS is the post office — simple, fully managed, no servers to run.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Amazon (SQS)</div>
+      <div class="example-text">Amazon SQS processes trillions of messages per year for AWS customers. It's fully managed with no servers to maintain, supports standard (at-least-once) and FIFO (exactly-once, ordered) queues, and scales automatically.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛍️ Shopify (RabbitMQ)</div>
+      <div class="example-text">Shopify uses RabbitMQ for its internal job queue system. Complex routing rules direct order events to different workers — inventory, shipping, tax calculation — using RabbitMQ's exchange and binding system.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn (Kafka)</div>
+      <div class="example-text">LinkedIn's original Kafka use case was processing 1B+ activity events daily. Its log-based retention and consumer group model meant new analytics services could replay historical data without any producers changing.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Messaging System Comparison
+  ┌──────────┬──────────┬──────────┬──────────┐
+  │          │ RabbitMQ │  Kafka   │   SQS    │
+  ├──────────┼──────────┼──────────┼──────────┤
+  │ Model    │  Queue   │   Log    │  Queue   │
+  │ Routing  │ Complex  │ Simple   │ Simple   │
+  │ Replay   │    ❌    │    ✅    │    ❌    │
+  │ Ordering │ Per-queue│ Per-part │ FIFO only│
+  │ Managed  │    ❌    │Confluent │    ✅    │
+  │ Latency  │   Low    │   Low    │ Low-med  │
+  │ Best for │ Task q.  │Streaming │ Serverless│
+  └──────────┴──────────┴──────────┴──────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Choose Kafka when you need replay, high throughput, or event sourcing. Choose RabbitMQ for complex routing and task queues. Choose SQS for serverless/AWS-native simplicity.</li>
+<li><span class="tip-icon">💡</span> Kafka is NOT a replacement for RabbitMQ — they solve different problems.</li>
+<li><span class="tip-icon">💡</span> Mention managed offerings: Confluent Cloud (Kafka), CloudAMQP (RabbitMQ), Amazon SQS — operational overhead matters.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> RabbitMQ excels at complex routing, task queues, and low-latency delivery.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Kafka excels at high throughput, event streaming, and message replay.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SQS is fully managed and ideal for AWS-native, serverless architectures.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ActiveMQ is JMS-compliant and common in enterprise Java stacks.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.confluent.io/blog/kafka-vs-rabbitmq/" target="_blank" rel="noopener">RabbitMQ vs Kafka — Confluent Blog</a></div>
+      <div class="reading-desc">Deep comparison of Kafka and RabbitMQ by the Kafka team.</div>
+      <div class="reading-url">confluent.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank" rel="noopener">Amazon SQS Documentation</a></div>
+      <div class="reading-desc">Complete guide to Amazon SQS features and use cases.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.rabbitmq.com/documentation.html" target="_blank" rel="noopener">RabbitMQ Documentation</a></div>
+      <div class="reading-desc">Official RabbitMQ documentation covering exchanges, queues, and bindings.</div>
+      <div class="reading-url">rabbitmq.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="089-messaging-patterns.html" class="nav-btn nav-prev">← Messaging Patterns</a>
+  <a href="091-rabbitmq-vs-kafka-vs-activemq.html" class="nav-btn nav-next">RabbitMQ vs Kafka vs ActiveMQ →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

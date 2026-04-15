@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Leader and Follower Pattern — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 079 of 103 &middot; 77% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:77%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Distributed Primitives › What is Leader and Follower Pattern
+  </div>
+  <h1 class="hero-title">What is Leader and Follower Pattern</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Leader Election</span> <span class="hero-tag">Consensus</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-background>Background</h2>
+<p>Distributed systems keep multiple copies of data for fault tolerance and higher availability. A system can use quorum to ensure data consistency between replicas, i.e., all reads and writes are not considered successful until a majority of nodes participate in the operation. However, using quorum can lead to another problem, that is, lower availability; at any time, the system needs to ensure that at least a majority of replicas are up and available, otherwise the operation will fail. Quorum is also not sufficient, as in certain failure scenarios, the client can still see inconsistent data.</p>
+<h2 id=h2-solution>Solution</h2>
+<p>Allow only a single server (called leader) to be responsible for data replication and to coordinate work.</p>
+<p>At any time, one server is elected as the leader. This leader becomes responsible for data replication and can act as the central point for all coordination. The followers only accept writes from the leader and serve as a backup. In case the leader fails, one of the followers can become the leader. In some cases, the follower can serve read requests for load balancing.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">The leader-follower pattern is like a relay team with a captain. The captain (leader) decides the pace and baton-passing order. Teammates (followers) mirror the captain's decisions. If the captain gets injured, the team elects a new captain from among the runners — the race continues without interruption.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📨 Apache Kafka</div>
+      <div class="example-text">Every Kafka partition has one leader broker and zero or more follower replicas. All reads and writes go to the leader. Followers replicate from the leader. If the leader dies, an in-sync replica is elected as the new leader.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔴 Redis Sentinel</div>
+      <div class="example-text">Redis Sentinel monitors a leader (master) and its followers (replicas). If the master is unreachable, Sentinels hold a vote and promote one replica to master, updating all clients automatically.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐘 PostgreSQL</div>
+      <div class="example-text">PostgreSQL streaming replication uses a primary (leader) that accepts writes and standby (follower) servers that replay the WAL log. If the primary fails, a standby can be promoted with pg_ctl promote.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────┐
+  │       LEADER         │◀── all writes
+  │   (primary node)     │──▶ all reads (or forwarded)
+  └───────┬──────────────┘
+          │ replication
+    ┌─────┴───────┐
+    ▼             ▼
+  ┌──────┐    ┌──────┐
+  │ FOL- │    │ FOL- │  ← reads only (optional)
+  │ LOWER│    │ LOWER│
+  │  1   │    │  2   │
+  └──────┘    └──────┘
+
+  If leader fails → followers elect new leader
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always mention split-brain: if followers can't reach the leader, two nodes may both think they're leader — use quorum to prevent this.</li>
+<li><span class="tip-icon">💡</span> Discuss synchronous vs asynchronous replication: sync is safe but slow; async is fast but risks data loss on leader failure.</li>
+<li><span class="tip-icon">💡</span> Leader election algorithms to mention: Raft, Paxos, Zab (ZooKeeper's protocol).</li>
+<li><span class="tip-icon">💡</span> Kafka, Redis, etcd, and most distributed databases all use a variant of this pattern.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> One node (leader) accepts all writes; followers replicate and serve reads.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Leader failure triggers an election — followers vote to promote a new leader.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Split-brain (two leaders) is the main danger; quorum requirements prevent it.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Raft and Paxos are the two most common consensus algorithms for leader election.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Leader_election" target="_blank" rel="noopener">Wikipedia: Leader Election</a></div>
+      <div class="reading-desc">Formal definition and algorithms for distributed leader election.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://raft.github.io/" target="_blank" rel="noopener">The Raft Consensus Algorithm</a></div>
+      <div class="reading-desc">Raft is the most readable consensus algorithm — great for learning leader election.</div>
+      <div class="reading-url">raft.github.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://kafka.apache.org/documentation/#replication" target="_blank" rel="noopener">Apache Kafka: Replication</a></div>
+      <div class="reading-desc">How Kafka implements leader-follower replication across partitions.</div>
+      <div class="reading-url">kafka.apache.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="078-uses-of-checksum.html" class="nav-btn nav-prev">← Uses of Checksum</a>
+  <a href="080-what-is-security-and-privacy.html" class="nav-btn nav-next">What is Security and Privacy →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

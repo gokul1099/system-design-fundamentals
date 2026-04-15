@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tradeoffs in CAP Theorem — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 054 of 103 &middot; 52% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:52%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › CAP & Consistency › Tradeoffs in CAP Theorem
+  </div>
+  <h1 class="hero-title">Tradeoffs in CAP Theorem</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 7 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CAP Theorem</span> <span class="hero-tag">Trade-offs</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Now let's discuss the heart of CAP: the trade-offs. <strong>Why can’t a distributed system have Consistency, Availability, and Partition tolerance all at once?</strong> The simple answer: when a network partition happens, the system has to make a tough choice:</p>
+<ul>
+<li>
+<p>If the system decides to <strong>remain consistent (C)</strong>, it cannot allow conflicting updates on different sides of the partition. So at least one side of the partition must stop accepting operations (to avoid divergence). That means some part of the system becomes <strong>unavailable (not serving requests)</strong>. This is a <strong>CP</strong> choice – consistency over availability during partitions.</p>
+</li>
+<li>
+<p>If the system decides to <strong>remain available (A)</strong>, it must keep serving requests on all sides of the partition. That means each side might proceed independently, leading to <strong>inconsistencies</strong> (different parts have different data until they can sync up later). This is an <strong>AP</strong> choice – availability over consistency.</p>
+</li>
+</ul>
+<p>Because a real distributed system cannot prevent partitions, it <em>cannot have both C and A in a partition</em>. That’s the essence of CAP. In normal operation (no partitions), you might get both C and A, but CAP is really about the behavior <em>under failure conditions</em>. In other words, because a distributed system must be partition tolerant, the only choices are deciding between availability and consistency..</p>
+<h2 id=h2-cp-ap-and-ca-systems-with-examples>CP, AP, and CA Systems (with Examples)</h2>
+<p>Depending on which trade-off a system makes, we categorize it as <strong>CP, AP, or CA</strong> under CAP theorem:</p>
+<ul>
+<li>
+<p><strong>CP (Consistency + Partition tolerance, no guarantee of Availability):</strong> These systems choose consistency over availability when a failure happens. If a network partition occurs, a CP system will refuse to accept some requests or answers on one side in order to keep the data consistent. Example: <strong>Apache ZooKeeper</strong> is a CP system – it will shut down or refuse requests if it loses a quorum of nodes, ensuring no two clients see different data. In other words, if ZooKeeper cannot guarantee correct, consistent behavior, it will not respond at all (sacrificing availability). <strong>MongoDB</strong> (in its default replicated setup) is another example often considered CP. If the primary node in a MongoDB replica set goes down, the system halts writes until a new primary is elected, pausing availability briefly to maintain a single up-to-date source of truth. These systems are suitable for use cases where data integrity is paramount – for example, <strong>financial applications</strong> prefer CP, as seen in banking: it’s better for the system to refuse an operation than to allow inconsistent money transfers.</p>
+</li>
+<li>
+<p><strong>AP (Availability + Partition tolerance, no immediate Consistency guarantee):</strong> These systems choose availability over strict consistency. During a partition, they allow all nodes to continue operating, even if that means some clients see out-of-date data. The system will reconcile differences later (thus usually providing <em>eventual consistency</em>). Examples: <strong>Apache Cassandra</strong> is a classic AP datastore – it’s designed to always accept reads/writes on any node, even during network issues, and resolves conflicts asynchronously, so it <strong>“delivers availability and partition tolerance but can’t deliver consistency all the time.”</strong>. Similarly, Amazon’s <strong>DynamoDB</strong> (based on the Dynamo paper) is AP. In fact, Amazon’s Dynamo was explicitly designed for an “always-on” shopping cart service where the requirement was that the system must accept reads/writes even amid failures; to achieve this, <em>Dynamo sacrifices consistency under certain failure scenarios</em>. DNS (the domain name system) is another everyday example of AP: it’s virtually always available globally, but updates (like changing a domain’s IP) take time to propagate, meaning not everyone sees the change immediately. AP systems are great for use cases like caches, shopping carts, or social media feeds – where it’s more important that the system is up than absolutely in sync at every moment.</p>
+</li>
+<li>
+<p><strong>CA (Consistency + Availability, no Partition tolerance):</strong> These systems provide consistency and availability <em>as long as the system is whole</em>, but they are not partition-tolerant. In practice this means the system will fail or become totally unavailable if a partition occurs, so it can only run in scenarios where partitions are negligible (e.g., within a single server or local cluster with reliable network). A common example: a <strong>single-node relational database</strong> can be viewed as CA – it is consistent (thanks to ACID properties) and available (when the node is up), but if that one node fails, or if you consider a partition between the app and the db, the system doesn’t gracefully tolerate it (it just fails). Some <strong>relational DB clusters</strong> that use synchronous replication can also be seen as CA <em>until</em> a network split happens – at which point they usually stop functioning rather than allow divergence. Partition tolerance plays a “less important role” in these systems, but in a true distributed environment you can’t really avoid P. It’s important to note that <strong>pure CA systems are theoretical in distributed context</strong>, as for all practical purposes a fully CA distributed database cannot exist because you can’t avoid network faults. Thus, CA is usually only achievable in a single-site or tightly coupled system.</p>
+</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Imagine a library with branches across the city connected by slow mail. A CP library says: 'If the mail is disrupted, we won't lend you a book until we confirm with headquarters that it's available — we'd rather turn you away than give wrong information.' An AP library says: 'We'll lend you what we think we have and sort out any discrepancies later — your time matters more than perfect accuracy right now.' Neither approach is wrong; they just serve different needs.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📊 HBase (Google/Apache)</div>
+      <div class="example-text">HBase is a CP system that prioritizes consistency over availability. During a network partition, HBase will refuse writes rather than risk inconsistent state — making it ideal for financial ledgers or inventory systems where correctness is non-negotiable.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💡 Cassandra (Facebook origin)</div>
+      <div class="example-text">Apache Cassandra is an AP system that prioritizes availability and partition tolerance. During network splits, Cassandra nodes continue accepting reads and writes independently and use eventual consistency with vector clocks to reconcile conflicts afterward — perfect for high-write workloads like IoT sensor data.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">DynamoDB defaults to AP behavior, returning eventually consistent reads for low latency at scale. Amazon designed it this way because shopping cart availability is more important than momentarily stale inventory counts, accepting that the system will reconcile state asynchronously.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              CP vs AP Tradeoff                      │
+├──────────────────────┬──────────────────────────────┤
+│      CP Systems      │        AP Systems            │
+├──────────────────────┼──────────────────────────────┤
+│ Consistent + Part.   │ Available + Part. Tolerant   │
+│ Tolerant             │                              │
+├──────────────────────┼──────────────────────────────┤
+│ May reject requests  │ Always responds              │
+│ during partition     │ (possibly stale data)        │
+├──────────────────────┼──────────────────────────────┤
+│ Examples:            │ Examples:                    │
+│ HBase, Zookeeper     │ Cassandra, DynamoDB          │
+│ MongoDB (primary)    │ CouchDB, Riak                │
+├──────────────────────┼──────────────────────────────┤
+│ Best for:            │ Best for:                    │
+│ Banking, inventory   │ Social feeds, caching        │
+└──────────────────────┴──────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When asked to choose CP vs AP, always justify your choice based on the business domain — financial systems demand CP; social media feeds can tolerate AP.</li>
+<li><span class="tip-icon">💡</span> Note that CP doesn't mean 'always available for reads' — a CP system can become completely unavailable during a partition to preserve consistency.</li>
+<li><span class="tip-icon">💡</span> Explain that AP systems use conflict resolution strategies like last-write-wins (LWW) or vector clocks to merge diverged state after a partition heals.</li>
+<li><span class="tip-icon">💡</span> Mention that tunable consistency (like Cassandra's quorum reads) lets you dial between CP and AP behavior per query, which is a mature pattern for production systems.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CP systems sacrifice availability during network partitions to ensure every read returns consistent, up-to-date data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> AP systems sacrifice strict consistency to remain available during partitions, reconciling diverged state later.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The right choice between CP and AP depends on whether incorrect data or unavailability is more harmful to the business.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Most modern distributed databases offer tunable consistency, letting you choose CP or AP behavior per operation.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Eventual consistency is the consistency model used by AP systems — all nodes will agree eventually, but not immediately.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's CAP theorem article includes a detailed breakdown of CP vs AP system examples and tradeoffs.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://cassandra.apache.org/doc/latest/" target="_blank" rel="noopener">Cassandra Documentation</a></div>
+      <div class="reading-desc">Official Cassandra docs explain its AP design philosophy and tunable consistency levels for read/write operations.</div>
+      <div class="reading-url">cassandra.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS NoSQL Guide</a></div>
+      <div class="reading-desc">AWS explains the tradeoffs between strongly consistent and eventually consistent NoSQL database patterns.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="053-components-of-cap-theorem.html" class="nav-btn nav-prev">← Components of CAP Theorem</a>
+  <a href="055-examples-of-cap-theorem-in-practice.html" class="nav-btn nav-next">Examples of CAP Theorem in Practice →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

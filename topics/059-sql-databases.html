@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Databases — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 059 of 103 &middot; 57% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:57%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › SQL Databases
+  </div>
+  <h1 class="hero-title">SQL Databases</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 7 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">SQL</span> <span class="hero-tag">Databases</span> <span class="hero-tag">RDBMS</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>SQL (Structured Query Language) databases, also known as relational databases, are the most commonly used type of databases in software applications. They store data in tables, where each table consists of rows and columns. Relationships between tables are established using primary and foreign keys. SQL databases follow the ACID properties (Atomicity, Consistency, Isolation, Durability) to ensure reliable data transactions.</p>
+<h2 id=h2-rdbms-concepts>RDBMS Concepts</h2>
+<ul>
+<li>
+<p><strong>Tables:</strong> The fundamental building blocks of relational databases, tables represent the structure of the data. Each table contains rows (records) and columns (fields) that store individual pieces of data.</p>
+</li>
+<li>
+<p><strong>Primary Key:</strong> A unique identifier for each row in a table. A primary key enforces uniqueness and ensures that no two rows share the same identifier.</p>
+</li>
+<li>
+<p><strong>Foreign Key:</strong> A column (or a set of columns) in a table that refers to the primary key of another table. Foreign keys are used to establish relationships between tables and enforce referential integrity.</p>
+</li>
+<li>
+<p><strong>Indexes:</strong> Database indexes are data structures that help to speed up data retrieval operations. They work similarly to the index in a book, allowing for faster lookups and searches.</p>
+</li>
+<li>
+<p><strong>Normalization:</strong> The process of organizing a database into tables, columns, and relationships to reduce data redundancy and improve data integrity.</p>
+</li>
+</ul>
+<h2 id=h2-sql-language>SQL Language</h2>
+<p>SQL is a standardized language for managing and querying relational databases. It provides a powerful and flexible way to interact with the data. The language consists of several components, including:</p>
+<ul>
+<li>
+<p><strong>Data Definition Language (DDL):</strong> Allows for the creation, modification, and deletion of database structures, such as tables, indexes, and constraints.</p>
+</li>
+<li>
+<p><strong>Data Manipulation Language (DML):</strong> Enables data insertion, updating, deletion, and retrieval operations on database tables.</p>
+</li>
+<li>
+<p><strong>Data Control Language (DCL):</strong> Deals with user permissions and access control for database objects.</p>
+</li>
+<li>
+<p><strong>Transaction Control Language (TCL):</strong> Manages database transactions and ensures ACID compliance.</p>
+</li>
+</ul>
+<h2 id=h2-popular-sql-databases>Popular SQL Databases</h2>
+<p>Several well-known SQL databases are available, each with its own features and use cases. Some popular SQL databases include:</p>
+<ul>
+<li>
+<p><strong>MySQL:</strong> An open-source, widely used RDBMS, MySQL is popular for web applications and is a component of the LAMP (Linux, Apache, MySQL, PHP/Perl/Python) stack.</p>
+</li>
+<li>
+<p><strong>PostgreSQL:</strong> Another open-source RDBMS that focuses on extensibility, standards compliance, and performance. PostgreSQL is well-regarded for its advanced features, such as support for custom data types, full-text search, and spatial data operations.</p>
+</li>
+<li>
+<p><strong>Microsoft SQL Server:</strong> A commercial RDBMS developed by Microsoft, featuring a comprehensive set of tools and features for enterprise-level applications. SQL Server is known for its tight integration with other Microsoft products, security features, and business intelligence capabilities.</p>
+</li>
+<li>
+<p><strong>Oracle Database:</strong> A widely-used commercial RDBMS that offers high performance, advanced features, and scalability. Oracle is popular in large organizations and mission-critical applications due to its robustness, reliability, and comprehensive toolset.</p>
+</li>
+</ul>
+<h2 id=h2-pros-and-cons-of-using-sql-databases>Pros and cons of using SQL databases</h2>
+<ol>
+<li><strong>ACID properties and consistency:</strong> SQL databases adhere to the ACID (Atomicity, Consistency, Isolation, Durability) properties, which ensure the reliability of transactions and the consistency of the data. These properties guarantee that any operation on the data will either be completed in its entirety or not at all, and that the data will always remain in a consistent state.</li>
+<li><strong>Structured schema:</strong> SQL databases enforce a predefined schema for the data, which ensures that the data is structured, consistent, and follows specific rules. This structured schema can make it easier to understand and maintain the data model, as well as optimize queries for performance.</li>
+<li><strong>Query language and optimization:</strong> SQL is a powerful and expressive query language that allows developers to perform complex operations on the data, such as filtering, sorting, grouping, and joining multiple tables based on specified conditions. SQL databases also include query optimizers, which analyze and optimize queries for improved performance.</li>
+<li><strong>Scalability and performance:</strong> SQL databases can be scaled vertically by adding more resources (such as CPU, memory, and storage) to a single server. However, horizontal scaling, or distributing the data across multiple servers, <a href=https://www.designgurus.io/blog/Scaling-SQL-Databases target=_blank rel="noopener noreferrer" style=color:var(--courseplayer-accent-color);display:inline-flex;align-items:center;gap:4px>can be more challenging<svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-17xzsh2" focusable=false aria-hidden=true viewBox="0 0 24 24" data-testid=OpenInNewIcon><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3z"></path></svg></a> due to the relational nature of the data and the constraints imposed by the ACID properties. This can lead to performance bottlenecks and difficulties in scaling for large-scale applications with high write loads or massive amounts of data.</li>
+</ol>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">An SQL database is like a perfectly organized spreadsheet with strict rules — every row must have the same columns, each column holds only one type of data, and the spreadsheet software enforces that you can't put text in a number column. If you want to link data across sheets, you draw formal relationships. This rigid structure makes it easy to ask complex questions and guarantees that your data never gets into an inconsistent state.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb's core transactional data — bookings, payments, and user accounts — lives in MySQL. The strict schema and ACID transactions ensure that a booking and its corresponding payment charge are always recorded together atomically, preventing orphaned bookings or double-charges.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub uses MySQL at massive scale to store repositories, commits, and user data. They've built Vitess (now open source) on top of MySQL to handle horizontal sharding, demonstrating that SQL databases can scale to billions of rows with the right infrastructure layer.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe relies heavily on PostgreSQL for its payment processing infrastructure, leveraging ACID compliance to ensure financial transactions are processed exactly once. PostgreSQL's rich support for complex queries and JSON fields makes it flexible enough to handle diverse payment product data schemas.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│             SQL Database Architecture               │
+├─────────────────────────────────────────────────────┤
+│  Tables: structured rows and columns                │
+│                                                     │
+│  Users Table          Orders Table                  │
+│  ┌────┬──────────┐   ┌────┬─────────┬──────────┐   │
+│  │ id │ name     │   │ id │ user_id │ amount   │   │
+│  ├────┼──────────┤   ├────┼─────────┼──────────┤   │
+│  │  1 │ Alice    │   │  1 │    1    │ $50.00   │   │
+│  │  2 │ Bob      │   │  2 │    1    │ $25.00   │   │
+│  └────┴──────────┘   └────┴─────────┴──────────┘   │
+│         │                      │                   │
+│         └──── Foreign Key ─────┘                   │
+├─────────────────────────────────────────────────────┤
+│  PostgreSQL & MySQL: most widely used SQL engines   │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Highlight that PostgreSQL supports JSON columns and full-text search, making it more flexible than many NoSQL databases while retaining full ACID guarantees.</li>
+<li><span class="tip-icon">💡</span> Know the difference between MySQL's InnoDB engine (ACID, row-level locking) and MyISAM (no transactions, table-level locking) — InnoDB is the modern default.</li>
+<li><span class="tip-icon">💡</span> Discuss vertical scaling limits of SQL databases and how horizontal sharding (via tools like Vitess or Citus) can extend SQL databases to very large scales.</li>
+<li><span class="tip-icon">💡</span> Mention that SQL's JOIN capability is its superpower — complex multi-table queries that would require multiple round trips in NoSQL can be expressed in a single SQL statement.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SQL databases store data in structured tables with fixed schemas, enforced relationships, and ACID transaction guarantees.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> PostgreSQL and MySQL are the two most widely used open-source SQL databases, each with different strengths and ecosystems.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SQL excels at complex queries, multi-table joins, and transactional workloads requiring strong consistency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SQL databases traditionally scale vertically, but tools like Vitess and Citus enable horizontal sharding for massive scale.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> PostgreSQL's support for JSON and array types blurs the line between SQL and NoSQL, offering flexibility without sacrificing ACID.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Official Documentation</a></div>
+      <div class="reading-desc">The official PostgreSQL docs are the definitive reference for SQL features, indexing, transactions, and performance tuning.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Relational_database" target="_blank" rel="noopener">Relational Database - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's article on relational databases covers the mathematical foundation, SQL, normalization, and ACID properties.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID - Wikipedia</a></div>
+      <div class="reading-desc">Detailed explanation of Atomicity, Consistency, Isolation, and Durability properties that SQL databases guarantee.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="058-introduction-to-databases.html" class="nav-btn nav-prev">← Introduction to Databases</a>
+  <a href="060-nosql-databases.html" class="nav-btn nav-next">NoSQL Databases →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

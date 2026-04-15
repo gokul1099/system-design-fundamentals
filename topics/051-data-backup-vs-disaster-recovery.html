@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Backup vs Disaster Recovery — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 051 of 103 &middot; 50% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:50%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › Data Backup vs Disaster Recovery
+  </div>
+  <h1 class="hero-title">Data Backup vs Disaster Recovery</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 6 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Backup</span> <span class="hero-tag">Disaster Recovery</span> <span class="hero-tag">Reliability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Data Backup and Disaster Recovery are critical components in an organization's data management and IT infrastructure strategy. While they are related and often used together for data protection, they serve different purposes and have distinct operational focuses.</p>
+<h2 id=h2-data-backup>Data Backup</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Data Backup</strong> refers to the process of creating copies of data to be used in case the original data is lost or damaged. The primary goal is to restore data after events like deletion, corruption, or minor hardware failures.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Data Copies</strong>: Involves copying and archiving data for future restoration.</li>
+<li><strong>Frequency</strong>: Can be scheduled at regular intervals (daily, weekly, etc.).</li>
+<li><strong>Scope</strong>: Typically includes important files, databases, application data, etc.</li>
+<li><strong>Storage</strong>: Backups are stored on tapes, disks, or cloud storage.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Restoring accidentally deleted files.</li>
+<li>Recovering data from corrupted databases.</li>
+<li>Retrieving previous versions of data.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>An organization regularly backs up its database to a cloud storage service. An employee accidentally deletes a critical file, which is then restored from the most recent backup.</li>
+</ul>
+<h2 id=h2-disaster-recovery>Disaster Recovery</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>Disaster Recovery</strong> is a broader strategy that includes policies, tools, and procedures for protecting and restoring an organization's IT infrastructure in the event of a major disaster, such as a natural disaster, cyberattack, or major hardware failure.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Comprehensive Planning</strong>: Includes plans for quickly re-establishing access to applications, data, and IT resources.</li>
+<li><strong>Business Continuity</strong>: Focuses on maintaining or quickly resuming mission-critical functions.</li>
+<li><strong>Infrastructure Recovery</strong>: Involves restoring entire servers, networks, and other critical infrastructure.</li>
+<li><strong>Testing and Documentation</strong>: Requires regular testing and clear documentation for effective implementation.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Reactivating IT operations after a major cyberattack like ransomware.</li>
+<li>Resuming business operations at an alternate location after a natural disaster damages the primary data center.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<ul>
+<li>After a flood damages a company's primary data center, their operations are shifted to a secondary location where they can access their IT resources and maintain business continuity.</li>
+</ul>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Purpose</strong>:</p>
+<ul>
+<li><strong>Data Backup</strong>: Primarily focused on data preservation and restoration.</li>
+<li><strong>Disaster Recovery</strong>: A comprehensive approach to resuming business operations after catastrophic events.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scope</strong>:</p>
+<ul>
+<li><strong>Data Backup</strong>: Involves duplicating data.</li>
+<li><strong>Disaster Recovery</strong>: Encompasses restoring entire systems and infrastructure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Objective</strong>:</p>
+<ul>
+<li><strong>Data Backup</strong>: To protect against data loss and ensure data retrieval.</li>
+<li><strong>Disaster Recovery</strong>: To ensure business continuity and minimize downtime in the event of major disruptions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Scale of Incident</strong>:</p>
+<ul>
+<li><strong>Data Backup</strong>: Typically addresses smaller-scale data loss incidents.</li>
+<li><strong>Disaster Recovery</strong>: Deals with large-scale disruptions affecting entire IT systems.</li>
+</ul>
+</li>
+<li>
+<p><strong>Complexity and Planning</strong>:</p>
+<ul>
+<li><strong>Data Backup</strong>: Relatively simpler; involves regular copying of data.</li>
+<li><strong>Disaster Recovery</strong>: More complex; requires extensive planning and testing.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>While data backup is an essential component of disaster recovery, it is just one part of a comprehensive disaster recovery plan. Data backup is about protecting and restoring data, whereas disaster recovery is about maintaining or quickly resuming critical business operations during and after major incidents. An effective IT strategy incorporates both elements to ensure data protection and business resilience.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Data backup is like taking a photograph of your house — you capture its state so you can restore it later if something goes wrong. Disaster recovery is the full emergency plan: knowing which photographer to call, where the photos are stored, and how quickly you can rebuild the house from them. Backup is the data; disaster recovery is the process, people, and tools to use that data when catastrophe strikes.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix continuously backs up metadata, user preferences, and watch history to multiple AWS regions. Their disaster recovery strategy ensures that even if an entire AWS region goes down, streaming continues from a failover region within minutes, keeping subscribers unaware of the outage.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Dropbox</div>
+      <div class="example-text">Dropbox maintains incremental backups of every file version so users can restore deleted or modified files. Their disaster recovery plan includes geographic replication across data centers, enabling them to meet strict RTO (Recovery Time Objective) targets for business customers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe performs continuous backups of all transaction data with point-in-time recovery capabilities. Their disaster recovery runbooks are rehearsed regularly through game-day exercises to ensure the payments infrastructure can resume within seconds of any failure.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              Backup vs Disaster Recovery             │
+├──────────────────────┬──────────────────────────────┤
+│      Data Backup     │     Disaster Recovery (DR)   │
+├──────────────────────┼──────────────────────────────┤
+│ Copies data at rest  │ End-to-end restoration plan  │
+│ Scheduled snapshots  │ People, processes, systems   │
+│ RPO focus            │ RTO + RPO focus              │
+│ Storage-centric      │ Orchestration-centric        │
+├──────────────────────┴──────────────────────────────┤
+│  RPO: How much data loss is acceptable?             │
+│  RTO: How fast must systems be restored?            │
+├─────────────────────────────────────────────────────┤
+│  Primary DC ──backup──▶ Offsite / Cloud Storage     │
+│       │                        │                    │
+│       └──── DR Plan triggers ──┘                    │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always clarify both RPO (Recovery Point Objective) and RTO (Recovery Time Objective) when discussing backup strategies — interviewers expect you to quantify acceptable data loss and downtime.</li>
+<li><span class="tip-icon">💡</span> Distinguish between hot standby (instantly available replica), warm standby (partially running), and cold standby (storage-only) DR tiers to show cost-vs-speed tradeoff awareness.</li>
+<li><span class="tip-icon">💡</span> Mention that backups alone do not constitute a DR plan — you must also test restoration procedures regularly to ensure they actually work under pressure.</li>
+<li><span class="tip-icon">💡</span> Bring up geographic redundancy and cross-region replication to show you understand that a DR strategy must survive datacenter-level failures, not just disk failures.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Backup is the act of copying data; disaster recovery is the complete plan to restore operations using that data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> RPO defines maximum tolerable data loss; RTO defines maximum tolerable downtime.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Hot, warm, and cold standby represent a spectrum of cost vs. recovery speed tradeoffs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A backup that has never been tested for restoration is not a reliable backup.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Geographic replication is essential for surviving datacenter-level disasters.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Disaster_recovery" target="_blank" rel="noopener">Disaster Recovery - Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive overview of disaster recovery concepts including RTO, RPO, and DR plan components.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book - Managing Disasters</a></div>
+      <div class="reading-desc">Google's Site Reliability Engineering book covers disaster preparedness and incident management practices used at scale.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS Backup and Disaster Recovery</a></div>
+      <div class="reading-desc">AWS documentation on designing backup and disaster recovery architectures using cloud-native services.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="050-replication-methods.html" class="nav-btn nav-prev">← Replication Methods</a>
+  <a href="052-introduction-to-cap-theorem.html" class="nav-btn nav-next">Introduction to CAP Theorem →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

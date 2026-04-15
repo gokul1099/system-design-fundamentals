@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is a Proxy Server — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 045 of 103 &middot; 44% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:44%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › What is a Proxy Server
+  </div>
+  <h1 class="hero-title">What is a Proxy Server</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Proxy</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>A forward proxy, also known as a "proxy server," or simply "proxy," is a server that sits in front of one or more client machines and acts as an intermediary between the clients and the internet. When a client machine makes a request to a resource (like a web page or file) on the internet, the request is first sent to the forward proxy. The forward proxy then forwards the request to the internet on behalf of the client machine and returns the response to the client machine.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A proxy server is like a diplomatic intermediary between two parties. When a company wants to negotiate with another company, they might send a representative who speaks on their behalf — the other party communicates with the representative, not directly with the company. The representative can filter messages, translate them, apply company policy, and keep the company's identity private. Forward proxies act on behalf of clients; reverse proxies act on behalf of servers.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare operates as a reverse proxy sitting in front of millions of websites. Users connect to Cloudflare's servers, which forward requests to the origin on their behalf. This protects origin servers from DDoS attacks, provides SSL termination, and enables caching — all without users knowing they're connecting to an intermediary.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses reverse proxies (Zuul) as API gateways that route, filter, and load-balance requests to internal microservices. The proxy handles authentication, rate limiting, and request transformation before forwarding to backend services. This centralizes cross-cutting concerns so individual microservices don't need to implement them independently.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+FORWARD PROXY (client-side)
+┌────────┐     ┌─────────┐     ┌────────┐
+│ Client │────►│ Forward │────►│ Server │
+│(hidden)│     │  Proxy  │     │        │
+└────────┘     └─────────┘     └────────┘
+
+REVERSE PROXY (server-side)
+┌────────┐     ┌─────────┐     ┌────────┐
+│ Client │────►│ Reverse │────►│ Server │
+│        │     │  Proxy  │     │(hidden)│
+└────────┘     └─────────┘     └────────┘
+               Hides servers
+               Load balances
+               Caches responses
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Clearly distinguish forward proxy (sits in front of clients, represents clients to the internet) from reverse proxy (sits in front of servers, represents servers to the internet).</li>
+<li><span class="tip-icon">💡</span> Forward proxy use cases: anonymous browsing, content filtering in corporate networks, access control, and bypassing geo-restrictions.</li>
+<li><span class="tip-icon">💡</span> Reverse proxy use cases: load balancing, SSL termination, caching, DDoS protection, API gateway functionality, and hiding backend topology.</li>
+<li><span class="tip-icon">💡</span> Mention that all modern load balancers and API gateways are essentially reverse proxies with additional routing logic.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A forward proxy sits in front of clients and forwards their requests to the internet, hiding client identity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A reverse proxy sits in front of servers and handles incoming requests before forwarding to backend servers, hiding server topology.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Reverse proxies enable load balancing, caching, SSL termination, and security filtering as a centralized layer.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Forward proxies are used for client anonymity, content filtering, and access control.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Tools like Nginx and HAProxy are commonly used to implement both forward and reverse proxy functionality.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/network-layer/what-is-a-proxy-server/" target="_blank" rel="noopener">What is a Proxy Server? — Cloudflare</a></div>
+      <div class="reading-desc">Cloudflare's explanation of forward and reverse proxies, their use cases, and how they work.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Proxy_server" target="_blank" rel="noopener">Proxy Server — Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive academic coverage of proxy server types, protocols, and use cases.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/" target="_blank" rel="noopener">Nginx Reverse Proxy Documentation</a></div>
+      <div class="reading-desc">Official Nginx documentation for configuring reverse proxy, load balancing, and caching.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="044-common-problems-with-data-partitioning.html" class="nav-btn nav-prev">← Common Problems with Data Partitioning</a>
+  <a href="046-uses-of-proxies.html" class="nav-btn nav-next">Uses of Proxies →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

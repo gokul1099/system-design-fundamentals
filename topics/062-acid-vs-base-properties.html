@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ACID vs BASE Properties — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 062 of 103 &middot; 60% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:60%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › ACID vs BASE Properties
+  </div>
+  <h1 class="hero-title">ACID vs BASE Properties</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">ACID</span> <span class="hero-tag">BASE</span> <span class="hero-tag">Consistency</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>When we use an application – whether it's online banking or a shopping site – we expect the data to be correct and the system to work reliably. If you transfer money and a glitch happens, you wouldn’t want the bank to deduct money from your account without adding it to the recipient’s account. This is why database consistency and reliability matter so much. A reliable database ensures that even if something goes wrong (like a crash or network issue), your data isn’t lost or corrupted.</p>
+<p>In the world of databases, there are two common models for handling consistency and reliability: <strong>ACID</strong> and <strong>BASE</strong>. These acronyms stand for different approaches in database design. In simple terms, <strong>ACID</strong> is about keeping transactions <em>strictly correct and reliable</em>, while <strong>BASE</strong> is about keeping the system <em>basically available and scalable</em> (even if data might be briefly inconsistent). They’re often seen as opposites, but each has its own use cases and trade-offs. In this post, we’ll explain what each term means, give easy examples, compare their differences, and help you decide which approach fits which situation.</p>
+<h2 id=h2-what-is-acid>What is ACID?</h2>
+<p><strong>ACID</strong> is a set of properties that guarantee database transactions are processed reliably. A transaction is a unit of work (like transferring money or booking a ticket) that may involve multiple steps. ACID stands for <strong>Atomicity, Consistency, Isolation, Durability</strong>. These four properties ensure that even if multiple transactions occur or failures happen, the data remains correct and stable.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">ACID is like a careful bank transaction: you check your balance first, deduct the money, add it to the recipient, and only confirm when every step succeeds — or cancel the whole thing if anything goes wrong. BASE is like a busy restaurant taking orders: your order is immediately acknowledged (basically available), the kitchen might be in flux while cooking (soft state), but your food will eventually be ready and correct (eventually consistent). Both approaches work — they just serve different environments.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe's payment processing relies on ACID-compliant PostgreSQL transactions to ensure that charging a card and recording the transaction are atomic — either both happen or neither does. This prevents scenarios where a customer is charged but the payment is not recorded, or recorded but not charged.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔄 Cassandra (Facebook origin)</div>
+      <div class="example-text">Cassandra follows the BASE model: writes are acknowledged immediately (basically available), the replication state may be inconsistent momentarily (soft state), and all replicas will eventually converge (eventually consistent). This allows Cassandra to accept writes even during partial failures.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">DynamoDB offers both ACID transactions (for cases like order placement) and BASE-style eventually consistent reads (for product catalog browsing). Amazon designed DynamoDB to let engineers select the right consistency model per operation rather than imposing one globally.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              ACID vs BASE Properties                │
+├──────────────────────┬──────────────────────────────┤
+│       ACID           │          BASE                │
+├──────────────────────┼──────────────────────────────┤
+│ Atomicity            │ Basically Available          │
+│ (all or nothing)     │ (always responds)            │
+├──────────────────────┼──────────────────────────────┤
+│ Consistency          │ Soft State                   │
+│ (valid state always) │ (state may change over time) │
+├──────────────────────┼──────────────────────────────┤
+│ Isolation            │ Eventually Consistent        │
+│ (txns don't interfere│ (converges, not immediate)  │
+├──────────────────────┼──────────────────────────────┤
+│ Durability           │                              │
+│ (committed = stored) │                              │
+├──────────────────────┴──────────────────────────────┤
+│ ACID: SQL databases  │ BASE: Most NoSQL databases   │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know ACID acronym perfectly: Atomicity (all or nothing), Consistency (valid state transitions), Isolation (concurrent transactions don't interfere), Durability (committed data survives crashes).</li>
+<li><span class="tip-icon">💡</span> For BASE, emphasize that 'Basically Available' means the system guarantees availability but not consistency — it will always respond, even if the response is stale.</li>
+<li><span class="tip-icon">💡</span> Point out that 'Soft State' in BASE means the system's state may change over time even without input, as background replication updates replicas.</li>
+<li><span class="tip-icon">💡</span> Use the bank transfer example for ACID and the DNS propagation example for BASE — these are immediately understandable to any interviewer.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ACID guarantees Atomicity, Consistency, Isolation, and Durability — critical for financial and transactional systems.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> BASE (Basically Available, Soft state, Eventually consistent) trades strict consistency for higher availability and performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ACID is the standard for relational databases; BASE describes the philosophy underlying most NoSQL AP systems.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The choice between ACID and BASE reflects the fundamental CP vs. AP decision from CAP theorem.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern databases like DynamoDB and MongoDB support both ACID transactions and BASE-style operations, enabling per-operation tuning.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/ACID" target="_blank" rel="noopener">ACID - Wikipedia</a></div>
+      <div class="reading-desc">Detailed explanation of all four ACID properties with examples of how each is implemented in relational databases.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">CAP theorem provides the theoretical underpinning for understanding why BASE emerged as an alternative to ACID in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener">Eventual Consistency - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's article on eventual consistency explains the 'E' in BASE and how distributed systems achieve convergence.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="061-sql-vs-nosql.html" class="nav-btn nav-prev">← SQL vs NoSQL</a>
+  <a href="063-real-world-examples-and-case-studies.html" class="nav-btn nav-next">Real-World Examples and Case Studies →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

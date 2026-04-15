@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Challenges of Load Balancers — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 009 of 103 &middot; 9% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:9%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Challenges of Load Balancers
+  </div>
+  <h1 class="hero-title">Challenges of Load Balancers</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Load Balancing</span> <span class="hero-tag">Trade-offs</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Load balancers play a crucial role in distributing traffic and optimizing resource utilization in modern applications. However, they are not without potential challenges or problems. Some common issues associated with load balancers include:</p>
+<h2 id=h2-1-single-point-of-failure>1. Single Point of Failure</h2>
+<p>If not designed with redundancy and fault tolerance in mind, a load balancer can become a single point of failure in the system. If the load balancer experiences an outage, it could impact the entire application.</p>
+<ul>
+<li><strong>Remedy</strong>: Implement high availability and failover mechanisms, such as redundant load balancer instances, to ensure continuity even if one instance fails.</li>
+</ul>
+<h2 id=h2-2-configuration-complexity>2. Configuration Complexity</h2>
+<p>Load balancers often come with a wide range of configuration options, including algorithms, timeouts, and health checks. Misconfigurations can lead to poor performance, uneven traffic distribution, or even service outages.</p>
+<ul>
+<li><strong>Remedy</strong>: Regularly review and update configurations, and consider using automated configuration tools or expert consultation to ensure optimal settings.</li>
+</ul>
+<h2 id=h2-3-scalability-limitations>3. Scalability Limitations</h2>
+<p>As traffic increases, the load balancer itself might become a performance bottleneck, especially if it is not configured to scale horizontally or vertically.</p>
+<ul>
+<li><strong>Remedy</strong>: Plan for horizontal or vertical scaling of the load balancer to match traffic demands, and use scalable cloud-based load balancing solutions.</li>
+</ul>
+<h2 id=h2-4-latency>4. Latency</h2>
+<p>Introducing a load balancer into the request-response path adds an additional network hop, which could lead to increased latency. While the impact is typically minimal, it is essential to consider the potential latency introduced by the load balancer and optimize its performance accordingly.</p>
+<ul>
+<li><strong>Remedy</strong>: Optimize load balancer performance through efficient routing algorithms and by placing the load balancer geographically close to the majority of users.</li>
+</ul>
+<h2 id=h2-5-sticky-sessions>5. Sticky Sessions</h2>
+<p>Some applications rely on maintaining session state or user context between requests. In such cases, load balancers must be configured to use session persistence or "sticky sessions" to ensure subsequent requests from the same user are directed to the same backend server. However, this can lead to uneven load distribution and negate some of the benefits of load balancing.</p>
+<ul>
+<li><strong>Remedy</strong>: Employ advanced load balancing techniques that balance the need for session persistence with even traffic distribution, or redesign the application to reduce dependence on session state.</li>
+</ul>
+<h2 id=h2-6-cost>6. Cost</h2>
+<p>Deploying and managing load balancers, especially in high-traffic scenarios, can add to the overall cost of your infrastructure. This may include hardware or software licensing costs, as well as fees associated with managed load balancing services provided by cloud providers.</p>
+<ul>
+<li><strong>Remedy</strong>: Opt for cost-effective load balancing solutions, such as open-source software or cloud-based services that offer pay-as-you-go pricing models.</li>
+</ul>
+<h2 id=h2-7-health-checks-and-monitoring>7. Health Checks and Monitoring</h2>
+<p>Implementing effective health checks for backend servers is essential to ensure that the load balancer accurately directs traffic to healthy instances. Misconfigured or insufficient health checks can lead to the load balancer sending traffic to failed or underperforming servers, resulting in a poor user experience.</p>
+<ul>
+<li><strong>Remedy</strong>: Implement comprehensive and regular health checks for backend servers, and use real-time monitoring tools to ensure traffic is always directed to healthy instances.</li>
+</ul>
+<p>Despite these potential challenges, load balancers are an essential component of modern applications and can significantly improve performance, fault tolerance, and resource utilization when configured and managed correctly.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A load balancer without care is like a highway on-ramp merger — it can cause its own congestion if not designed well. The load balancer itself can become the bottleneck, a single point of failure, or route traffic poorly because it cannot see the true cost of requests. Managing these challenges is like installing an intelligent traffic management system that monitors every road segment in real time.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">👤 Facebook/Meta</div>
+      <div class="example-text">Facebook faced the thundering herd problem where a cache miss caused thousands of servers to simultaneously request the same data from the database. Their load balancers were updated with request coalescing to collapse identical concurrent requests into a single backend call.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎮 Discord</div>
+      <div class="example-text">Discord experienced session draining challenges when deploying new server versions — WebSocket connections are long-lived and cannot be immediately dropped. Their load balancers had to track connection age and gradually migrate clients to new server versions.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's load balancers must themselves avoid becoming a SPOF, so they run their balancing logic distributed across every edge node using Anycast, meaning there is no central load balancer that can fail.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌─────────────────────────────────────────┐
+  │      LOAD BALANCER CHALLENGES            │
+  ├─────────────────────────────────────────┤
+  │  SPOF      → LB itself can fail          │
+  │  Hotspots  → uneven request cost         │
+  │  Latency   → LB adds processing overhead │
+  │  State     → sticky session complexity   │
+  │  Config    → misconfigured health checks │
+  │  Cascading → overloaded backends chain   │
+  │  Security  → LB as DDoS target           │
+  └─────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Proactively raise the load balancer as a SPOF and then immediately explain how to eliminate it — active-active LB pairs, Anycast, or DNS-level redundancy.</li>
+<li><span class="tip-icon">💡</span> Explain cascading failures: if backends are slow, connections queue up at the LB, eventually exhausting its connection pool — circuit breakers solve this.</li>
+<li><span class="tip-icon">💡</span> Discuss health check misconfiguration as a real operational risk: overly sensitive checks cause flapping, while insensitive checks miss real failures.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The load balancer itself is a potential single point of failure and must be made highly available through redundant deployments.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Uneven request costs can cause hotspots even with balanced connection counts — least-response-time algorithms help mitigate this.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cascading failures occur when overloaded backends cause the load balancer's connection pool to exhaust; circuit breakers prevent total collapse.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Sticky session requirements reduce routing flexibility and complicate failover when a server holding sessions goes down.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Load_balancing_(computing)" target="_blank" rel="noopener">Load Balancing – Wikipedia</a></div>
+      <div class="reading-desc">Covers failure modes and operational challenges of load balancing systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/" target="_blank" rel="noopener">Cloudflare Load Balancing</a></div>
+      <div class="reading-desc">Discusses real-world challenges in load balancing and how modern systems address them.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Handling Overload</a></div>
+      <div class="reading-desc">Google SRE chapter on handling overload and cascading failures in large distributed systems.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="008-scalability-and-performance.html" class="nav-btn nav-prev">← Scalability and Performance</a>
+  <a href="010-introduction-to-api-gateway.html" class="nav-btn nav-next">Introduction to API Gateway →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scalability — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 013 of 103 &middot; 13% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:13%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › Scalability
+  </div>
+  <h1 class="hero-title">Scalability</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Scalability</span> <span class="hero-tag">Core Concepts</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Scalability is the ability of a system to handle an increasing workload, either by adding more resources (scaling out) or by upgrading the capacity of existing resources (scaling up). In distributed systems, scalability is essential to ensure that the system can effectively manage the growing demands of users, data, and processing power. Here's an overview of the different aspects of scalability:</p>
+<h2 id=h2-a-horizontal-scaling>A. Horizontal Scaling</h2>
+<p>Horizontal scaling, also known as scaling out, involves adding more machines or nodes to a system to distribute the workload evenly. This approach allows the system to handle an increased number of requests without overloading individual nodes. Horizontal scaling is particularly useful in distributed systems because it provides a cost-effective way to manage fluctuating workloads and maintain high availability.</p>
+<h2 id=h2-b-vertical-scaling>B. Vertical Scaling</h2>
+<p>Vertical scaling, or scaling up, refers to increasing the capacity of individual nodes within a system. This can be achieved by upgrading the hardware, such as adding more CPU, memory, or storage. Vertical scaling can help improve the performance of a system by allowing it to handle more workloads on a single node. However, this approach has limitations, as there is a physical limit to the amount of resources that can be added to a single machine, and it can also lead to single points of failure.</p>
+<p><strong>Horizontal vs. Vertical Scaling</strong></p>
+<p>With horizontal-scaling it is often easier to scale dynamically by adding more machines into the existing pool; Vertical-scaling is usually limited to the capacity of a single server and scaling beyond that capacity often involves downtime and comes with an upper limit.</p>
+<p>Good examples of horizontal scaling are Cassandra and MongoDB as they both provide an easy way to scale horizontally by adding more machines to meet growing needs. Similarly, a good example of vertical scaling is MySQL as it allows for an easy way to scale vertically by switching from smaller to bigger machines. However, this process often involves downtime.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Scalability is like a restaurant that can serve 10 customers today and 10,000 customers tomorrow without any change to the menu or kitchen processes. Vertical scalability is hiring a single superhuman chef; horizontal scalability is hiring 100 regular chefs who each handle their own tables. The second approach is how the internet scales — more workers, not superhuman ones.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search scales to 8.5 billion queries per day by distributing work across hundreds of thousands of servers worldwide. No single server could handle this load — Google pioneered horizontal scalability with MapReduce and their distributed index architecture.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter handles 500 million tweets per day by sharding data across thousands of MySQL and Manhattan database instances. Each shard handles a subset of users, allowing Twitter to scale writes horizontally across the fleet.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📁 Dropbox</div>
+      <div class="example-text">Dropbox scaled from hosting all files on S3 to building their own distributed storage system called Magic Pocket when S3 costs became prohibitive at their scale of 500 petabytes. Scalability forced them to redesign their entire storage architecture.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌─────────────────────────────────────────┐
+  │           SCALABILITY TYPES              │
+  ├──────────────────┬──────────────────────┤
+  │  VERTICAL (Up)   │  HORIZONTAL (Out)    │
+  ├──────────────────┼──────────────────────┤
+  │  Bigger machine  │  More machines        │
+  │  More RAM/CPU    │  Same size servers    │
+  │  Has hard limit  │  Theoretically∞       │
+  │  Single point    │  Distributed          │
+  │  Easier code     │  Coordination needed  │
+  └──────────────────┴──────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always clarify whether you mean horizontal or vertical scalability when discussing scale — they have very different architecture implications.</li>
+<li><span class="tip-icon">💡</span> Show awareness of scalability limits at each tier: web servers scale easily horizontally, databases are harder due to consistency requirements.</li>
+<li><span class="tip-icon">💡</span> Mention database sharding, read replicas, and caching as the primary tools for scaling data layers beyond a single machine.</li>
+<li><span class="tip-icon">💡</span> Use back-of-envelope estimation to justify your scalability choices — stating specific numbers (QPS, storage per day) demonstrates quantitative rigor.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Vertical scalability adds resources to a single machine and has an absolute hardware limit.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Horizontal scalability adds more machines and can theoretically scale indefinitely, but requires stateless design and data partitioning.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Web and application tiers are naturally stateless and horizontally scalable; data tiers require careful sharding and replication strategies.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Scalability must be designed in from the start — retrofitting scalability into an existing monolith is expensive and error-prone.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching, CDNs, and read replicas are high-leverage techniques for scaling read-heavy workloads without full horizontal sharding.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Scalability" target="_blank" rel="noopener">Scalability – Wikipedia</a></div>
+      <div class="reading-desc">Formal definitions of vertical and horizontal scalability with performance implications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Managing Load</a></div>
+      <div class="reading-desc">Google SRE techniques for managing load and scaling services reliably.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices and Scalability</a></div>
+      <div class="reading-desc">How microservice architectures enable independent scaling of system components.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="012-advantages-and-disadvantages-of-api-gateway.html" class="nav-btn nav-prev">← Advantages and Disadvantages of API Gateway</a>
+  <a href="014-availability.html" class="nav-btn nav-next">Availability →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

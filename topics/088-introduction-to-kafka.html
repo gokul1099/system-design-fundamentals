@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Kafka — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 088 of 103 &middot; 85% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:85%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Messaging & Kafka › Introduction to Kafka
+  </div>
+  <h1 class="hero-title">Introduction to Kafka</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Kafka</span> <span class="hero-tag">Messaging</span> <span class="hero-tag">Streaming</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-what-is-kafka>What is Kafka?</h2>
+<p>Apache Kafka is an open-source <strong>publish-subscribe</strong>-based messaging system. It is <strong>distributed</strong>, <strong>durable</strong>, <strong>fault-tolerant</strong>, and <strong>highly scalable</strong> by design. Fundamentally, it is a system that takes streams of messages from applications known as producers, stores them reliably on a central cluster (containing a set of brokers), and allows those messages to be received by applications (known as consumers) that process the messages.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Kafka is like a newspaper printing press combined with a library. Producers are reporters who submit articles (events) to the press. Kafka prints and stores every issue permanently. Consumers are readers who can pick up any issue — today's or one from six months ago — at their own pace. Multiple readers can read the same issue independently.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn created Kafka to handle 1 trillion+ events per day — profile views, InMail sends, connection activity. Kafka's log-based storage lets multiple downstream systems (feed, notifications, analytics) each replay the same event stream independently.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber uses Kafka as the backbone of its real-time data pipeline — driver locations, trip events, and surge pricing signals flow through Kafka topics. uReplicator (open-sourced) replicates Kafka across data centers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses Kafka for real-time monitoring and event streaming. Keystone Pipeline ingests billions of events per day from all Netflix services into Kafka, then routes to Elasticsearch, Cassandra, and Spark for analytics and alerting.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Kafka Architecture
+
+  Producers ──▶ ┌──────────────────────────┐
+                │  KAFKA CLUSTER            │
+                │  ┌─────────────────────┐  │
+                │  │ Topic: orders        │  │
+                │  │ Partition 0: [msg…] │  │
+                │  │ Partition 1: [msg…] │  │
+                │  │ Partition 2: [msg…] │  │
+                │  └─────────────────────┘  │
+                └────────────┬─────────────┘
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+         Consumer        Consumer       Consumer
+         Group A         Group B        Group C
+         (analytics)     (billing)      (notify)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain that Kafka is a log, not a queue — messages are retained and can be replayed, unlike traditional queues that delete on consumption.</li>
+<li><span class="tip-icon">💡</span> Consumer groups enable parallel consumption: multiple instances in a group each own a partition subset.</li>
+<li><span class="tip-icon">💡</span> Kafka ordering guarantee: within a partition, messages are strictly ordered. Across partitions, there's no ordering guarantee.</li>
+<li><span class="tip-icon">💡</span> Use the partition key to route related events to the same partition (e.g., user_id ensures all events for a user are ordered).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Kafka is a distributed, durable, append-only log — not a traditional queue.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Topics are split into partitions, enabling parallel consumption across a consumer group.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Messages are retained for a configurable period (not deleted on consumption) — enabling replay.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Kafka provides high throughput (millions of messages/second) and low latency.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener">Apache Kafka Documentation</a></div>
+      <div class="reading-desc">The official, comprehensive guide to Kafka concepts and configuration.</div>
+      <div class="reading-url">kafka.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.confluent.io/what-is-apache-kafka/" target="_blank" rel="noopener">Confluent: Kafka Introduction</a></div>
+      <div class="reading-desc">Clear introduction to Kafka from the team behind Confluent Platform.</div>
+      <div class="reading-url">developer.confluent.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Apache_Kafka" target="_blank" rel="noopener">Wikipedia: Apache Kafka</a></div>
+      <div class="reading-desc">Overview of Kafka history, architecture, and use cases.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="087-introduction-to-messaging-system.html" class="nav-btn nav-prev">← Introduction to Messaging System</a>
+  <a href="089-messaging-patterns.html" class="nav-btn nav-next">Messaging Patterns →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

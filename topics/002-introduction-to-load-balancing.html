@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to Load Balancing — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 002 of 103 &middot; 2% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:2%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Introduction to Load Balancing
+  </div>
+  <h1 class="hero-title">Introduction to Load Balancing</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Load Balancing</span> <span class="hero-tag">High Availability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Load balancing is a crucial component of System Design, as it helps distribute incoming requests and traffic evenly across multiple servers. The main goal of load balancing is to ensure high availability, reliability, and performance by avoiding overloading a single server and avoiding downtime.</p>
+<p>Typically a load balancer sits between the client and the server accepting incoming network and application traffic and distributing the traffic across multiple backend servers using various algorithms. By balancing application requests across multiple servers, a load balancer reduces the load on individual servers and prevents any one server from becoming a single point of failure, thus improving overall application availability and responsiveness.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Imagine a busy supermarket with only one checkout lane — everyone waits in a single long queue. Load balancing is like opening multiple checkout lanes and having a greeter direct each shopper to the shortest line. No single cashier gets overwhelmed, and customers get served much faster.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses load balancing to distribute billions of DNS queries and HTTP requests across its global network of data centers. When one data center becomes congested, traffic is automatically shifted to healthier nodes.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter handles viral tweet storms that can spike traffic by 10x in seconds. Load balancers distribute incoming API requests across fleets of servers so that no single machine becomes the bottleneck during trending events.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub serves millions of git operations, web requests, and CI/CD webhook events simultaneously. Load balancers ensure that repository clones, pull request views, and Actions jobs are spread evenly across server pools.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+         ┌─────────────────────┐
+         │    CLIENT REQUESTS   │
+         └──────────┬──────────┘
+                    │
+         ┌──────────▼──────────┐
+         │    LOAD BALANCER     │
+         └──────┬──────┬───────┘
+                │      │       
+       ┌────────▼──┐ ┌─▼───────┐ ┌────────┐
+       │ Server 1  │ │Server 2 │ │Server 3│
+       │ (healthy) │ │(healthy)│ │(healthy│
+       └───────────┘ └─────────┘ └────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When asked about load balancing, distinguish between L4 (transport layer) and L7 (application layer) load balancers — the choice affects routing capabilities and performance overhead.</li>
+<li><span class="tip-icon">💡</span> Always mention health checks: a load balancer without health checking can route traffic to failed servers, making it a single point of failure itself.</li>
+<li><span class="tip-icon">💡</span> Discuss session persistence (sticky sessions) as a trade-off: it simplifies stateful applications but reduces the effectiveness of load distribution.</li>
+<li><span class="tip-icon">💡</span> Bring up the load balancer itself as a potential SPOF and how to address this with active-passive or active-active HA pairs.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Load balancing distributes incoming traffic across multiple servers to prevent any single server from becoming overwhelmed.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> It improves both availability and performance by routing around failed or slow servers.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Load balancers perform continuous health checks to detect and remove unhealthy servers from the pool.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> A load balancer can operate at Layer 4 (TCP/UDP) or Layer 7 (HTTP) of the OSI model.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/" target="_blank" rel="noopener">What is Load Balancing? – Cloudflare</a></div>
+      <div class="reading-desc">Cloudflare's clear introduction to load balancing concepts and techniques.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/elasticloadbalancing/" target="_blank" rel="noopener">AWS Elastic Load Balancing</a></div>
+      <div class="reading-desc">AWS documentation on managed load balancing services and their configuration.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/http/load_balancing.html" target="_blank" rel="noopener">NGINX Load Balancing</a></div>
+      <div class="reading-desc">Official NGINX guide to configuring HTTP load balancing with real configuration examples.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="001-introduction-to-system-design.html" class="nav-btn nav-prev">← Introduction to System Design</a>
+  <a href="003-load-balancing-algorithms.html" class="nav-btn nav-next">Load Balancing Algorithms →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uses of Checksum — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 078 of 103 &middot; 76% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:76%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Distributed Primitives › Uses of Checksum
+  </div>
+  <h1 class="hero-title">Uses of Checksum</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Checksum</span> <span class="hero-tag">Data Integrity</span> <span class="hero-tag">Use Cases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Here are the top uses of checksum:</p>
+<ol>
+<li>
+<p><strong>Data Integrity Checks</strong>: Imagine sending a super-secret spy message - you wanna make sure it doesn’t get altered during transmission, right? Checksums ensure data hasn’t been tampered with during transmission by checking - you guessed it - the Checksum! If it doesn’t match, something’s fishy.</p>
+</li>
+<li>
+<p><strong>Error Detection</strong>: Ever download a file and it just won’t open? Checksums can help detect if a bit of data got scrambled during a download, helping systems know when they need to try downloading it again.</p>
+</li>
+<li>
+<p><strong>Data Retrieval and Verification</strong>: When you download software or a file from a website, they often provide a Checksum value. You can use this to verify the integrity of the data, ensuring that what you downloaded is exactly what the creators intended, no nasty surprises hiding inside!</p>
+</li>
+<li>
+<p><strong>Networking</strong>: In networking, Checksums help detect errors in packets of data sent over a network. If the arriving packet's Checksum doesn’t match the one it was sent with, the packet can be rejected, ensuring no corrupted data gets through!</p>
+</li>
+<li>
+<p><strong>Secure Storage</strong>: In some databases, Checksums help maintain the integrity of the stored data. Periodically, the stored data is checked against the Checksum - if it doesn’t match, the system knows something’s amiss in the storage system!</p>
+</li>
+<li>
+<p><strong>Password Verification</strong>: Some systems store the Checksum of a password instead of the password itself. When you log in, the system runs the Checksum algorithm on the password you enter and checks that Checksum against the stored Checksum. If they match, you’re in! No need to store actual passwords, adding a layer of security!</p>
+</li>
+<li>
+<p><strong>Preventing Accidental Duplicates</strong>: Systems can use Checksums to prevent accidentally storing duplicate data. If two pieces of data have the same Checksum, they might be duplicates, saving storage space and preventing redundancy!</p>
+</li>
+</ol>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Checksums are used wherever data travels or is stored and could be silently corrupted. Think of them as tamper-evident seals on packages — if the seal is broken when the package arrives, you know someone or something interfered with it along the way.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💾 ZFS (Oracle/FreeBSD)</div>
+      <div class="example-text">ZFS checksums every data block and metadata block. On read, ZFS recomputes and compares. If there's a mismatch due to disk bit-rot, ZFS can auto-heal using a mirror or RAID-Z copy.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">⚡ BitTorrent</div>
+      <div class="example-text">Each piece of a torrent has a SHA-1 hash in the .torrent file. After downloading a piece from a peer, the client verifies its hash. Corrupted pieces are re-downloaded from a different peer.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google Bigtable / LevelDB</div>
+      <div class="example-text">LevelDB (and Bigtable's underlying SSTable format) stores a CRC32 checksum alongside each block. On read, the checksum is verified to detect storage layer corruption before data is returned.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Use Cases of Checksums
+  ┌─────────────────────────────────┐
+  │  Network    │  TCP, UDP, HTTP   │
+  │  Storage    │  ZFS, ext4, NTFS  │
+  │  Files      │  Git, BitTorrent  │
+  │  Databases  │  LevelDB, InnoDB  │
+  │  Transfers  │  S3, FTP, rsync   │
+  └─────────────────────────────────┘
+
+  Checksum Algorithms by Use Case
+  ├── Fast / simple:   CRC32, Adler-32
+  ├── Cryptographic:  SHA-256, SHA-3
+  └── Auth + integrity: HMAC-SHA256
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When asked about data integrity in system design, always mention checksums alongside replication.</li>
+<li><span class="tip-icon">💡</span> CRC32 is fast for storage/networking; SHA-256 is for security-sensitive contexts.</li>
+<li><span class="tip-icon">💡</span> End-to-end checksums catch errors that occur inside the network stack itself.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Checksums are used in networking, storage, file sharing, and databases.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> CRC32 is the workhorse for speed; SHA-256 when security matters.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Without checksums, silent data corruption goes undetected — causing hard-to-diagnose bugs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ZFS, Git, and BitTorrent are excellent real-world examples of pervasive checksum use.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Data_integrity" target="_blank" rel="noopener">Wikipedia: Data Integrity</a></div>
+      <div class="reading-desc">Covers how checksums, hashes, and redundancy combine to ensure data integrity.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/ZFS" target="_blank" rel="noopener">ZFS Documentation: Data Integrity</a></div>
+      <div class="reading-desc">How ZFS uses end-to-end checksums to detect and repair silent corruption.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cyclic_redundancy_check" target="_blank" rel="noopener">Wikipedia: CRC32</a></div>
+      <div class="reading-desc">The most widely used checksum algorithm in storage and networking.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="077-what-is-checksum.html" class="nav-btn nav-prev">← What is Checksum</a>
+  <a href="079-leader-and-follower-pattern.html" class="nav-btn nav-next">What is Leader and Follower Pattern →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

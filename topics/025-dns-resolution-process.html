@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNS Resolution Process — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 025 of 103 &middot; 24% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:24%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Networking › DNS Resolution Process
+  </div>
+  <h1 class="hero-title">DNS Resolution Process</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DNS</span> <span class="hero-tag">Networking</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>The DNS resolution process involves a series of recursive and iterative queries, utilizing a distributed and hierarchical infrastructure of DNS servers, resolvers, and caching mechanisms.</p>
+<h2 id=h2-1-recursive-and-iterative-dns-queries>1. Recursive and Iterative DNS queries</h2>
+<p>DNS resolution is the process of converting a domain name into its corresponding IP address. There are two types of DNS queries involved in this process: recursive and iterative queries.</p>
+<ul>
+<li>
+<p><strong>Recursive query:</strong> In a recursive query, the DNS resolver asks for the complete answer to a query from the DNS server. If the server has the answer, it responds with the required information. If not, the server takes responsibility for contacting other DNS servers to find the answer and then returns it to the resolver. Recursive queries put more responsibility on the DNS server to find the requested information.</p>
+</li>
+<li>
+<p><strong>Iterative query:</strong> In an iterative query, the DNS resolver asks the DNS server for the best answer it has at the moment. If the server doesn't have the complete answer, it responds with a referral to another server that might have more information. The resolver then contacts that server with a new iterative query, repeating the process until it finds the complete answer. In iterative queries, the resolver takes on more responsibility for finding the requested information.</p>
+</li>
+</ul>
+<h2 id=h2-2-dns-caching-and-ttl-time-to-live>2. DNS caching and TTL (Time To Live)</h2>
+<p>To speed up the DNS resolution process, resolvers and servers cache the results of previous queries. When a resolver receives a query, it first checks its cache to see if the answer is already available. If it finds the cached information, it returns the answer without contacting other servers, saving time and reducing network traffic.</p>
+<p>Each DNS record has an associated Time To Live (TTL) value, which specifies how long the record should be stored in the cache. TTL is measured in seconds, and once the TTL expires, the cached information is removed to ensure that outdated information is not used.</p>
+<h2 id=h2-3-negative-caching>3. Negative caching</h2>
+<p>Negative caching is the process of caching the non-existence of a DNS record. When a resolver receives a query for a non-existent domain or record, it caches this information as a negative response, preventing repeated queries for the same non-existent resource. This reduces the load on DNS servers and improves overall performance.</p>
+<p>In short, the DNS resolution process involves converting a domain name into its corresponding IP address using recursive and iterative queries. Resolvers and servers cache the results of previous queries to speed up the resolution process, with TTL values determining how long the records are stored. Negative caching helps improve performance by caching the non-existence of DNS records.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">DNS resolution is like asking a series of information desks to find a specific office in a vast government building complex. You ask the main reception (root), who says 'Try Floor 3 for Commerce' (TLD nameserver). Floor 3 says 'Room 204 handles that specific company' (authoritative nameserver). Room 204 gives you the exact office number (IP address) — and you cache the room number for future visits so you do not have to go through the whole process again.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's 1.1.1.1 resolver performs the full recursive resolution process but caches results aggressively to answer most queries from cache in under 2ms. For uncached queries, Cloudflare's Anycast network connects to root and TLD nameservers with the lowest possible latency from any global location.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's 8.8.8.8 resolver implements DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT), encrypting the resolution process to prevent ISPs from monitoring which domains users resolve. This privacy enhancement does not change the recursive resolution steps but encrypts each network hop.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">AWS Route 53 acts as the authoritative nameserver for millions of domains. When a recursive resolver reaches the final step of DNS resolution for an AWS-hosted application, Route 53 returns the IP address — potentially a latency-optimized or geographically closest IP for that user.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Browser asks: what is the IP for 'www.example.com'?
+  ┌──────────┐      ┌─────────────┐
+  │  Browser │─────►│OS DNS Cache │─── (cache hit? done)
+  └──────────┘      └──────┬──────┘
+                           │ cache miss
+                    ┌──────▼──────┐
+                    │  Recursive  │
+                    │  Resolver   │
+                    └──────┬──────┘
+       ┌───────────────────┼──────────────────┐
+  ┌────▼────┐       ┌──────▼──────┐   ┌───────▼──────┐
+  │  Root   │       │ TLD (.com)  │   │Authoritative │
+  │   NS    │       │ Nameserver  │   │  Nameserver  │
+  └─────────┘       └─────────────┘   └──────────────┘
+   Step 1            Step 2              Step 3 → IP
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Walk through all four entities in order: stub resolver (browser/OS), recursive resolver (ISP/8.8.8.8), authoritative nameserver (TLD), and authoritative nameserver (domain) — interviewers want to see you know the full chain.</li>
+<li><span class="tip-icon">💡</span> Explain the difference between recursive resolvers (do the work on behalf of clients) and iterative resolution (each nameserver refers to the next) — most clients use recursive resolvers.</li>
+<li><span class="tip-icon">💡</span> Discuss DNS caching at each level: browser, OS, resolver — and how TTLs control freshness. Mention negative caching (caching NXDOMAIN responses) as a performance optimization.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DNS resolution follows a hierarchical chain: stub resolver → recursive resolver → root nameserver → TLD nameserver → authoritative nameserver.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The recursive resolver does the heavy lifting on behalf of the client, caching responses to serve future identical queries without re-querying.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TTL on each DNS response dictates how long it can be cached at each step before a fresh lookup is required.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The full resolution requires 3-4 round trips (root → TLD → authoritative) for uncached queries, making resolver caching critical for performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DNSSEC adds cryptographic signatures to DNS responses to prevent cache poisoning attacks that could redirect users to malicious IP addresses.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" rel="noopener">What is DNS? – Cloudflare</a></div>
+      <div class="reading-desc">Step-by-step walkthrough of the DNS resolution process from query to IP address.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Domain_Name_System" target="_blank" rel="noopener">Domain Name System – Wikipedia</a></div>
+      <div class="reading-desc">Full technical reference for the DNS resolution process including recursive and iterative modes.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/DNS_over_HTTPS" target="_blank" rel="noopener">DNS over HTTPS – Wikipedia</a></div>
+      <div class="reading-desc">Covers modern encrypted DNS resolution protocols that build on the standard resolution process.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="024-introduction-to-dns.html" class="nav-btn nav-prev">← Introduction to DNS</a>
+  <a href="026-dns-load-balancing-and-high-availability.html" class="nav-btn nav-next">DNS Load Balancing and High Availability →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

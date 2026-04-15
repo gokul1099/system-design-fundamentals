@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Caching Challenges — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 034 of 103 &middot; 33% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:33%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Caching Challenges
+  </div>
+  <h1 class="hero-title">Caching Challenges</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Problems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Cache-related problems are a set of challenges that arise when implementing and managing caching systems in software applications. Here are the top cache-related problems and their possible workarounds:</p>
+<h2 id=h2-1-thundering-herd>1. Thundering Herd</h2>
+<p>The thundering herd problem occurs when a popular piece of data expires from the cache, leading to a sudden surge in requests to the origin server to fetch the missing data. This can cause excessive load on the origin server and degrade performance. Solutions to the thundering herd problem include using staggered expiration times, implementing a cache lock, or using background updates to refresh the cache before the data expires.</p>
+<h2 id=h2-2-cache-penetration>2. Cache Penetration</h2>
+<p>Cache penetration refers to the situation where requests for data bypass the cache and directly access the origin server, reducing the benefits of caching. This typically happens when requests are made for non-existent or rarely accessed data. To mitigate cache penetration, negative caching (caching negative responses) or using a bloom filter to check for the existence of data before querying the cache can be employed.</p>
+<h2 id=h2-3-big-key>3. Big Key</h2>
+<p>A big key is a large piece of data that consumes a significant portion of the cache's capacity. Storing big keys can lead to cache evictions, reducing the overall effectiveness of the caching system. Solutions for handling big keys include compressing the data before caching, breaking the data into smaller chunks, or using a separate caching strategy specifically designed for large objects.</p>
+<h2 id=h2-4-hot-key>4. Hot Key</h2>
+<p>A hot key refers to a piece of data that is frequently accessed, causing contention and performance issues in the caching system. Hot keys can lead to cache thrashing and an unbalanced distribution of load. Solutions for dealing with hot keys include using consistent hashing to distribute the load more evenly, replicating the hot key across multiple cache nodes, or implementing a load balancing strategy to distribute requests across multiple instances of the hot key.</p>
+<h2 id=h2-5-cache-stampede-or-dogpile>5. Cache Stampede (or Dogpile)</h2>
+<p>Cache stampede occurs when multiple requests for the same data are made simultaneously, causing excessive load on the cache and the origin server. Cache stampede can be addressed using techniques such as request coalescing (combining multiple requests for the same data into a single request) or implementing a read-through cache, where the cache itself fetches the missing data from the origin server.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache stampede is like a popular bakery that sells out of bread every day at noon. Everyone in the office knows the bread will be gone by 12:05, so at exactly noon, hundreds of people all rush to the bakery at once. The stampede overwhelms the counter staff just as they're trying to restock. Thundering herd is the same problem — when one popular resource expires, all waiting requestors charge the backend simultaneously.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🤖 Reddit</div>
+      <div class="example-text">Reddit experienced cache stampedes when a highly-trafficked post's cache entry expired — thousands of concurrent requests all found a cache miss and simultaneously hit the database. The resulting database overload caused cascading failures. They mitigated this using mutex locking to allow only one request to repopulate the cache.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare handles thundering herd at the CDN level using 'request coalescing' — when multiple requests for the same uncached resource arrive simultaneously, only one request is forwarded to the origin while the others wait. The single origin response is then distributed to all waiting clients, preventing stampede on origin servers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">👍 Facebook/Meta</div>
+      <div class="example-text">Facebook prevents cache poisoning by validating all data before writing to Memcached. If a malicious or malformed response were cached, it would be served to millions of users. Their cache write path includes integrity checks to ensure only valid data enters the cache.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌──────────────────────────────────────┐
+│       Cache Stampede / Thundering    │
+│                                      │
+│  t=0: Cache key expires              │
+│  t=1: 1000 requests arrive           │
+│        → All find MISS               │
+│        → All query DB simultaneously │
+│        → DB overwhelmed              │
+│                                      │
+│  Solutions:                          │
+│  1. Mutex Lock: Only 1 rebuilds key  │
+│  2. Probabilistic early expiry       │
+│  3. Request coalescing at proxy      │
+│  4. Stale-while-revalidate           │
+└──────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain cache stampede clearly: it occurs when a popular cached item expires and all concurrent requestors simultaneously hit the backend, causing a traffic spike.</li>
+<li><span class="tip-icon">💡</span> Describe the mutex lock (or 'dog-pile lock') solution: only one thread/process is allowed to repopulate the cache; others serve stale data or wait.</li>
+<li><span class="tip-icon">💡</span> Mention probabilistic early expiration: cache items are randomly expired slightly before their actual TTL, spreading the repopulation across time rather than at a single instant.</li>
+<li><span class="tip-icon">💡</span> Discuss cache poisoning separately: it is a security concern where malicious data is inserted into the cache and then served to legitimate users — validation on write is the primary defense.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache stampede (thundering herd) occurs when many requests simultaneously find a cache miss and overwhelm the backend.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Mutex locking ensures only one process repopulates a cache entry while others wait or use stale data.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Request coalescing at the proxy layer forwards only one backend request for simultaneous cache misses.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache poisoning occurs when malicious or corrupted data is stored in the cache and served to users.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Probabilistic early expiration spreads cache refresh load over time instead of creating a sudden spike.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_stampede" target="_blank" rel="noopener">Cache Stampede — Wikipedia</a></div>
+      <div class="reading-desc">Defines cache stampede, explains its causes, and describes mitigation strategies including mutex locks.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching" target="_blank" rel="noopener">HTTP Caching — MDN Web Docs</a></div>
+      <div class="reading-desc">Covers stale-while-revalidate and other HTTP cache strategies that help prevent stampede.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/cdn/what-is-caching/" target="_blank" rel="noopener">Cloudflare CDN Caching</a></div>
+      <div class="reading-desc">Explains request coalescing and other CDN techniques used to prevent thundering herd at the edge.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="033-cache-coherence-and-consistency-models.html" class="nav-btn nav-prev">← Cache Coherence and Consistency Models</a>
+  <a href="035-cache-performance-metrics.html" class="nav-btn nav-next">Cache Performance Metrics →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

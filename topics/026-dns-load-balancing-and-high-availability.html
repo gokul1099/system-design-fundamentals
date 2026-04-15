@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNS Load Balancing and High Availability — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 026 of 103 &middot; 25% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:25%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Networking › DNS Load Balancing and High Availability
+  </div>
+  <h1 class="hero-title">DNS Load Balancing and High Availability</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">DNS</span> <span class="hero-tag">Load Balancing</span> <span class="hero-tag">High Availability</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>The Domain Name System (DNS) plays a critical role in the smooth functioning of the internet, translating human-readable domain names into IP addresses that computers can understand. As the number of users and services on the internet continues to grow, ensuring the performance, reliability, and availability of DNS becomes increasingly important. DNS load balancing and high availability techniques, such as round-robin DNS, geographically distributed servers, anycast routing, and Content Delivery Networks (CDNs), help distribute the load among multiple servers, reduce latency for end-users, and maintain uninterrupted service, even in the face of server failures or network outages. This chapter provides an overview of these techniques, explaining how they contribute to a more efficient and resilient DNS infrastructure.</p>
+<h2 id=h2-1-round-robin-dns>1. Round-robin DNS</h2>
+<p>Round-robin DNS is a simple load balancing technique in which multiple IP addresses are associated with a single domain name. When a resolver queries the domain name, the DNS server responds with one of the available IP addresses, rotating through them in a round-robin fashion. This distributes the load among multiple servers or resources, improving the performance and availability of the website or service.</p>
+<p>However, round-robin DNS does not take into account the actual load on each server or the geographic location of the client, which can lead to uneven load distribution or increased latency in some cases.</p>
+<h2 id=h2-2-geographically-distributed-dns-servers>2. Geographically distributed DNS servers</h2>
+<p>To improve the performance and availability of DNS services, operators can deploy DNS servers in multiple geographic locations. By distributing DNS servers across different regions, they can provide faster and more reliable DNS resolution for users located closer to a server.</p>
+<p>Geographically distributed servers also offer increased redundancy, reducing the impact of server failures or network outages. If one server becomes unreachable, users can still access the service through other available servers in different locations.</p>
+<h2 id=h2-3-anycast-routing>3. Anycast routing</h2>
+<p>Anycast routing is a networking technique that allows multiple servers to share the same IP address. When a resolver sends a query to an anycast IP address, the network routes the query to the nearest server, based on factors like network latency and server availability.</p>
+<p>Anycast provides several benefits for DNS:</p>
+<ul>
+<li><strong>Load balancing:</strong> Anycast distributes DNS queries among multiple servers, preventing any single server from becoming a bottleneck.</li>
+<li><strong>Reduced latency:</strong> By directing users to the nearest server, anycast can significantly reduce the time it takes for DNS resolution.</li>
+<li><strong>High availability:</strong> If a server fails or becomes unreachable, anycast automatically redirects queries to the next closest server, ensuring uninterrupted service.</li>
+</ul>
+<h2 id=h2-4-content-delivery-networks-cdns-and-their-relation-to-dns>4. Content Delivery Networks (CDNs) and their relation to DNS</h2>
+<p>A Content Delivery Network (CDN) is a network of distributed servers that cache and deliver web content to users based on their geographic location. CDNs help improve the performance, reliability, and security of websites and web services by distributing the load among multiple servers and serving content from the server closest to the user.</p>
+<p>DNS plays a crucial role in the functioning of CDNs. When a user requests content from a website using a CDN, the CDN's DNS server determines the best server to deliver the content based on the user's location and other factors. The DNS server then responds with the IP address of the chosen server, allowing the user to access the content quickly and efficiently.</p>
+<p>In short, DNS load balancing and high availability techniques, such as round-robin DNS, geographically distributed servers, anycast routing, and CDNs, help improve the performance, reliability, and availability of websites and web services by distributing the load among multiple servers and reducing latency for end-users.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">DNS load balancing is like a restaurant host who checks which tables are available and seats new customers at the least-busy one. Instead of everyone crowding a single table, traffic is spread evenly across many tables. If one table is removed for cleaning, the host simply stops directing guests there — no one notices the change.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google uses DNS-based load balancing to route search queries to data centers closest to the user. When you query google.com, DNS returns the IP of a nearby data center, reducing latency. Different users in different regions receive different IP addresses from the same DNS query.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare's Anycast DNS routing assigns the same IP address to multiple data centers worldwide. DNS queries are automatically answered by the nearest Cloudflare point of presence. This provides both load balancing and resilience against regional outages.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses DNS-based traffic management to direct streaming traffic across AWS regions. If a region experiences degraded performance, DNS TTLs are lowered to allow rapid failover to healthy regions. This approach keeps playback smooth even during partial infrastructure failures.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────┐
+│          Client Request         │
+│         "api.example.com"       │
+└────────────┬────────────────────┘
+             │
+             ▼
+┌─────────────────────────────────┐
+│         DNS Resolver            │
+│   (Round-Robin / Geo / Weight)  │
+└──────┬──────────┬───────────────┘
+       │          │
+       ▼          ▼
+┌──────────┐  ┌──────────┐
+│ Server A │  │ Server B │
+│ 10.0.0.1 │  │ 10.0.0.2 │
+└──────────┘  └──────────┘
+       │          │
+       └────┬─────┘
+            ▼
+   Response to Client
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain the difference between DNS load balancing and hardware load balancers — DNS operates at the name-resolution layer with TTL-based routing, while hardware LBs operate at the network/transport layer.</li>
+<li><span class="tip-icon">💡</span> Discuss TTL trade-offs: short TTLs allow fast failover but increase DNS query load; long TTLs reduce load but slow down traffic redirection during failures.</li>
+<li><span class="tip-icon">💡</span> Mention that DNS load balancing can be combined with health checks — modern DNS providers like Route 53 and Cloudflare remove unhealthy IPs from DNS responses automatically.</li>
+<li><span class="tip-icon">💡</span> Note a key limitation: client-side DNS caching means changes don't propagate instantly, so DNS LB is not suitable for millisecond-level failover requirements.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DNS load balancing distributes traffic by returning different IP addresses for the same domain name.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Common strategies include round-robin, weighted, geolocation-based, and latency-based routing.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> TTL (Time To Live) controls how long clients cache DNS responses and is central to failover speed.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DNS LB is simple and global but lacks session stickiness and instant failover.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern DNS providers support health checks to automatically remove failed servers from rotation.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/dns/what-is-dns/" target="_blank" rel="noopener">What is DNS? — Cloudflare Learning</a></div>
+      <div class="reading-desc">A clear, visual explanation of how DNS works and its role in internet routing.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Round-robin_DNS" target="_blank" rel="noopener">DNS Load Balancing — Wikipedia</a></div>
+      <div class="reading-desc">Overview of round-robin DNS as a simple load balancing mechanism and its limitations.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/" target="_blank" rel="noopener">Nginx Load Balancing Documentation</a></div>
+      <div class="reading-desc">Official Nginx docs covering load balancing methods including round-robin and least-connections.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="025-dns-resolution-process.html" class="nav-btn nav-prev">← DNS Resolution Process</a>
+  <a href="027-introduction-to-caching.html" class="nav-btn nav-next">Introduction to Caching →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

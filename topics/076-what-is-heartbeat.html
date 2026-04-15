@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Heartbeat — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 076 of 103 &middot; 74% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:74%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Distributed Primitives › What is Heartbeat
+  </div>
+  <h1 class="hero-title">What is Heartbeat</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Heartbeat</span> <span class="hero-tag">Failure Detection</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<h2 id=h2-background>Background</h2>
+<p>In a distributed environment, work/data is distributed among servers. To efficiently route requests in such a setup, servers need to know what other servers are part of the system. Furthermore, servers should know if other servers are alive and working. In a decentralized system, whenever a request arrives at a server, the server should have enough information to decide which server is responsible for entertaining that request. This makes the timely detection of server failure an important task, which also enables the system to take corrective actions and move the data/work to another healthy server and stop the environment from further deterioration.</p>
+<h2 id=h2-solution>Solution</h2>
+<p>Each server periodically sends a heartbeat message to a central monitoring server or other servers in the system to show that it is still alive and functioning.</p>
+<p>Heartbeating is one of the mechanisms for detecting failures in a distributed system. If there is a central server, all servers periodically send a heartbeat message to it. If there is no central server, all servers randomly choose a set of servers and send them a heartbeat message every few seconds. This way, if no heartbeat message is received from a server for a while, the system can suspect that the server might have crashed. If there is no heartbeat within a configured timeout period, the system can conclude that the server is not alive anymore and stop sending requests to it and start working on its replacement.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of a heartbeat like a friend who texts you 'I'm alive' every 10 minutes. If you stop getting texts, you assume something went wrong. Distributed systems work the same way — nodes send tiny signals to prove they're still running, and the cluster acts if signals stop arriving.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐘 Apache ZooKeeper</div>
+      <div class="example-text">ZooKeeper uses heartbeat sessions. If a client doesn't renew its session within the timeout, ZooKeeper treats it as failed and releases its ephemeral nodes, triggering leader re-election.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☸️ Kubernetes</div>
+      <div class="example-text">The kubelet on each node sends heartbeats to the control plane every few seconds. If the control plane misses heartbeats for node-monitor-grace-period, it marks the node NotReady and reschedules pods.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS</div>
+      <div class="example-text">AWS Elastic Load Balancer performs health checks (a form of heartbeat) against backend instances. If an instance fails a configurable number of consecutive checks, ELB stops routing traffic to it.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Node A          Node B          Monitor
+    │               │               │
+    │──heartbeat──▶│               │
+    │               │──heartbeat──▶│
+    │               │               │
+    │  (Node A crashes)             │
+    │               │               │
+    │               │──heartbeat──▶│
+    │               │               │
+    │  [timeout]    │               │
+    │◀──────────────────── "A is down!" ──▶ trigger failover
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Mention the heartbeat interval vs timeout trade-off: short intervals detect failures faster but add network overhead.</li>
+<li><span class="tip-icon">💡</span> Discuss false positives — a slow network can look like a dead node; mention grace periods to reduce false alarms.</li>
+<li><span class="tip-icon">💡</span> Heartbeats are the basis of leader election: if the leader stops heartbeating, followers start an election.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Heartbeats are periodic signals that prove a node is alive.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> If heartbeats stop arriving, the system assumes failure and triggers recovery.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The timeout value is a trade-off between fast failure detection and false positives.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Used in ZooKeeper, Kubernetes, Consul, and virtually every distributed system.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Heartbeat_(computing)" target="_blank" rel="noopener">Wikipedia: Heartbeat (computing)</a></div>
+      <div class="reading-desc">Overview of heartbeat mechanisms in distributed systems and networking.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://kubernetes.io/docs/concepts/architecture/nodes/#node-heartbeats" target="_blank" rel="noopener">Kubernetes Node Health Monitoring</a></div>
+      <div class="reading-desc">How Kubernetes uses heartbeats to track node liveness.</div>
+      <div class="reading-url">kubernetes.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book — Distributed Consensus</a></div>
+      <div class="reading-desc">Covers failure detection and consensus protocols that rely on heartbeats.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="075-what-is-quorum.html" class="nav-btn nav-prev">← What is Quorum</a>
+  <a href="077-what-is-checksum.html" class="nav-btn nav-next">What is Checksum →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

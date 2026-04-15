@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Long-Polling, WebSockets, and Server-Sent Events — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 074 of 103 &middot; 72% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:72%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Communication Patterns › Long-Polling, WebSockets, and Server-Sent Events
+  </div>
+  <h1 class="hero-title">Long-Polling, WebSockets, and Server-Sent Events</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">WebSockets</span> <span class="hero-tag">SSE</span> <span class="hero-tag">Long Polling</span> <span class="hero-tag">Real-time</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Long-Polling, WebSockets, and Server-Sent Events are popular communication protocols between a client like a web browser and a web server. First, let’s start with understanding what a standard HTTP web request looks like. Following are a sequence of events for regular HTTP request:</p>
+<ol>
+<li>The client opens a connection and requests data from the server.</li>
+<li>The server calculates the response.</li>
+<li>The server sends the response back to the client on the opened request.</li>
+</ol>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Long-polling is like calling a restaurant to ask if your table is ready — you call, they say 'not yet, stay on hold,' and they tell you when it's ready, then you hang up and call again for next time. WebSockets is like being given a walkie-talkie — you and the restaurant can talk any time, in either direction, without the overhead of placing a new call. Server-Sent Events is like subscribing to a radio station — the broadcast flows to you continuously, but you can't broadcast back on that same channel.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">💬 Discord</div>
+      <div class="example-text">Discord uses WebSockets for real-time chat messaging — messages must flow bidirectionally (users send and receive) with sub-second latency. WebSockets maintain a persistent TCP connection that allows either party to send data at any time without the overhead of HTTP request-response cycles.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter's public streaming API uses Server-Sent Events for the 'new tweet' notification feed — tweets flow from server to client in real-time, but the client doesn't need to send messages back on the same connection. SSE's unidirectional nature is perfectly matched to this one-way push pattern.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe's webhook dashboard uses long-polling for customers checking payment event status in cases where webhooks have not been set up. The client polls Stripe's server every 30 seconds, and the server holds the connection open until an event occurs or a timeout is reached — simpler than WebSockets for infrequent updates.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│    Long-Polling vs WebSockets vs SSE                │
+├──────────────┬──────────────┬────────────────────── ┤
+│ Long-Polling │  WebSockets  │       SSE             │
+├──────────────┼──────────────┼───────────────────────┤
+│ HTTP request │ Persistent   │ Persistent HTTP       │
+│ held open    │ TCP tunnel   │ one-way stream        │
+├──────────────┼──────────────┼───────────────────────┤
+│ Bidirectional│ Bidirectional│ Server → Client only  │
+│ (via polling)│ (full-duplex)│ (unidirectional)      │
+├──────────────┼──────────────┼───────────────────────┤
+│ High overhead│ Low overhead │ Low overhead          │
+│ (reconnects) │              │ + auto-reconnect      │
+├──────────────┼──────────────┼───────────────────────┤
+│ Chat (legacy)│ Chat, games  │ Notifications, feeds  │
+└──────────────┴──────────────┴───────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Default to WebSockets for any bidirectional real-time communication requirement (chat, collaborative editing, multiplayer games) — it's the most efficient persistent connection protocol.</li>
+<li><span class="tip-icon">💡</span> Recommend SSE for server-to-client push scenarios (notifications, live feeds, dashboards) where the client doesn't need to send data back — SSE is simpler and has built-in reconnection logic.</li>
+<li><span class="tip-icon">💡</span> Use long-polling only as a fallback for environments where WebSockets are blocked by corporate firewalls or when updates are infrequent — it's the least efficient of the three.</li>
+<li><span class="tip-icon">💡</span> Mention that WebSockets require a connection upgrade handshake starting with HTTP, and that connection state must be managed server-side, which complicates load balancing (sticky sessions or shared state like Redis Pub/Sub are needed).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Long-polling simulates push by having the server hold an HTTP request open until data is available or a timeout occurs, then the client immediately re-polls.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> WebSockets establish a persistent, full-duplex TCP connection enabling low-latency bidirectional communication without repeated HTTP overhead.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Server-Sent Events (SSE) provide a persistent unidirectional server-to-client stream over HTTP with built-in reconnection and event IDs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Choose WebSockets for chat, gaming, and collaborative tools; SSE for notifications and live feeds; long-polling as a compatibility fallback.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> WebSockets complicate load balancing because connection state is server-resident — sticky sessions or a message broker like Redis Pub/Sub is needed to route messages across nodes.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API" target="_blank" rel="noopener">WebSockets API - MDN</a></div>
+      <div class="reading-desc">MDN's WebSockets documentation covers the protocol, JavaScript API, and browser support with practical code examples.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/WebSocket" target="_blank" rel="noopener">WebSocket - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's WebSocket article covers the protocol specification, connection lifecycle, and comparison to HTTP polling techniques.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Server-sent_events" target="_blank" rel="noopener">Server-Sent Events - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's SSE article explains the protocol, EventSource API, and comparison with WebSockets and long-polling.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="073-applications-of-bloom-filters.html" class="nav-btn nav-prev">← Applications of Bloom Filters</a>
+  <a href="075-what-is-quorum.html" class="nav-btn nav-next">What is Quorum →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

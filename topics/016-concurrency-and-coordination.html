@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concurrency and Coordination — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 016 of 103 &middot; 16% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:16%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › Concurrency and Coordination
+  </div>
+  <h1 class="hero-title">Concurrency and Coordination</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 8 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Concurrency</span> <span class="hero-tag">Coordination</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In distributed systems, multiple processes or components often need to work together concurrently, which can introduce challenges related to coordination, synchronization, and data consistency. Here's an overview of concurrency and coordination in distributed systems and the key aspects to consider:</p>
+<h2 id=h2-a-concurrency-control>A. Concurrency Control</h2>
+<p>Concurrency control is the process of managing simultaneous access to shared resources or data in a distributed system. It ensures that multiple processes can work together efficiently while avoiding conflicts or inconsistencies. Techniques for implementing concurrency control include:</p>
+<ul>
+<li><strong>Locking:</strong> Locks are used to restrict access to shared resources or data, ensuring that only one process can access them at a time.</li>
+<li><strong>Optimistic concurrency control:</strong> This approach assumes that conflicts are rare and allows multiple processes to work simultaneously. Conflicts are detected and resolved later, usually through a validation and rollback mechanism.</li>
+<li><strong>Transactional memory:</strong> This technique uses transactions to group together multiple operations that should be executed atomically, ensuring data consistency and isolation.</li>
+</ul>
+<h2 id=h2-b-synchronization>B. Synchronization</h2>
+<p>Synchronization is the process of coordinating the execution of multiple processes or threads in a distributed system to ensure correct operation. Synchronization can be achieved using various mechanisms, such as:</p>
+<ul>
+<li><strong>Barriers:</strong> Barriers are used to synchronize the execution of multiple processes or threads, ensuring that they all reach a specific point before proceeding.</li>
+<li><strong>Semaphores:</strong> Semaphores are signaling mechanisms that control access to shared resources and maintain synchronization among multiple processes or threads.</li>
+<li><strong>Condition variables:</strong> Condition variables allow processes or threads to wait for specific conditions to be met before proceeding with their execution.</li>
+</ul>
+<h3 id=h3-concurrency-control-vs-synchronization>Concurrency Control vs. Synchronization</h3>
+<ol>
+<li>
+<p><strong>Concurrency Control</strong>:</p>
+<ul>
+<li><strong>Primary Goal</strong>: The main objective of concurrency control is to manage access to shared resources (like data or hardware resources) in an environment where multiple processes or threads are executing simultaneously.</li>
+<li><strong>Focus</strong>: It is concerned with how to handle situations where multiple processes need to access or modify shared data at the same time.</li>
+</ul>
+</li>
+<li>
+<p><strong>Synchronization</strong>:</p>
+<ul>
+<li><strong>Primary Goal</strong>: The purpose of synchronization is to coordinate the timing of multiple concurrent processes or threads. It's about managing the execution order and timing of processes to ensure correct operation.</li>
+<li><strong>Focus</strong>: It ensures that concurrent processes execute in a way that respects certain timing constraints, like making sure certain operations happen before others or that operations do not interfere destructively with one another.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-c-coordination-services>C. Coordination Services</h2>
+<p>Coordination services are specialized components or tools that help manage distributed systems' complexity by providing a set of abstractions and primitives for tasks like configuration management, service discovery, leader election, and distributed locking. Examples of coordination services include Apache ZooKeeper, etcd, and Consul.</p>
+<h2 id=h2-d-consistency-models>D. Consistency Models</h2>
+<p>In distributed systems, consistency models define the rules for maintaining data consistency across multiple nodes or components. Various consistency models, such as strict consistency, sequential consistency, eventual consistency, and causal consistency, provide different levels of guarantees for data consistency and can impact the overall system performance, availability, and complexity.</p>
+<p>Consistency models are fundamental in distributed systems, defining the rules for how and when changes made by one operation (like a write) become visible to other operations (like reads). Different models offer various trade-offs between consistency, availability, and partition tolerance. Here are some of the key consistency models, along with examples:</p>
+<h3 id=h3-1-strong-consistency>1. Strong Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: After a write operation completes, any subsequent read operation will immediately see the new value.</li>
+<li><strong>Example</strong>: Traditional relational databases (RDBMS) like MySQL or PostgreSQL typically offer strong consistency. If a record is updated in one transaction, any subsequent transaction will see that update.</li>
+</ul>
+<h3 id=h3-2-eventual-consistency>2. Eventual Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: Over time, all accesses to a particular data item will eventually return the last updated value. The time it takes to achieve consistency after a write is not guaranteed.</li>
+<li><strong>Example</strong>: Amazon's DynamoDB uses eventual consistency. If you update a data item, the change might not be immediately visible to all users, but it will eventually propagate to all nodes.</li>
+</ul>
+<h3 id=h3-3-causal-consistency>3. Causal Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: Operations that are causally related are seen by all processes in the same order. Concurrent operations might be seen in a different order on different nodes.</li>
+<li><strong>Example</strong>: In a social media app, if a user posts a message and then comments on that post, any user who sees the comment must also see the original post.</li>
+</ul>
+<h3 id=h3-4-read-your-writes-consistency>4. Read-Your-Writes Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: Guarantees that once a write operation completes, any subsequent reads (by the same client) will see that write or its effects.</li>
+<li><strong>Example</strong>: A user profile update in a web application. Once the user updates their profile, they immediately see the updated profile data.</li>
+</ul>
+<h3 id=h3-5-session-consistency>5. Session Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: A stronger version of read-your-writes consistency. It extends this guarantee to a session of interactions, ensuring consistency within the context of a single user session.</li>
+<li><strong>Example</strong>: In an e-commerce site's shopping cart, items added to the cart in a session will be consistently visible throughout that session.</li>
+</ul>
+<h3 id=h3-6-sequential-consistency>6. Sequential Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: Operations from all nodes or processes are seen in the same order. There is a global order of operations, but it doesn't have to be real-time.</li>
+<li><strong>Example</strong>: A distributed logging system where logs from different servers are merged into a single, sequentially consistent log.</li>
+</ul>
+<h3 id=h3-7-monotonic-read-consistency>7. Monotonic Read Consistency</h3>
+<ul>
+<li><strong>Definition</strong>: Ensures that if a read operation reads a value of a data item, any subsequent read operations will never see an older value.</li>
+<li><strong>Example</strong>: A user checking a flight status on an airline app will not see a departure time that goes back in time; it will only move forward.</li>
+</ul>
+<h3 id=h3-8-linearizability-strong-consistency>8. Linearizability (Strong Consistency)</h3>
+<ul>
+<li><strong>Definition</strong>: A stronger version of sequential consistency, it ensures that all operations are atomic and instantly visible to all nodes.</li>
+<li><strong>Example</strong>: In a distributed key-value store, once a new value is written to a key, any read operation on any node immediately reflects this change.</li>
+</ul>
+<p>Each consistency model addresses specific requirements and challenges in distributed systems, balancing the trade-offs between providing timely, consistent views of data and maintaining system performance and availability. The choice of a consistency model often depends on the specific requirements of the application and the nature of the data being managed.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Concurrency is like a team of surgeons sharing a single set of surgical tools. If two surgeons grab the same scalpel simultaneously, chaos ensues — you need coordination protocols (locks, turn-taking) to prevent conflicts. Distributed systems face the same problem: multiple servers must coordinate access to shared data without corrupting it.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's Bigtable and Spanner databases use distributed locking and multi-version concurrency control (MVCC) to allow thousands of servers to read and write data concurrently without conflicts or stale reads.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon DynamoDB uses optimistic locking (conditional writes) for inventory management to prevent overselling products. When two customers try to buy the last item simultaneously, only one write succeeds — the other receives a conflict error and must retry.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe uses idempotency keys as a coordination mechanism: clients include a unique key per payment request so that retried requests (due to network errors) are safely deduplicated server-side without double-charging.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌────────────────────────────────────────┐
+  │       CONCURRENCY MECHANISMS           │
+  ├────────────────────────────────────────┤
+  │  Pessimistic Lock → lock before write  │
+  │  Optimistic Lock  → check-then-write   │
+  │  MVCC             → snapshot reads     │
+  │  Consensus (Raft) → leader election    │
+  │  Idempotency Keys → safe retries       │
+  │  Compare-And-Swap → atomic operations  │
+  └────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Distinguish pessimistic locking (lock before operation) from optimistic locking (detect conflict at commit time) — optimistic locking scales better under low contention, pessimistic better under high contention.</li>
+<li><span class="tip-icon">💡</span> Explain the CAP theorem in context: during a network partition, a system must choose between consistency (returning correct data) and availability (returning any data).</li>
+<li><span class="tip-icon">💡</span> Bring up idempotency as a coordination technique: designing operations to be safely retried eliminates many distributed concurrency problems.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Concurrency in distributed systems requires explicit coordination to prevent race conditions and data corruption.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Distributed locks, MVCC, and consensus protocols (Raft, Paxos) are the primary coordination primitives at scale.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The CAP theorem states that a distributed system can only guarantee two of Consistency, Availability, and Partition tolerance simultaneously.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Idempotent operations are a design technique that reduces the need for complex coordination by making retries safe.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Deadlocks can occur in distributed systems just as in single-machine systems and require timeout-based detection and recovery strategies.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Concurrency_control" target="_blank" rel="noopener">Concurrency Control – Wikipedia</a></div>
+      <div class="reading-desc">Covers concurrency control mechanisms in databases and distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem – Wikipedia</a></div>
+      <div class="reading-desc">Formal description of the CAP theorem and its implications for distributed system design.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Distributed Systems Complexity</a></div>
+      <div class="reading-desc">Google SRE's treatment of distributed system coordination and reliability challenges.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="015-latency-and-performance.html" class="nav-btn nav-prev">← Latency and Performance</a>
+  <a href="017-monitoring-and-observability.html" class="nav-btn nav-next">Monitoring and Observability →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stateless vs Stateful Load Balancing — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 006 of 103 &middot; 6% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:6%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Stateless vs Stateful Load Balancing
+  </div>
+  <h1 class="hero-title">Stateless vs Stateful Load Balancing</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Load Balancing</span> <span class="hero-tag">Sessions</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Stateless and stateful load balancing represent two distinct methods for distributing traffic among multiple servers or resources.</p>
+<h2 id=h2-stateless-load-balancing>Stateless Load Balancing</h2>
+<p>Stateless load balancers operate without maintaining any information about the clients' session or connection state. They make routing decisions based solely on the incoming request data, such as the client's IP address, request URL, or other headers. Because stateless load balancers do not store session information, they can quickly and efficiently distribute incoming traffic without considering the clients' history or past interactions with the application.</p>
+<p><strong>Example:</strong> Consider a web application that enables users to search for products according to their location. A stateless load balancer can allocate requests to servers based on the user's geographic location, without retaining any session data.</p>
+<h2 id=h2-stateful-load-balancing>Stateful Load Balancing</h2>
+<p>In contrast, stateful load balancing preserves session information between requests. The load balancer assigns a client to a specific server and ensures that all subsequent requests from the same client are directed to that server. This method is beneficial when requests pertain to a particular session and necessitate session data.</p>
+<p><strong>Example:</strong> Suppose a web application that requires users to log in to access their personal information. A stateful load balancer can guarantee that requests from the same user are routed to the same server, allowing session data such as login credentials to be available.</p>
+<p>Stateful load balancing can be further categorized into two types:</p>
+<ul>
+<li>
+<p><strong>Source IP Affinity:</strong> This form of stateful load balancing assigns a client to a specific server based on the client's IP address. While this approach ensures that requests from the same client consistently reach the same server, it may pose issues if the client's IP address frequently changes, such as in mobile networks.</p>
+</li>
+<li>
+<p><strong>Session Affinity:</strong> In this type of stateful load balancing, the load balancer allocates a client to a specific server based on a session identifier, such as a cookie or URL parameter. This method ensures that requests from the same client consistently reach the same server, regardless of the client's IP address.</p>
+</li>
+</ul>
+<p>Ultimately, the decision between stateless and stateful load balancing depends on the application or service's requirements. Stateless load balancing is useful for applications capable of processing requests independently, while stateful load balancing is more appropriate for applications that depend on session data.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Stateless load balancing is like ordering at a fast-food counter — any cashier can take your order because there is no memory of previous customers. Stateful load balancing is like having a personal banker who remembers your account history; you must see the same banker each time, which means they can get overloaded while other bankers sit idle.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix shifted its API layer to stateless authentication using JWT tokens, so any backend server can validate a request without querying a central session store. This allows their load balancers to route freely without sticky sessions.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe uses stateful session handling during multi-step payment flows to maintain transaction context, routing requests via sticky sessions to the same backend until the payment is completed or times out.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb moved booking sessions from server-side state to encrypted client-side cookies, effectively making their web tier stateless and enabling any server in the pool to handle any user request without coordination.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────────────────────────┐
+  │          STATELESS vs STATEFUL            │
+  ├─────────────────────┬────────────────────┤
+  │     STATELESS       │      STATEFUL       │
+  ├─────────────────────┼────────────────────┤
+  │ Any server handles  │ Same server needed  │
+  │ any request         │ for same session    │
+  ├─────────────────────┼────────────────────┤
+  │ JWT / cookies       │ Server-side session │
+  ├─────────────────────┼────────────────────┤
+  │ Easy to scale out   │ Sticky sessions     │
+  ├─────────────────────┼────────────────────┤
+  │ Preferred approach  │ Legacy/special use  │
+  └─────────────────────┴────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always advocate for stateless architectures in interviews — they scale horizontally without coordination overhead and survive individual server failures gracefully.</li>
+<li><span class="tip-icon">💡</span> If the interviewer asks about stateful requirements (e.g., WebSockets), explain that sticky sessions can be used but discuss their failure-mode implications.</li>
+<li><span class="tip-icon">💡</span> Mention that externalized session stores (Redis, Memcached) are a middle ground: servers appear stateless to the load balancer but share state via a fast cache.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stateless servers store no per-user session data locally, allowing any request to be served by any server in the pool.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Stateful servers require the same client to always reach the same server, implemented via sticky sessions (cookie or IP-based affinity).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Sticky sessions reduce load balancing effectiveness and complicate failover.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Externalizing session state to a shared cache (Redis) enables horizontal scaling while preserving session continuity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern system design strongly favors stateless architectures for web and API tiers.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Stateless_protocol" target="_blank" rel="noopener">Stateless Protocol – Wikipedia</a></div>
+      <div class="reading-desc">Explains the concept of stateless protocols and their advantages in distributed systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.cloudflare.com/learning/performance/what-is-load-balancing/" target="_blank" rel="noopener">Load Balancing Persistence – Cloudflare</a></div>
+      <div class="reading-desc">Covers session persistence and sticky session trade-offs in load balancing.</div>
+      <div class="reading-url">cloudflare.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://nginx.org/en/docs/http/load_balancing.html" target="_blank" rel="noopener">NGINX Session Persistence</a></div>
+      <div class="reading-desc">NGINX documentation on configuring session persistence and sticky sessions.</div>
+      <div class="reading-url">nginx.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="005-load-balancer-types.html" class="nav-btn nav-prev">← Load Balancer Types</a>
+  <a href="007-high-availability-and-fault-tolerance.html" class="nav-btn nav-next">High Availability and Fault Tolerance →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

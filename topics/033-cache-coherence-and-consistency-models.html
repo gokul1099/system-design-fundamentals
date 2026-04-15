@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cache Coherence and Consistency Models — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 033 of 103 &middot; 32% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:32%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Caching & CDN › Cache Coherence and Consistency Models
+  </div>
+  <h1 class="hero-title">Cache Coherence and Consistency Models</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Caching</span> <span class="hero-tag">Consistency</span> <span class="hero-tag">Distributed Systems</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Cache coherence and consistency models are essential concepts in the context of caching, particularly in distributed systems or multi-core processors. These models ensure that data remains accurate and up-to-date across multiple caches or processing units.</p>
+<h2 id=h2-cache-coherence>Cache Coherence</h2>
+<p>Cache coherence is a property of multi-core processors or distributed systems that ensures all processors or nodes see the same view of shared data. In a system with multiple caches, each cache may store a local copy of the shared data. When one cache modifies its copy, it is essential that all other caches are aware of the change to maintain a consistent view of the data.</p>
+<p>To achieve cache coherence, various protocols and techniques can be employed, such as:</p>
+<ul>
+<li>
+<p><strong>Write-invalidate:</strong> When a cache writes to its copy of the shared data, it broadcasts a message to other caches, invalidating their copies. When another cache requires the updated data, it fetches the new data from the memory or the cache that made the change.</p>
+</li>
+<li>
+<p><strong>Write-update (or write-broadcast):</strong> When a cache writes to its copy of the shared data, it broadcasts the updated data to all other caches, which update their local copies accordingly.</p>
+</li>
+</ul>
+<h2 id=h2-cache-consistency-models>Cache Consistency Models</h2>
+<p>Cache consistency models define the rules and guarantees for how data is updated and accessed in a distributed system with multiple caches. Different consistency models offer varying levels of strictness, balancing performance with the need for data accuracy.</p>
+<ul>
+<li>
+<p><strong>Strict Consistency:</strong> In this model, any write to a data item is instantly visible to all caches. This model provides the highest level of consistency but is difficult to achieve in practice, as it may require significant synchronization overhead and negatively impact performance.</p>
+</li>
+<li>
+<p><strong>Sequential Consistency:</strong> In this model, all operations on data items appear to occur in a specific sequential order across all caches. While this model allows for better performance than strict consistency, it still requires considerable synchronization and may not be practical in many distributed systems.</p>
+</li>
+<li>
+<p><strong>Causal Consistency:</strong> In this model, operations that are causally related (i.e., one operation depends on the outcome of another) are guaranteed to appear in order across all caches. Operations that are not causally related can occur in any order. This model provides better performance than sequential consistency while still ensuring a reasonable level of data accuracy.</p>
+</li>
+<li>
+<p><strong>Eventual Consistency:</strong> In this model, all updates to a data item will eventually propagate to all caches, but there is no guarantee about the order or timing of the updates. This model offers the best performance among the consistency models but provides the weakest consistency guarantees. Eventual consistency is often used in distributed systems where performance and scalability are prioritized over strict data accuracy.</p>
+</li>
+</ul>
+<p>Understanding cache coherence and consistency models is crucial when designing caching strategies for distributed systems or multi-core processors. By selecting the appropriate model for your system, you can strike a balance between performance and data accuracy to meet your specific requirements.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Cache coherence is like keeping whiteboards synchronized across multiple office locations. If you update the whiteboard in New York, the whiteboards in London and Tokyo also need to reflect that update — but exactly how quickly, and whether anyone can read a stale value in the meantime, depends on your consistency model. Strong consistency means everyone sees the update immediately; eventual consistency means they'll see it soon, but maybe not instantly.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon DynamoDB offers both eventual consistency and strong consistency for reads. Shopping cart data uses eventual consistency for performance, accepting that two tabs might briefly show different item counts. Payment and order confirmation screens use strongly consistent reads to guarantee accuracy.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">👍 Facebook/Meta</div>
+      <div class="example-text">Facebook's TAO cache uses an eventual consistency model across geographically distributed data centers. A 'like' count on a post may briefly differ across regions, but will converge within milliseconds. Facebook accepts this for most social data because the performance and availability benefits far outweigh the brief inconsistency.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────┐
+│       Cache Coherence Models        │
+│                                     │
+│  Strong Consistency                 │
+│  Write ──► All caches updated       │
+│            before read allowed      │
+│                                     │
+│  Eventual Consistency               │
+│  Write ──► Primary cache updated    │
+│            Others converge async    │
+│                                     │
+│  Read-Your-Writes                   │
+│  Writer always sees own writes      │
+│  Others may see stale briefly       │
+│                                     │
+│  Monotonic Read Consistency         │
+│  You never read older data than     │
+│  what you've already seen           │
+└─────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Explain that cache coherence becomes a problem as soon as you have more than one cache — multiple application servers with local caches, or a distributed cache with replicas.</li>
+<li><span class="tip-icon">💡</span> Know the main models: strong consistency (slowest, safest), eventual consistency (fastest, most available), and read-your-writes (practical middle ground).</li>
+<li><span class="tip-icon">💡</span> Discuss the CAP theorem connection: in distributed systems, you must choose between consistency and availability under a partition, and your cache coherence model reflects that choice.</li>
+<li><span class="tip-icon">💡</span> Mention that invalidation-based coherence (deleting stale keys) is simpler than update-based coherence (propagating changes) and is used by most production systems.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cache coherence ensures that all copies of data across multiple caches reflect a consistent state.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Strong consistency guarantees all readers see the most recent write but at the cost of latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Eventual consistency allows temporary divergence between cache copies but offers higher availability and throughput.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Most distributed systems choose eventual consistency for non-critical data and strong consistency only where accuracy is essential.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Invalidation-based coherence (delete stale entries) is simpler and more widely used than update propagation.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Cache_coherence" target="_blank" rel="noopener">Cache Coherence — Wikipedia</a></div>
+      <div class="reading-desc">Academic treatment of cache coherence protocols including MESI and snooping approaches.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener">Eventual Consistency — Wikipedia</a></div>
+      <div class="reading-desc">Explains the eventual consistency model and its use in distributed databases and caches.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Replication and Consistency</a></div>
+      <div class="reading-desc">Redis documentation on replication and the consistency trade-offs in distributed Redis deployments.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="032-cache-read-strategies.html" class="nav-btn nav-prev">← Cache Read Strategies</a>
+  <a href="034-caching-challenges.html" class="nav-btn nav-next">Caching Challenges →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

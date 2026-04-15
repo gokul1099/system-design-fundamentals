@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messaging Patterns — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 089 of 103 &middot; 86% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:86%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Messaging & Kafka › Messaging Patterns
+  </div>
+  <h1 class="hero-title">Messaging Patterns</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 11 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Messaging</span> <span class="hero-tag">Patterns</span> <span class="hero-tag">Architecture</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In distributed systems, <strong>messaging patterns</strong> define how components communicate via asynchronous messages. Understanding these patterns is crucial for designing scalable and reliable systems. Below, we cover five key messaging patterns, each with its core idea, characteristics, and practical examples.</p>
+<h2 id=h2-1-point-to-point-direct-messaging>1. Point-to-Point (Direct Messaging)</h2>
+<p>In a point-to-point pattern, each message is delivered to <strong>exactly one</strong> consumer. A producer sends messages into a queue (or similar channel), and one of the consumers reading from that queue will receive each message. This ensures no two consumers process the same message.</p>
+<ul>
+<li><strong>How it works:</strong> The message broker (e.g., RabbitMQ, Amazon SQS, JMS) routes each message to a single <strong>target queue</strong>. Consumers (possibly many) compete for messages from that queue, but each message is consumed by only one of them (often called <em>competing consumers</em> model).</li>
+<li><strong>Core characteristics:</strong> Ensures one-consumer-per-message, enabling <strong>load balancing</strong> across workers. The queue can buffer messages if consumers are busy, providing <strong>back-pressure</strong> and reliability. Order is usually FIFO (first-in-first-out) per queue, unless priority or other ordering is configured.</li>
+<li><strong>Use case:</strong> Useful for <strong>task distribution</strong> and work queues. For example, an image processing service might place jobs on a queue so that each job is picked up by one processing worker. This way, multiple workers can parallelize tasks without duplicating work.</li>
+<li><strong>Technologies:</strong> Implemented by nearly all message queue systems. RabbitMQ and ActiveMQ have <strong>queues</strong> for this pattern; Kafka achieves a similar one-consumer-per-message effect using a single <strong>consumer group</strong> (each message in a topic partition goes to one member of the group).</li>
+</ul>
+<h2 id=h2-2-publish-subscribe-pubsub>2. Publish-Subscribe (Pub/Sub)</h2>
+<p>The publish-subscribe pattern delivers each message to <strong>all interested subscribers</strong>. A publisher sends messages to a <em>topic</em> (or exchange), and <strong>multiple subscribers</strong> receive a copy of each message. Publishers and subscribers are decoupled — the publisher doesn’t know who receives the message.</p>
+<ul>
+<li><strong>How it works:</strong> The message broker (e.g., Kafka, RabbitMQ, Google Pub/Sub) broadcasts published messages to all queues or subscribers that have subscribed to the topic. In RabbitMQ, a <em>fanout</em> or <em>topic exchange</em> will forward messages to multiple queues (one per subscriber). In Kafka, each subscriber group that reads a topic gets its own copy of the message.</li>
+<li><strong>Core characteristics:</strong> <strong>One-to-many</strong> distribution. Every subscriber processes the message independently. This is great for <strong>event-driven architectures</strong> where an event (message) triggers different actions in different services. Publishers and consumers are loosely coupled – you can add new consumers without changing the publisher.</li>
+<li><strong>Use case:</strong> Useful when the same event needs to be acted on in different ways. For example, when a <strong>new user registers</strong> on a platform, a “User Registered” event might be published. Multiple subscribers can react: one service sends a welcome email, another logs the signup for analytics, and another updates a recommendation model. All get the event in parallel.</li>
+<li><strong>Technologies:</strong> Kafka is inherently a pub/sub system (topics with multiple consumer groups). RabbitMQ supports pub/sub via exchanges + queues (e.g., a <em>fanout exchange</em> sends to all bound queues). Cloud services like AWS SNS + SQS or Azure Service Bus Topics/Subscriptions are designed for pub/sub. Ensure subscribers are configured to handle the message flow (or else messages might be dropped if a subscriber isn’t listening and the broker doesn’t persist them).</li>
+</ul>
+<h2 id=h2-3-request-reply-request-response>3. Request-Reply (Request-Response)</h2>
+<p>The request-reply pattern is a <strong>two-part message exchange</strong>: a requester sends a message and expects a <strong>response message</strong> in return. It’s analogous to a function call or API request, but implemented asynchronously through messaging. This pattern allows a form of synchronous interaction on top of an asynchronous system.</p>
+<ul>
+<li><strong>How it works:</strong> The requester sends a <strong>request message</strong> (often into a point-to-point queue or directly to a specific service). Along with the request, it provides a <strong>return address</strong> (reply queue/topic) or a callback mechanism. The consuming service (replier) processes the request and sends back a <strong>reply message</strong> to the specified reply address. A <strong>correlation ID</strong> is usually included in both messages so the requester can match the reply to its original request.</li>
+<li><strong>Core characteristics:</strong> Enables <strong>two-way communication</strong> using messaging. Decouples the request and response in time — the requester can continue other work or handle other messages while waiting for the response. Requires correlation handling in application logic to match responses. Typically involves timeouts or retries in case a reply doesn’t arrive.</li>
+<li><strong>Use case:</strong> Useful when a service needs data or action from another service but you want to avoid tight coupling of direct calls. For example, a web service might enqueue a “generate report” request to a reporting microservice and continue. The reporting service eventually sends back a report ready message. The client receives the reply and then, say, notifies the user. In system design interviews, this pattern often comes up when designing <strong>async APIs</strong> or <strong>RPC over messaging</strong>.</li>
+<li><strong>Technologies:</strong> No single broker primitive does full request-reply automatically; it’s usually implemented at the application level. RabbitMQ supports a reply-to pattern (temporary reply queues) and correlation IDs via message headers. JMS messaging has request/reply helpers. With Kafka, one could use a dedicated reply topic partition and include a correlation key. Tools like <strong>RPC frameworks (gRPC)</strong> are direct request-response (not message-based), but in messaging systems you implement this pattern explicitly.</li>
+</ul>
+<h2 id=h2-4-fan-outfan-in-scatter-gather>4. Fan-Out/Fan-In (Scatter-Gather)</h2>
+<p>Fan-Out/Fan-In (also known as <strong>Scatter-Gather</strong>) is a composite pattern where a message is <strong>scattered</strong> to multiple recipients in parallel (fan-out), and then the results are <strong>gathered</strong> back (fan-in). Essentially, one request triggers <strong>multiple parallel processes</strong> and an aggregator collects all the responses or outcomes.</p>
+<ul>
+<li><strong>How it works (Fan-Out):</strong> A component (dispatcher) takes an incoming message or request and duplicates or distributes it to multiple consumers or services. This could be done by publishing to a topic that multiple services subscribe to, or by sending individual point-to-point messages to several target queues. Each target processes the message independently.</li>
+<li><strong>How it works (Fan-In):</strong> Another component (aggregator) waits for responses from all the scattered requests (or a certain number of them, or a timeout). Once the responses arrive, the aggregator combines the results or otherwise processes them to form a single output. The aggregated result might be sent back to the original requester or trigger the next step.</li>
+<li><strong>Core characteristics:</strong> Achieves <strong>parallelism</strong> for potentially faster overall processing time when multiple independent tasks can run concurrently. Requires handling of partial failures or slow responders (e.g., using timeouts or default values if some responses don’t come). The aggregator needs logic to correlate multiple responses to the original request (similar to correlation ID, but tracking multiple sub-responses).</li>
+<li><strong>Use case:</strong> Common in scenarios like <strong>search</strong> or <strong>aggregation services</strong>. For example, a search query in a distributed search system can be fanned-out to multiple shard servers; each shard returns results which are then merged (fan-in) before returning the final combined result to the user. Another example is an analytics job that splits work into sub-tasks (map-reduce style) across many workers and then collects the results.</li>
+<li><strong>Technologies:</strong> This pattern is implemented at the architecture level. Message brokers help with the fan-out (e.g., using pub/sub topics to broadcast requests to multiple workers). The fan-in typically requires an aggregator service or function. Some frameworks (like Apache Camel or Azure Durable Functions) provide built-in support for scatter-gather, handling the collection of responses. When using raw messaging, you’d implement a coordinating service that sends out messages and listens for replies on a dedicated channel for aggregation.</li>
+</ul>
+<h2 id=h2-5-dead-letter-queue-dlq>5. Dead Letter Queue (DLQ)</h2>
+<p>A Dead Letter Queue is a <strong>safety net</strong> for messages that <strong>cannot be processed</strong> successfully. When a message continually fails processing (due to errors, format issues, or exceeding retry limits), it is moved to a special queue called the Dead Letter Queue instead of being lost or blocking the main queue. This pattern ensures problematic messages are isolated for later inspection or remediation.</p>
+<ul>
+<li><strong>How it works:</strong> Most message systems allow configuring a DLQ for each queue or topic. If a message is rejected by a consumer, or if it exceeds a maximum number of processing attempts, the broker reroutes it to the DLQ. The DLQ is essentially a holding area for <strong>“poison messages”</strong> (messages that consistently cause failures). They remain there until they are manually reviewed or automatically processed by some error-handling service.</li>
+<li><strong>Core characteristics:</strong> Improves system <strong>resilience and reliability</strong> by not discarding failed messages immediately. Prevents blocked queues – one bad message won’t jam the processing pipeline since it gets shunted to the DLQ. Typically accompanied by monitoring/alerts, because the presence of messages in a DLQ indicates issues that need attention. It’s a <strong>passive pattern</strong> (only used on failure) but critical for robust messaging setups.</li>
+<li><strong>Use case:</strong> Any critical system with asynchronous processing should use DLQs as a best practice. For instance, in an order processing system, if an order message has corrupt data and the order service throws exceptions every time it tries that message, after a few retries the message goes to the Dead Letter Queue. This allows the system to continue with other orders, and later the faulty message can be examined or fixed without data loss.</li>
+<li><strong>Technologies:</strong> Nearly all enterprise messaging systems support DLQs. In RabbitMQ, you set a <em>Dead Letter Exchange</em> on a queue to route failed messages to a dead-letter queue. Kafka doesn’t have a built-in DLQ mechanism at the broker level, but patterns using separate “error topics” are used (for example, consumers or Kafka Streams can send bad records to a designated dead-letter topic). AWS SQS and Azure Service Bus both natively support DLQs with configurable retry thresholds. The key is configuring the threshold for moving to DLQ (e.g., after 5 failed attempts) and ensuring someone or something processes or monitors the DLQ.</li>
+</ul>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Messaging patterns are like different ways to deliver mail. Point-to-point is a courier delivering one package to one recipient. Publish-subscribe is a newspaper — one publisher, many subscribers each getting their own copy. Fan-out is a mass mailing — one message broadcast to everyone on a list simultaneously.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS SNS + SQS</div>
+      <div class="example-text">AWS SNS implements fan-out: one SNS topic publishes to multiple SQS queues simultaneously. A payment event can fan out to billing, analytics, and notification queues in one atomic publish — each queue processes independently.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔴 Redis Pub/Sub</div>
+      <div class="example-text">Redis Pub/Sub enables real-time messaging for chat apps and live dashboards. Publishers send to channels; all current subscribers receive instantly. Messages are not stored — if a subscriber is offline, it misses the message.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google Cloud Pub/Sub</div>
+      <div class="example-text">GCP Pub/Sub provides durable publish-subscribe with message retention. Each subscription gets its own independent copy of every message, allowing multiple teams to consume the same event stream at their own pace.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Messaging Patterns
+
+  1. POINT-TO-POINT (Queue)
+     Producer ──▶ [Queue] ──▶ One Consumer
+
+  2. PUBLISH-SUBSCRIBE (Topic)
+     Producer ──▶ [Topic] ──▶ Consumer A
+                          └──▶ Consumer B
+                          └──▶ Consumer C
+
+  3. COMPETING CONSUMERS
+     [Queue] ──▶ Worker 1 ┐
+             ──▶ Worker 2 ├── only one processes each msg
+             ──▶ Worker 3 ┘
+
+  4. FAN-OUT
+     [Topic] ──SNS──▶ Queue A (billing)
+                  ──▶ Queue B (analytics)
+                  ──▶ Queue C (notify)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Use competing consumers pattern for work queues where you want horizontal scaling of processing.</li>
+<li><span class="tip-icon">💡</span> Use pub/sub when multiple independent systems need the same event — avoids tight coupling.</li>
+<li><span class="tip-icon">💡</span> Fan-out (SNS → multiple SQS) is a common AWS pattern for decoupled event-driven architectures.</li>
+<li><span class="tip-icon">💡</span> Request-reply over messaging (correlation IDs) is useful for async RPC patterns.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Point-to-point: one producer, one consumer per message — load balancing use case.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Pub/sub: one producer, many consumers each receiving a copy — broadcast use case.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Competing consumers: multiple workers share a queue — parallel processing use case.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Fan-out combines a topic with multiple queues — each downstream system is independently isolated.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://www.enterpriseintegrationpatterns.com/patterns/messaging/" target="_blank" rel="noopener">Enterprise Integration Patterns</a></div>
+      <div class="reading-desc">The canonical reference for messaging patterns — 65+ patterns catalogued.</div>
+      <div class="reading-url">enterpriseintegrationpatterns.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html" target="_blank" rel="noopener">AWS: Fanout Pattern with SNS and SQS</a></div>
+      <div class="reading-desc">How to implement fan-out messaging on AWS.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Publish%E2%80%93subscribe_pattern" target="_blank" rel="noopener">Wikipedia: Publish-Subscribe Pattern</a></div>
+      <div class="reading-desc">Overview of the pub/sub pattern and its applications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="088-introduction-to-kafka.html" class="nav-btn nav-prev">← Introduction to Kafka</a>
+  <a href="090-popular-messaging-queue-systems.html" class="nav-btn nav-next">Popular Messaging Queue Systems →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

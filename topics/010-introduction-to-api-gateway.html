@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to API Gateway — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 010 of 103 &middot; 10% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:10%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Load Balancing › Introduction to API Gateway
+  </div>
+  <h1 class="hero-title">Introduction to API Gateway</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">API Gateway</span> <span class="hero-tag">Microservices</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>An API Gateway is a server-side architectural component in a software system that acts as an intermediary between clients (such as web browsers, mobile apps, or other services) and backend services, microservices, or APIs.</p>
+<p>Its main purpose is to provide a single entry point for external consumers to access the services and functionalities of the backend system. It receives client requests, forwards them to the appropriate microservice, and then returns the server’s response to the client.</p>
+<p>The API gateway is responsible for tasks such as routing, authentication, and rate limiting. This enables microservices to focus on their individual tasks and improves the overall performance and scalability of the system.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">An API Gateway is like the concierge desk at a large hotel. Every guest (client) goes to the concierge desk first, regardless of what they need — restaurant reservations, taxi bookings, or room service. The concierge authenticates them, figures out which department handles their request, and routes them appropriately, acting as a single, smart entry point.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix uses Zuul as their API Gateway to handle authentication, routing, and dynamic routing for over 1000 device types including TVs, phones, and browsers. Zuul shields 500+ backend microservices from direct client exposure.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">AWS API Gateway is a fully managed service used by millions of applications to expose REST, HTTP, and WebSocket APIs. Amazon uses it internally to provide a consistent entry point for their own microservice architectures.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber built a custom API Gateway that handles authentication, rate limiting, and request routing for their mobile and web clients. It routes to different backend services based on the endpoint path and handles versioning of APIs.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────────────────────────┐
+  │          CLIENT (mobile/web/IoT)          │
+  └─────────────────┬────────────────────────┘
+                    │
+  ┌─────────────────▼────────────────────────┐
+  │               API GATEWAY                 │
+  │  Auth │ Rate Limit │ Route │ Transform    │
+  └────┬──────────┬───────────┬──────────────┘
+       │          │           │
+  ┌────▼───┐ ┌────▼────┐ ┌───▼────┐
+  │User Svc│ │Order Svc│ │Pay Svc │
+  └────────┘ └─────────┘ └────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Describe the API Gateway as the single entry point for all clients, emphasizing cross-cutting concerns: auth, rate limiting, logging, and routing.</li>
+<li><span class="tip-icon">💡</span> Distinguish an API Gateway from a simple load balancer — the gateway understands application semantics (routes by URL path, inspects JWT tokens) while a load balancer routes by connection-level metrics.</li>
+<li><span class="tip-icon">💡</span> Mention that an API Gateway can become a bottleneck and SPOF — it must be horizontally scalable and highly available itself.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> An API Gateway is a server that acts as the single entry point for all client requests to a microservices backend.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> It centralizes cross-cutting concerns: authentication, authorization, rate limiting, SSL termination, and logging.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The gateway decouples clients from the internal service topology, allowing services to be refactored without changing client code.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Popular implementations include AWS API Gateway, Kong, NGINX, and Netflix Zuul.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/api-gateway/" target="_blank" rel="noopener">AWS API Gateway</a></div>
+      <div class="reading-desc">AWS documentation and use cases for managed API Gateway as a microservices entry point.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/API_management" target="_blank" rel="noopener">API Gateway – Wikipedia</a></div>
+      <div class="reading-desc">Overview of API management and gateway patterns in distributed architectures.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices – API Gateway Pattern</a></div>
+      <div class="reading-desc">Martin Fowler's article covering how API Gateways fit into microservice architectures.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="009-challenges-of-load-balancers.html" class="nav-btn nav-prev">← Challenges of Load Balancers</a>
+  <a href="011-usage-of-api-gateway.html" class="nav-btn nav-next">Usage of API Gateway →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

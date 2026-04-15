@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RabbitMQ vs Kafka vs ActiveMQ — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 091 of 103 &middot; 88% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:88%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Messaging & Kafka › RabbitMQ vs Kafka vs ActiveMQ
+  </div>
+  <h1 class="hero-title">RabbitMQ vs Kafka vs ActiveMQ</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">RabbitMQ</span> <span class="hero-tag">Kafka</span> <span class="hero-tag">ActiveMQ</span> <span class="hero-tag">Comparison</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Here are the top differences between RabbitMQ, Kafka, and ActiveMQ:</p>
+<ol>
+<li>
+<p><strong>Performance and Scalability:</strong> Kafka is designed for high throughput and horizontal scalability, making it well-suited for handling large volumes of data. RabbitMQ and ActiveMQ both offer high performance, but Kafka generally outperforms them in terms of throughput, particularly in scenarios with high data volume.</p>
+</li>
+<li>
+<p><strong>Message Ordering:</strong> RabbitMQ and ActiveMQ guarantee message ordering within a single queue or topic, respectively. Kafka ensures message ordering within a partition but not across partitions within a topic.</p>
+</li>
+<li>
+<p><strong>Message Priority:</strong> RabbitMQ and ActiveMQ support message prioritization, allowing messages with higher priority to be processed before those with lower priority. Kafka does not have built-in message priority support.</p>
+</li>
+<li>
+<p><strong>Message Model:</strong> RabbitMQ uses a queue-based message model following the Advanced Message Queuing Protocol (AMQP), while Kafka utilizes a distributed log-based model. ActiveMQ is built on the Java Message Service (JMS) standard and also uses a queue-based message model.</p>
+</li>
+<li>
+<p><strong>Durability:</strong> All three message brokers support durable messaging, ensuring that messages are not lost in case of failures. However, the mechanisms for achieving durability differ among the three, with RabbitMQ and ActiveMQ offering configurable durability options and Kafka providing built-in durability through log replication.</p>
+</li>
+<li>
+<p><strong>Message Routing:</strong> RabbitMQ provides advanced message routing capabilities through exchanges and bindings, while ActiveMQ uses selectors and topics for more advanced routing. Kafka's message routing is relatively basic and relies on topic-based partitioning.</p>
+</li>
+<li>
+<p><strong>Replication:</strong> RabbitMQ supports replication through Mirrored Queues, while Kafka features built-in partition replication. ActiveMQ uses a Master-Slave replication mechanism.</p>
+</li>
+<li>
+<p><strong>Stream Processing:</strong> Kafka provides native stream processing capabilities through Kafka Streams, similarly
+RabbitMQ offers stream processing too, while ActiveMQ relies on third-party libraries for stream processing.</p>
+</li>
+<li>
+<p><strong>Latency:</strong> RabbitMQ is designed for low-latency messaging, making it suitable for use cases requiring near-real-time processing.</p>
+</li>
+<li>
+<p><strong>License:</strong> RabbitMQ is licensed under the Mozilla Public License, while both Kafka and ActiveMQ are licensed under the Apache 2.0 License.</p>
+</li>
+</ol>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">RabbitMQ is a sophisticated post office with complex sorting rules — packages can be routed based on labels, weights, and destinations. Kafka is a massive conveyor belt that moves packages continuously and keeps a copy of everything on a shelf. ActiveMQ is an older, reliable post office with deep enterprise history and many protocols supported.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐰 Pivotal/VMware (RabbitMQ)</div>
+      <div class="example-text">RabbitMQ's exchange types (direct, topic, fanout, headers) give fine-grained routing. A topic exchange routes messages matching 'orders.*.europe' to EU billing and 'orders.priority.*' to expedited fulfillment — without producers knowing about consumers.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📨 Apache/Confluent (Kafka)</div>
+      <div class="example-text">Kafka's consumer group model allows Kafka to scale consumption horizontally. Adding more consumers to a group automatically redistributes partition ownership. Its log compaction feature retains the latest value per key indefinitely.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔴 Apache (ActiveMQ)</div>
+      <div class="example-text">ActiveMQ Artemis supports JMS, AMQP, STOMP, and MQTT in a single broker — making it ideal for mixed-protocol enterprise environments. It's commonly used in legacy Java EE systems migrating to microservices.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  When to Choose Which:
+
+  Need replay / event sourcing?
+  └──▶ Kafka
+
+  Need complex routing rules?
+  └──▶ RabbitMQ (topic/headers exchange)
+
+  Need JMS / enterprise protocols?
+  └──▶ ActiveMQ Artemis
+
+  Need fully managed + AWS-native?
+  └──▶ Amazon SQS / MSK (Kafka)
+
+  Need real-time pub/sub (ephemeral)?
+  └──▶ Redis Pub/Sub
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> In interviews, don't just name all three — explain which you'd pick for the specific use case and why.</li>
+<li><span class="tip-icon">💡</span> Kafka's key differentiator is the log model: consumers read at their own offset, enabling replay and multiple independent consumers.</li>
+<li><span class="tip-icon">💡</span> RabbitMQ's key differentiator is flexible routing: exchanges and bindings give sophisticated message routing without consumer awareness.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Kafka: high throughput streaming, replay, event sourcing — the log model is the key differentiator.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> RabbitMQ: flexible routing, task queues, lower latency delivery — exchange model is the key differentiator.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ActiveMQ: enterprise Java (JMS) compatibility and multi-protocol support.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Choose based on: replay needed? routing complexity? managed vs self-hosted? ecosystem?</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://kafka.apache.org/documentation/" target="_blank" rel="noopener">Apache Kafka Documentation</a></div>
+      <div class="reading-desc">Official Kafka docs — start with Introduction and Design sections.</div>
+      <div class="reading-url">kafka.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.rabbitmq.com/documentation.html" target="_blank" rel="noopener">RabbitMQ Documentation</a></div>
+      <div class="reading-desc">RabbitMQ concepts including exchanges, queues, and routing.</div>
+      <div class="reading-url">rabbitmq.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Message-oriented_middleware" target="_blank" rel="noopener">Wikipedia: Message-oriented middleware</a></div>
+      <div class="reading-desc">Overview of the middleware category that Kafka, RabbitMQ, and ActiveMQ belong to.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="090-popular-messaging-queue-systems.html" class="nav-btn nav-prev">← Popular Messaging Queue Systems</a>
+  <a href="092-scalability-and-performance-2.html" class="nav-btn nav-next">Scalability and Performance (Advanced) →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

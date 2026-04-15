@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latency and Performance — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 015 of 103 &middot; 15% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:15%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › Latency and Performance
+  </div>
+  <h1 class="hero-title">Latency and Performance</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Latency</span> <span class="hero-tag">Performance</span> <span class="hero-tag">Core Concepts</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Latency and performance are critical aspects of distributed systems, as they directly impact the user experience and the system's ability to handle large amounts of data and traffic. In distributed systems, optimizing latency and performance involves considering factors such as data locality, load balancing, and caching strategies. Here's an overview of these aspects of latency and performance:</p>
+<h2 id=h2-a-data-locality>A. Data Locality</h2>
+<p>Data locality refers to the organization and distribution of data within a distributed system to minimize the amount of data that needs to be transferred between nodes. By storing related data close together or near the nodes that access it most frequently, you can reduce the latency associated with data retrieval and improve overall performance. Techniques to achieve data locality include data partitioning, sharding, and data replication.</p>
+<h2 id=h2-b-load-balancing>B. Load Balancing</h2>
+<p>Load balancing is the process of distributing incoming network traffic or computational workload across multiple nodes or resources to ensure that no single node is overwhelmed. This helps to optimize resource utilization, minimize response times, and prevent system overloads. Various load balancing algorithms, such as round-robin, least connections, and consistent hashing, can be employed to achieve efficient load distribution and improved system performance.</p>
+<h2 id=h2-c-caching-strategies>C. Caching Strategies</h2>
+<p>Caching is a technique used to store frequently accessed data or computed results temporarily, allowing the system to quickly retrieve the data from cache instead of recalculating or fetching it from the primary data source. By implementing effective caching strategies, you can significantly reduce latency and improve the performance of your distributed system. Common caching strategies include in-memory caching, distributed caching, and content delivery networks (CDNs).</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Latency is how long it takes a letter to arrive after you send it. Performance is how many letters the post office can process per hour. A fast delivery service (low latency) that can only handle 10 letters per day has poor performance. Great system performance means both low latency for individual requests AND high throughput for total request volume.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search targets sub-200ms response times for every query. They found that every 100ms of added latency reduces search traffic by 1%, so they invest heavily in caching, precomputation, and globally distributed data centers to minimize round-trip times.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon measured that every 100ms of latency costs them 1% in sales. This data-driven insight drives their performance engineering investment, including massive edge caching, read replicas, and DAX (DynamoDB Accelerator) for sub-millisecond read latencies.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🎮 Discord</div>
+      <div class="example-text">Discord targets sub-100ms message delivery latency for voice and text. They use Elixir and Erlang for their real-time messaging infrastructure because the BEAM runtime offers predictable sub-millisecond message passing with minimal garbage collection pauses.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌──────────────────────────────────────────┐
+  │         LATENCY COMPONENTS               │
+  ├──────────────────────────────────────────┤
+  │  Client → Network → Server → DB → Cache  │
+  ├──────────────────────────────────────────┤
+  │  Network propagation: ~1ms per 100 miles  │
+  │  SSD read:            ~0.1 ms             │
+  │  HDD read:            ~10 ms              │
+  │  Memory read:         ~100 ns             │
+  │  L1 cache hit:        ~1 ns               │
+  │  Network round-trip:  ~0.5 ms (LAN)       │
+  └──────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know key latency numbers by heart: memory access ~100ns, SSD ~0.1ms, HDD ~10ms, network round-trip ~0.5ms (LAN) / ~100ms (cross-continent).</li>
+<li><span class="tip-icon">💡</span> Distinguish p50 (median), p99 (99th percentile), and p999 latency — optimizing p50 while ignoring p99 means your worst users have terrible experiences.</li>
+<li><span class="tip-icon">💡</span> Explain that caching, connection pooling, and read replicas are the primary tools for reducing latency in data-intensive systems.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Latency is the time taken for a single request to complete from the client's perspective, typically measured in milliseconds.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Throughput is the number of requests a system can handle per second, a measure of overall system capacity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Latency and throughput are not the same: a high-throughput system can still have high tail latency (p99) for individual requests.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Caching at multiple levels (CDN, application, database) is the most impactful technique for reducing read latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Tail latency (p99, p999) matters more than median latency for user-facing systems because it affects a meaningful fraction of users.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Latency_(engineering)" target="_blank" rel="noopener">Latency – Wikipedia</a></div>
+      <div class="reading-desc">Technical definition of latency in engineering and computing contexts.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Monitoring Distributed Systems</a></div>
+      <div class="reading-desc">Google SRE chapter on measuring latency correctly including percentile analysis.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview" target="_blank" rel="noopener">HTTP Performance – MDN</a></div>
+      <div class="reading-desc">Mozilla documentation covering HTTP performance characteristics and optimization strategies.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="014-availability.html" class="nav-btn nav-prev">← Availability</a>
+  <a href="016-concurrency-and-coordination.html" class="nav-btn nav-next">Concurrency and Coordination →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

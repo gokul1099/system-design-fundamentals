@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Authentication — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 081 of 103 &middot; 79% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:79%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › What is Authentication
+  </div>
+  <h1 class="hero-title">What is Authentication</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Authentication</span> <span class="hero-tag">Security</span> <span class="hero-tag">Identity</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Authentication in software systems is like showing your ID at the entrance of a club. It's the process of verifying who you are. Here's how it works in the digital world:</p>
+<ul>
+<li>
+<p><strong>Basics</strong>: Just like the bouncer checks your ID, authentication in software checks if you are who you say you are. This is usually done through something you know (like a password), something you have (like a phone or security token), or something you are (like your fingerprint).</p>
+</li>
+<li>
+<p><strong>Types of Authentication</strong>:</p>
+<ol>
+<li><strong>Single-Factor Authentication (SFA)</strong>: This is like showing just one ID card. It usually involves something you know, like a password or PIN.</li>
+<li><strong>Two-Factor Authentication (2FA)</strong>: This is like showing two forms of ID. For example, entering a password (something you know) and then entering a code sent to your phone (something you have).</li>
+<li><strong>Multi-Factor Authentication (MFA)</strong>: This is like a high-security check where you need multiple proofs. It could be a combination of a password, a fingerprint, and a security token.</li>
+</ol>
+</li>
+<li>
+<p><strong>Importance</strong>:</p>
+<ul>
+<li><strong>Security</strong>: It keeps unauthorized people out, like a bouncer keeping gatecrashers away from a party.</li>
+<li><strong>Data Protection</strong>: It helps protect sensitive information, like keeping your personal details safe.</li>
+<li><strong>Trust</strong>: Users trust systems more when they know their data is protected.</li>
+</ul>
+</li>
+<li>
+<p><strong>Methods</strong>:</p>
+<ul>
+<li><strong>Passwords and PINs</strong>: The most common, but also often the weakest due to poor password practices.</li>
+<li><strong>Biometrics</strong>: Like fingerprints or facial recognition. More secure but can be more expensive or complex to implement.</li>
+<li><strong>Tokens and Cards</strong>: Physical devices or software-based tokens that generate codes for authentication.</li>
+<li><strong>Behavioral Biometrics</strong>: Analyzes patterns in user behavior, like how they type or use a mouse.</li>
+</ul>
+</li>
+</ul>
+<p>Authentication is a crucial first step in securing a software system, ensuring that access is granted only to the right individuals, much like how the right people are allowed into a club or a private event.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Authentication is like showing your ID at a bar. The bouncer (system) checks your face against your ID (credential) to confirm you are who you claim to be. Once they're satisfied, you get a wristband (token) you can use inside all night without showing your ID again.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's login flow authenticates via password + 2FA (TOTP or push notification). Upon success it issues OAuth 2.0 access tokens and refresh tokens. This token then works across Gmail, Drive, YouTube without re-authentication.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub supports password, SSH keys, personal access tokens, and OAuth apps. For CI/CD pipelines, short-lived OIDC tokens are issued — no long-lived secrets needed, reducing the blast radius of credential leaks.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe authenticates API clients via secret API keys in the Authorization header. Keys are scoped (restricted, standard) and can be rotated. Failed authentication returns 401; insufficient permissions returns 403.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Authentication Flow (Token-Based)
+
+  Client          Auth Server       Resource
+    │                   │              │
+    │── credentials ───▶│              │
+    │                   │ verify       │
+    │◀── access_token ──│              │
+    │                   │              │
+    │──── request + token ────────────▶│
+    │                   │   validate   │
+    │◀──────────── response ───────────│
+
+  Factors: something you know (password)
+           something you have (phone/key)
+           something you are  (biometric)
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always mention stateless authentication (JWT) vs stateful (server-side session) — JWTs scale better but can't be revoked without a blocklist.</li>
+<li><span class="tip-icon">💡</span> Multi-factor authentication (MFA) dramatically reduces account takeover risk — mention it for any user-facing system.</li>
+<li><span class="tip-icon">💡</span> Passwords should be hashed with bcrypt/Argon2, never stored plain or with fast hashes like MD5.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Authentication answers: 'Who are you?' — it verifies identity.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Modern systems use tokens (JWT, OAuth) so credentials are not sent on every request.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> MFA combines two or more factors: knowledge, possession, and inherence.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Always hash passwords with a slow, salted algorithm like bcrypt or Argon2.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP Authentication Cheat Sheet</a></div>
+      <div class="reading-desc">Best practices for implementing secure authentication systems.</div>
+      <div class="reading-url">cheatsheetseries.owasp.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Authentication" target="_blank" rel="noopener">Wikipedia: Authentication</a></div>
+      <div class="reading-desc">Broad overview of authentication methods, factors, and protocols.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://jwt.io/introduction" target="_blank" rel="noopener">JWT Introduction</a></div>
+      <div class="reading-desc">What JSON Web Tokens are, how they work, and when to use them.</div>
+      <div class="reading-url">jwt.io</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="080-what-is-security-and-privacy.html" class="nav-btn nav-prev">← What is Security and Privacy</a>
+  <a href="082-what-is-authorization.html" class="nav-btn nav-next">What is Authorization →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

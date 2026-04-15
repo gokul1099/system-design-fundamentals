@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction to System Design — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 001 of 103 &middot; 1% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:1%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Overview › Introduction to System Design
+  </div>
+  <h1 class="hero-title">Introduction to System Design</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Overview</span> <span class="hero-tag">Fundamentals</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>To excel in system design, one of the most crucial aspects is to develop a deep understanding of fundamental system design concepts such as <strong>Load Balancing</strong>, <strong>Caching</strong>, <strong>Partitioning</strong>, <strong>Replication</strong>, <strong>Databases</strong>, and <strong>Proxies</strong>.</p>
+<p>This course will go through key concepts that can make a significant difference in your ability to tackle system design problems. These concepts range from understanding the intricacies of API Gateway and mastering Load Balancing techniques to grasping the importance of CDNs and appreciating the role of Caching in modern distributed systems. By the end of this course, you’ll have a comprehensive understanding of these essential ideas and the confidence to apply them in your next interview.</p>
+<p>When discussing system design interviews, it's important to note that they are unstructured by nature. During the interview, it can be challenging to maintain focus and ensure all crucial elements of the design are addressed. This course should guide you in answering any system design interview question by making sure that you have not missed discussing any critical aspect.</p>
+<p>Let's get started.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Think of system design like architecting a city. You need roads (networks), buildings (servers), water systems (databases), and emergency services (fault tolerance) all working together. Just as a city planner must anticipate growth and failure, a system designer must plan for scale, reliability, and change from day one.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🎬 Netflix</div>
+      <div class="example-text">Netflix designed its system to stream video to over 200 million subscribers across 190 countries simultaneously. Their architecture uses microservices, CDNs, and chaos engineering to ensure movies keep playing even when servers fail.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon's e-commerce platform processes millions of orders per day, especially during peak events like Prime Day. Their system design separates concerns into hundreds of independent services, each ownable by a small team.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google Search must return results in under 200ms while querying petabytes of indexed web data. This requires a carefully designed distributed system with caching layers, parallel query execution, and globally distributed data centers.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌─────────────────────────────────────────┐
+  │           SYSTEM DESIGN PILLARS          │
+  ├──────────────┬──────────────┬────────────┤
+  │ Scalability  │ Reliability  │Performance │
+  ├──────────────┼──────────────┼────────────┤
+  │ Availability │  Consistency │ Latency    │
+  ├──────────────┴──────────────┴────────────┤
+  │             Data Management               │
+  │  ┌──────────┐  ┌──────────┐  ┌────────┐ │
+  │  │Databases │  │  Caches  │  │  CDNs  │ │
+  │  └──────────┘  └──────────┘  └────────┘ │
+  └─────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always clarify requirements before drawing any diagrams — ask about expected users, read/write ratio, and consistency needs to avoid designing the wrong system.</li>
+<li><span class="tip-icon">💡</span> Use the REQS framework: Requirements, Estimates, entities (data model), Query design, and Scale to structure your answer logically.</li>
+<li><span class="tip-icon">💡</span> State your assumptions out loud so the interviewer can correct you early, saving time and showing collaborative thinking.</li>
+<li><span class="tip-icon">💡</span> Start with a simple design that works, then iteratively add complexity to handle scale, fault tolerance, and edge cases.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> System design is the process of defining architecture, components, and data flow to satisfy functional and non-functional requirements.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Non-functional requirements (NFRs) like latency, availability, and throughput often drive the hardest architectural decisions.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> There is no perfect system design — every choice is a trade-off between competing constraints such as consistency vs availability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Understanding bottlenecks and failure modes is as important as designing the happy path.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Iterative refinement, starting simple and adding complexity only when justified, produces more maintainable systems.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Systems_design" target="_blank" rel="noopener">System Design – Wikipedia</a></div>
+      <div class="reading-desc">A comprehensive overview of systems design principles and methodologies.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's Site Reliability Engineering book covering real-world large-scale system design.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://martinfowler.com/articles/microservices.html" target="_blank" rel="noopener">Microservices by Martin Fowler</a></div>
+      <div class="reading-desc">Foundational article explaining the microservices architectural style used in modern system design.</div>
+      <div class="reading-url">martinfowler.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="#" class="nav-btn nav-prev nav-disabled">← First topic</a>
+  <a href="002-introduction-to-load-balancing.html" class="nav-btn nav-next">Introduction to Load Balancing →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

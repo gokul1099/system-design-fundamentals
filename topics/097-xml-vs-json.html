@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XML vs JSON — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 097 of 103 &middot; 94% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:94%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Communication Patterns › XML vs JSON
+  </div>
+  <h1 class="hero-title">XML vs JSON</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 9 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">XML</span> <span class="hero-tag">JSON</span> <span class="hero-tag">Data Formats</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>XML (eXtensible Markup Language) and JSON (JavaScript Object Notation) are both formats used for storing and transporting data, particularly in the context of web applications. While they serve similar purposes, they have distinct characteristics and are suited to different use cases.</p>
+<h2 id=h2-xml>XML</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>XML</strong> is a markup language much like HTML, designed to store and transport data, with a focus on being both human- and machine-readable.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Structure</strong>: Heavily structured with start and end tags, attributes, and nesting of elements.</li>
+<li><strong>Verbose</strong>: Tends to be more verbose than JSON.</li>
+<li><strong>Parsing</strong>: Requires an XML parser to read and write.</li>
+<li><strong>Data Types</strong>: Treats all data as strings and doesn’t support data types natively.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Preferred in complex applications like document processing systems where document format and structure are important.</li>
+<li>Used in web services like SOAP (Simple Object Access Protocol).</li>
+<li>Often used in enterprise settings and for configuration files.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<pre><div sx="[object Object]"><div sx="[object Object]" style='background:rgb(40,44,52);color:rgb(171,178,191);text-shadow:rgba(0,0,0,0.3) 0px 1px;font-family:"Fira Code","Fira Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;tab-size:2;hyphens:none;padding:1em;margin:0.5em 0px;overflow:auto;border-radius:0.3em'><code class=language-xml style='white-space:pre;background:rgb(40,44,52);color:rgb(171,178,191);text-shadow:rgba(0,0,0,0.3) 0px 1px;font-family:"Fira Code","Fira Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;direction:ltr;text-align:left;word-spacing:normal;word-break:normal;line-height:1.5;tab-size:2;hyphens:none'><span class=token style=color:rgb(171,178,191)>&lt;</span><span class=token style=color:rgb(224,108,117)>person</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>
+</span><span>  </span><span class=token style=color:rgb(171,178,191)>&lt;</span><span class=token style=color:rgb(224,108,117)>name</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>John Doe</span><span class=token style=color:rgb(171,178,191)>&lt;/</span><span class=token style=color:rgb(224,108,117)>name</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>
+</span><span>  </span><span class=token style=color:rgb(171,178,191)>&lt;</span><span class=token style=color:rgb(224,108,117)>age</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>30</span><span class=token style=color:rgb(171,178,191)>&lt;/</span><span class=token style=color:rgb(224,108,117)>age</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>
+</span><span>  </span><span class=token style=color:rgb(171,178,191)>&lt;</span><span class=token style=color:rgb(224,108,117)>city</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>New York</span><span class=token style=color:rgb(171,178,191)>&lt;/</span><span class=token style=color:rgb(224,108,117)>city</span><span class=token style=color:rgb(171,178,191)>&gt;</span><span>
+</span><span></span><span class=token style=color:rgb(171,178,191)>&lt;/</span><span class=token style=color:rgb(224,108,117)>person</span><span class=token style=color:rgb(171,178,191)>&gt;</span></code></div></div></pre>
+<h2 id=h2-json>JSON</h2>
+<h3 id=h3-definition>Definition</h3>
+<ul>
+<li><strong>JSON</strong> is a lightweight data-interchange format that is easy for humans to read and write and for machines to parse and generate.</li>
+</ul>
+<h3 id=h3-characteristics>Characteristics</h3>
+<ul>
+<li><strong>Format</strong>: Consists of key-value pairs and array data types, making it less verbose.</li>
+<li><strong>Parsing</strong>: Easily parsed by standard JavaScript functions.</li>
+<li><strong>Data Types</strong>: Supports basic data types like strings, numbers, arrays, and Booleans.</li>
+<li><strong>Lightweight</strong>: Less overhead compared to XML, which makes it a good choice for web and mobile app development.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases</h3>
+<ul>
+<li>Frequently used in web applications for data interchange between a server and a web application.</li>
+<li>Common in RESTful APIs (Representational State Transfer).</li>
+<li>Popular in NoSQL databases like MongoDB, which store data in a JSON-like format.</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<pre><div sx="[object Object]"><div sx="[object Object]" style='background:rgb(40,44,52);color:rgb(171,178,191);text-shadow:rgba(0,0,0,0.3) 0px 1px;font-family:"Fira Code","Fira Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;line-height:1.5;tab-size:2;hyphens:none;padding:1em;margin:0.5em 0px;overflow:auto;border-radius:0.3em'><code class=language-javascript style='white-space:pre;background:rgb(40,44,52);color:rgb(171,178,191);text-shadow:rgba(0,0,0,0.3) 0px 1px;font-family:"Fira Code","Fira Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace;direction:ltr;text-align:left;word-spacing:normal;word-break:normal;line-height:1.5;tab-size:2;hyphens:none'><span class=token style=color:rgb(171,178,191)>{</span><span>
+</span><span>  </span><span class="token string-property" style=color:rgb(224,108,117)>"name"</span><span class=token style=color:rgb(97,175,239)>:</span><span> </span><span class=token style=color:rgb(152,195,121)>"John Doe"</span><span class=token style=color:rgb(171,178,191)>,</span><span>
+</span><span>  </span><span class="token string-property" style=color:rgb(224,108,117)>"age"</span><span class=token style=color:rgb(97,175,239)>:</span><span> </span><span class=token style=color:rgb(209,154,102)>30</span><span class=token style=color:rgb(171,178,191)>,</span><span>
+</span><span>  </span><span class="token string-property" style=color:rgb(224,108,117)>"city"</span><span class=token style=color:rgb(97,175,239)>:</span><span> </span><span class=token style=color:rgb(152,195,121)>"New York"</span><span>
+</span><span></span><span class=token style=color:rgb(171,178,191)>}</span></code></div></div></pre>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Verbosity</strong>:</p>
+<ul>
+<li>XML is more verbose with a heavier structure.</li>
+<li>JSON is lightweight and more compact.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Types</strong>:</p>
+<ul>
+<li>XML treats all data as strings and doesn’t natively support different data types.</li>
+<li>JSON supports various data types natively.</li>
+</ul>
+</li>
+<li>
+<p><strong>Readability and Writeability</strong>:</p>
+<ul>
+<li>XML is less readable and writable for humans but has a strong capability for defining complex structures.</li>
+<li>JSON is highly readable and writable, with a simple structure.</li>
+</ul>
+</li>
+<li>
+<p><strong>Parsing</strong>:</p>
+<ul>
+<li>XML requires a parser to be read and written.</li>
+<li>JSON can be easily parsed by standard JavaScript functions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance</strong>:</p>
+<ul>
+<li>JSON generally offers better performance due to its simplicity and lightweight nature.</li>
+<li>XML is more demanding in terms of resources due to its complexity.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-conclusion>Conclusion</h2>
+<p>The choice between XML and JSON often depends on the specific requirements of the application. JSON is typically preferred for web applications due to its simplicity and efficiency, especially with JavaScript-based applications. XML, on the other hand, is suited for applications where the structure of the data is complex and needs clear definition, or in legacy systems where XML is already deeply integrated.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">XML is like filling out a detailed government form with labeled fields, nested sections, and stamps — verbose but unambiguous. JSON is like texting the same information — compact, readable, but less formally structured. XML is great when you need strict schema validation and namespaces; JSON is great when you need simplicity and speed.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🌐 REST APIs (JSON)</div>
+      <div class="example-text">Virtually every modern REST API — Twitter, Stripe, GitHub, Slack — uses JSON. It maps directly to objects in JavaScript, Python, and most languages, requires no schema definition, and is significantly smaller than equivalent XML.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏢 SOAP / Enterprise (XML)</div>
+      <div class="example-text">SOAP web services in banking, healthcare (HL7 FHIR), and legacy enterprise systems use XML. WSDL (service definition), XSD (schema), and XSLT (transformation) form a powerful ecosystem that JSON lacks.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📱 Android / iOS Config</div>
+      <div class="example-text">Android's layout files, manifests, and resources are XML. Apple's plist files are XML. The strict hierarchy and attribute/element distinction in XML suit declarative UI and configuration formats well.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Same Data: XML vs JSON
+
+  XML:
+  &lt;user&gt;
+    &lt;id&gt;42&lt;/id&gt;
+    &lt;name&gt;Alice&lt;/name&gt;
+    &lt;roles&gt;
+      &lt;role&gt;admin&lt;/role&gt;
+      &lt;role&gt;editor&lt;/role&gt;
+    &lt;/roles&gt;
+  &lt;/user&gt;
+
+  JSON:
+  {
+    "id": 42,
+    "name": "Alice",
+    "roles": ["admin", "editor"]
+  }
+
+  JSON: ~30% smaller, easier to parse,
+        no schema required
+  XML:  namespaces, XSLT, XSD validation,
+        comments, mixed content
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> In modern system design, default to JSON for APIs unless you have a specific reason for XML (SOAP, legacy integration, complex schema needs).</li>
+<li><span class="tip-icon">💡</span> Mention Protocol Buffers (protobuf) and MessagePack as binary alternatives — much smaller and faster than both XML and JSON.</li>
+<li><span class="tip-icon">💡</span> JSON has no native date type — dates as ISO 8601 strings is the convention.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> JSON is lighter, more readable, and natively supported in JavaScript — the default for modern APIs.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> XML is more powerful for complex schemas, namespaces, and transformations — used in enterprise and legacy systems.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Both are text-based; for high-performance systems, consider binary formats (protobuf, Avro, MessagePack).</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> gRPC uses protobuf by default — 3–10× smaller payloads than JSON.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON" target="_blank" rel="noopener">MDN: JSON</a></div>
+      <div class="reading-desc">Complete guide to JSON syntax, parsing, and serialization.</div>
+      <div class="reading-url">developer.mozilla.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/XML" target="_blank" rel="noopener">Wikipedia: XML</a></div>
+      <div class="reading-desc">XML specification, history, and ecosystem overview.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://protobuf.dev/" target="_blank" rel="noopener">Protocol Buffers Documentation</a></div>
+      <div class="reading-desc">Google's binary serialization format — the alternative to JSON for performance-critical APIs.</div>
+      <div class="reading-url">protobuf.dev</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="096-batch-processing-vs-stream-processing.html" class="nav-btn nav-prev">← Batch Processing vs Stream Processing</a>
+  <a href="098-synchronous-vs-asynchronous-communication.html" class="nav-btn nav-next">Synchronous vs Asynchronous Communication →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Replication Methods — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 050 of 103 &middot; 49% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:49%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Proxies & Redundancy › Replication Methods
+  </div>
+  <h1 class="hero-title">Replication Methods</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 13 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Replication</span> <span class="hero-tag">Consistency</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Replication in database systems is a strategy for ensuring data availability, redundancy, and load balancing. There are several replication methods, each with its advantages and challenges.</p>
+<h2 id=h2-1-single-leader-replication>1. Single-leader replication</h2>
+<p>In single-leader (a.k.a. primary-backup) replication, one node handles all writes while one or more followers asynchronously or synchronously replicate its state. The follower may or may not serve read traffic (depending upon the settings).</p>
+<h3 id=h3-example>Example</h3>
+<p>MySQL primary-replica: one master accepts writes; replicas pull binlog events and replay them.</p>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li>Simple conflict-free writes (only one writer)</li>
+<li>Strong ordering: writes are totally ordered at the leader</li>
+<li>Easy to reason about failover (promote a replica)</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li>Leader is a single point of write failure</li>
+<li>Writes can be a bottleneck at high scale</li>
+<li>Replicas may lag under heavy write load (staleness)</li>
+</ul>
+<h2 id=h2-2-multi-leader-replication>2. Multi-leader replication</h2>
+<p>Here multiple nodes can accept writes; they asynchronously propagate changes to each other, resolving conflicts via timestamps or application logic.</p>
+<h3 id=h3-example>Example</h3>
+<p>CouchDB bidirectional sync: each node can accept updates and exchange changesets via HTTP; conflicts flagged for manual or callback resolution.</p>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li>Higher write availability (any leader can serve writes)</li>
+<li>Local write locality for geo-distributed setups</li>
+<li>Graceful partial failures (other leaders stay writable)</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li>Conflict detection and resolution add complexity</li>
+<li>Possibility of divergent histories if replicas miss sync</li>
+<li>Increased metadata overhead (vector clocks, change logs)</li>
+</ul>
+<h2 id=h2-3-leaderless-quorum-based-replication>3. Leaderless (quorum-based) replication</h2>
+<p>No designated leader—clients send reads/writes to any replica set and rely on read/write quorums to ensure consistency.</p>
+<h4 id=h4-example>Example</h4>
+<p>Cassandra/Dynamo: write to N replicas; require W acknowledgments. Read from any; require R acknowledgments. With <span class="math math-inline"><mjx-container classname=MathJax jax=SVG><svg xmlns=http://www.w3.org/2000/svg width=11.88ex height=1.731ex role=img focusable=false viewBox="0 -683 5251 765" xmlns:xlink=http://www.w3.org/1999/xlink style=vertical-align:-0.186ex><defs><path id=MJX-1-TEX-I-1D445 d="M230 637Q203 637 198 638T193 649Q193 676 204 682Q206 683 378 683Q550 682 564 680Q620 672 658 652T712 606T733 563T739 529Q739 484 710 445T643 385T576 351T538 338L545 333Q612 295 612 223Q612 212 607 162T602 80V71Q602 53 603 43T614 25T640 16Q668 16 686 38T712 85Q717 99 720 102T735 105Q755 105 755 93Q755 75 731 36Q693 -21 641 -21H632Q571 -21 531 4T487 82Q487 109 502 166T517 239Q517 290 474 313Q459 320 449 321T378 323H309L277 193Q244 61 244 59Q244 55 245 54T252 50T269 48T302 46H333Q339 38 339 37T336 19Q332 6 326 0H311Q275 2 180 2Q146 2 117 2T71 2T50 1Q33 1 33 10Q33 12 36 24Q41 43 46 45Q50 46 61 46H67Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628Q287 635 230 637ZM630 554Q630 586 609 608T523 636Q521 636 500 636T462 637H440Q393 637 386 627Q385 624 352 494T319 361Q319 360 388 360Q466 361 492 367Q556 377 592 426Q608 449 619 486T630 554Z"></path><path id=MJX-1-TEX-N-2B d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path><path id=MJX-1-TEX-I-1D44A d="M436 683Q450 683 486 682T553 680Q604 680 638 681T677 682Q695 682 695 674Q695 670 692 659Q687 641 683 639T661 637Q636 636 621 632T600 624T597 615Q597 603 613 377T629 138L631 141Q633 144 637 151T649 170T666 200T690 241T720 295T759 362Q863 546 877 572T892 604Q892 619 873 628T831 637Q817 637 817 647Q817 650 819 660Q823 676 825 679T839 682Q842 682 856 682T895 682T949 681Q1015 681 1034 683Q1048 683 1048 672Q1048 666 1045 655T1038 640T1028 637Q1006 637 988 631T958 617T939 600T927 584L923 578L754 282Q586 -14 585 -15Q579 -22 561 -22Q546 -22 542 -17Q539 -14 523 229T506 480L494 462Q472 425 366 239Q222 -13 220 -15T215 -19Q210 -22 197 -22Q178 -22 176 -15Q176 -12 154 304T131 622Q129 631 121 633T82 637H58Q51 644 51 648Q52 671 64 683H76Q118 680 176 680Q301 680 313 683H323Q329 677 329 674T327 656Q322 641 318 637H297Q236 634 232 620Q262 160 266 136L501 550L499 587Q496 629 489 632Q483 636 447 637Q428 637 422 639T416 648Q416 650 418 660Q419 664 420 669T421 676T424 680T428 682T436 683Z"></path><path id=MJX-1-TEX-N-3E d="M84 520Q84 528 88 533T96 539L99 540Q106 540 253 471T544 334L687 265Q694 260 694 250T687 235Q685 233 395 96L107 -40H101Q83 -38 83 -20Q83 -19 83 -17Q82 -10 98 -1Q117 9 248 71Q326 108 378 132L626 250L378 368Q90 504 86 509Q84 513 84 520Z"></path><path id=MJX-1-TEX-I-1D441 d="M234 637Q231 637 226 637Q201 637 196 638T191 649Q191 676 202 682Q204 683 299 683Q376 683 387 683T401 677Q612 181 616 168L670 381Q723 592 723 606Q723 633 659 637Q635 637 635 648Q635 650 637 660Q641 676 643 679T653 683Q656 683 684 682T767 680Q817 680 843 681T873 682Q888 682 888 672Q888 650 880 642Q878 637 858 637Q787 633 769 597L620 7Q618 0 599 0Q585 0 582 2Q579 5 453 305L326 604L261 344Q196 88 196 79Q201 46 268 46H278Q284 41 284 38T282 19Q278 6 272 0H259Q228 2 151 2Q123 2 100 2T63 2T46 1Q31 1 31 10Q31 14 34 26T39 40Q41 46 62 46Q130 49 150 85Q154 91 221 362L289 634Q287 635 234 637Z"></path></defs><g stroke=currentColor fill=currentColor stroke-width=0 transform=scale(1,-1)><g data-mml-node=math><g data-mml-node=mi><use data-c=1D445 xlink:href=#MJX-1-TEX-I-1D445></use></g><g data-mml-node=mo transform=translate(981.2,0)><use data-c=2B xlink:href=#MJX-1-TEX-N-2B></use></g><g data-mml-node=mi transform=translate(1981.4,0)><use data-c=1D44A xlink:href=#MJX-1-TEX-I-1D44A></use></g><g data-mml-node=mo transform=translate(3307.2,0)><use data-c=3E xlink:href=#MJX-1-TEX-N-3E></use></g><g data-mml-node=mi transform=translate(4363,0)><use data-c=1D441 xlink:href=#MJX-1-TEX-I-1D441></use></g></g></g></svg></mjx-container></span> you get strong consistency.</p>
+<h4 id=h4-pros>Pros</h4>
+<ul>
+<li>No single point of failure or bottleneck</li>
+<li>Tunable consistency vs latency via quorum sizes</li>
+<li>Built-in partition tolerance</li>
+</ul>
+<h4 id=h4-cons>Cons</h4>
+<ul>
+<li>Operational complexity tuning R, W, N</li>
+<li>Potential for stale reads if R and W are mis-configured</li>
+<li>Harder to guarantee global ordering of writes</li>
+</ul>
+<h2 id=h2-4-chain-replication>4. Chain replication</h2>
+<p>Nodes are arranged in a fixed chain. Writes flow from head → … → tail; reads are served from the tail, so they see all preceding writes.</p>
+<h3 id=h3-example>Example</h3>
+<p>Google’s Chain Replication paper: head receives write, forwards to next; tail acks back up the chain.</p>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li>Strong consistency: tail has fully ordered state</li>
+<li>High throughput: pipelining along chain</li>
+<li>Simple failover: if one link fails, re-chain the neighbors</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li>Chain length adds write latency (O(chain length) hops)</li>
+<li>Any link failure stalls the chain until reconfiguration</li>
+<li>Read load concentrated on tail unless you add more tails</li>
+</ul>
+<h2 id=h2-5-read-replica-replication>5. Read-replica replication</h2>
+<p>A variation of single-leader (primary-backup) replication where the leader handles all writes and one or more replicas serve only read traffic. Replicas continuously pull or receive a stream of write updates from the leader but never accept writes themselves.</p>
+<h3 id=h3-difference-between-single-leader-and-read-replica>Difference between Single-leader and Read-replica</h3>
+<ul>
+<li>
+<p><strong>Single-leader</strong></p>
+<ul>
+<li>You can optionally direct reads to replicas, but it isn’t the primary goal.</li>
+<li>Often used for failover, backups, or analytics off the primary.</li>
+</ul>
+</li>
+<li>
+<p><strong>Read-replica</strong></p>
+<ul>
+<li>Designed to offload all heavy read workloads from the primary.</li>
+<li>You can add dozens (or hundreds) of replicas to handle spikes in read traffic.</li>
+</ul>
+</li>
+</ul>
+<h3 id=h3-example>Example</h3>
+<p><strong>PostgreSQL streaming replication</strong></p>
+<ul>
+<li>The primary database writes changes to its WAL (Write-Ahead Log).</li>
+<li>Standby servers connect over a streaming protocol, replay WAL records in near real time, and expose the data as read-only replicas.</li>
+</ul>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li><strong>Read scalability</strong>: Offloads read queries from the primary to many replicas.</li>
+<li><strong>Isolation</strong>: Reads never block writes on the primary.</li>
+<li><strong>Geographic distribution</strong>: You can place read replicas close to users to reduce latency.</li>
+<li><strong>Failover readiness</strong>: Replicas can be promoted to primary if the leader fails.</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li><strong>Stale reads</strong>: Replicas lag behind the primary (replication delay), so you may see outdated data.</li>
+<li><strong>No write distribution</strong>: All writes still funnel through the single leader, so it remains a write bottleneck.</li>
+<li><strong>Operational overhead</strong>: Monitoring lag and handling replica drift/failover adds complexity.</li>
+</ul>
+<h2 id=h2-6-snapshot-replication>6. Snapshot replication</h2>
+<p>Rather than continuously shipping every change, snapshot replication takes a full copy of the source dataset at a specific point in time and pushes that snapshot to one or more targets on a scheduled basis.</p>
+<h3 id=h3-example>Example</h3>
+<p><strong>SQL Server snapshot replication</strong></p>
+<ol>
+<li>At publication time, the server generates a bulk “snapshot” of tables and schema.</li>
+<li>The snapshot is delivered to subscribers (often via file share or network transfer).</li>
+<li>Subscribers apply the entire snapshot, replacing their local data.</li>
+<li>The process repeats at configured intervals (e.g., nightly).</li>
+</ol>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li><strong>Simplicity</strong>: No need to track individual changes or maintain a continuous log‐shipping pipeline.</li>
+<li><strong>Consistency</strong>: Each snapshot represents a consistent view of the data at one moment.</li>
+<li><strong>Good for static or slow-changing data</strong>: Ideal when real-time updates aren’t required.</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li><strong>Heavy IO and network load</strong>: Repeatedly copying entire datasets can consume significant resources.</li>
+<li><strong>Latency</strong>: Changes only appear on subscribers after the next snapshot—no near-real-time updates.</li>
+<li><strong>Not incremental</strong>: Even small changes trigger full snapshot deliveries unless differential techniques are layered on.</li>
+</ul>
+<h2 id=h2-7-hybrid-replication>7. Hybrid Replication</h2>
+<h3 id=h3-explanation>Explanation</h3>
+<ul>
+<li>Combines different replication methods to meet specific requirements.</li>
+<li>For example, using multi-leader replication between two data centers and read-replica replication within each data center.</li>
+</ul>
+<h3 id=h3-pros>Pros</h3>
+<ul>
+<li>Flexibility to tailor replication strategy to specific needs.</li>
+<li>Can optimize for both performance and data consistency.</li>
+</ul>
+<h3 id=h3-cons>Cons</h3>
+<ul>
+<li>Increased complexity in configuration and management.</li>
+<li>Potential for conflicting replication behaviors if not properly coordinated.</li>
+</ul>
+<h2 id=h2-summary>Summary</h2>
+<p>Replication trades off write complexity, availability, and consistency.</p>
+<ul>
+<li><strong>Single-leader</strong> is the easiest option but is limited by having only one writer.</li>
+<li><strong>Multi-leader</strong> boosts write locality at the cost of conflict resolution.</li>
+<li><strong>Leaderless (quorum)</strong> removes single points but needs careful quorum tuning.</li>
+<li><strong>Chain</strong> gives strong ordering and pipelining, yet ties latency to chain length.</li>
+<li><strong>Read-replica replication</strong> is perfect when you need to <strong>scale out reads</strong> under a single-writer model, but be mindful of <strong>replica lag</strong> and <strong>write bottlenecks</strong>.</li>
+<li><strong>Snapshot replication</strong> is a straightforward way to distribute a <strong>point-in-time copy</strong> of data on a schedule, best suited for <strong>static or slowly changing</strong> datasets where <strong>resource cost</strong> and <strong>latency</strong> between snapshots are acceptable.</li>
+</ul><style class=sf-hidden>mjx-container[jax="SVG"]{direction:ltr}mjx-container[jax="SVG"]>svg{overflow:visible;min-height:1px;min-width:1px}mjx-container[jax="SVG"] use[data-c]{stroke-width:3}</style>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Replication methods are like different ways a manager might keep their team informed about decisions. Synchronous replication is like a manager who calls every team member before finalizing any decision — everyone knows instantly but the manager can't move forward until all calls are done. Asynchronous replication is like sending an email after the decision is made — the manager moves fast but team members might not know for a few minutes. Multi-master is like every team member being able to make decisions and then informing each other afterward — powerful but requires careful conflict resolution.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🛒 Amazon</div>
+      <div class="example-text">Amazon RDS uses synchronous replication for Multi-AZ deployments: every write is committed to both the primary and a standby replica before returning success to the application. This ensures zero data loss on primary failure but adds a small amount of write latency since the system must wait for both acknowledgments.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">👍 Facebook/Meta</div>
+      <div class="example-text">Facebook uses asynchronous replication for most of its MySQL infrastructure — writes commit to the primary and are then asynchronously propagated to replicas. This keeps write latency low at the cost of potential replica lag. Facebook's applications are designed to tolerate brief periods where replicas may be slightly behind the primary.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📁 Dropbox</div>
+      <div class="example-text">Dropbox uses a multi-master replication approach for its distributed metadata store, allowing writes to any node and resolving conflicts using vector clocks and last-write-wins strategies. This allows clients to sync file changes from any geographic region without routing all writes to a single primary. Conflict resolution ensures eventual consistency across all nodes.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────┐
+│  Synchronous (Strong Consistency)   │
+│  Write ──► Primary ──► Replica      │
+│            ACK ◄── Replica ACK      │
+│  Client ACK only after both confirm │
+├─────────────────────────────────────┤
+│  Asynchronous (Eventual Consistency)│
+│  Write ──► Primary ──► Client ACK   │
+│            └──► Replica (async lag) │
+├─────────────────────────────────────┤
+│  Semi-Synchronous                   │
+│  Write ──► Primary + 1 Replica ACK  │
+│            Other replicas async     │
+├─────────────────────────────────────┤
+│  Multi-Master                       │
+│  Write ──► Any master               │
+│  All masters replicate each other   │
+│  Conflict resolution required       │
+└─────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know all four methods: synchronous (wait for all replicas), asynchronous (fire-and-forget to replicas), semi-synchronous (wait for at least one replica), and multi-master (any node accepts writes).</li>
+<li><span class="tip-icon">💡</span> Synchronous replication provides RPO=0 (no data loss) but adds write latency proportional to the slowest replica; suitable for financial data.</li>
+<li><span class="tip-icon">💡</span> Asynchronous replication provides the lowest write latency but has non-zero RPO — some data may be lost if the primary fails before replication completes.</li>
+<li><span class="tip-icon">💡</span> Multi-master replication requires a conflict resolution strategy when two masters receive writes to the same row — common strategies include last-write-wins (LWW), vector clocks, and CRDTs.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Synchronous replication waits for all replicas to confirm before acknowledging the write — zero data loss but higher write latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Asynchronous replication acknowledges writes immediately and propagates to replicas with a lag — fast writes but potential data loss on failure.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Semi-synchronous is a middle ground — waits for at least one replica to confirm, balancing durability and performance.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Multi-master allows writes to any node and requires conflict resolution, enabling write scalability and geographic distribution.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The choice of replication method is a direct expression of the CAP theorem trade-off between consistency and availability.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Replication_(computing)" target="_blank" rel="noopener">Replication (Computing) — Wikipedia</a></div>
+      <div class="reading-desc">Covers synchronous, asynchronous, and multi-master replication methods with consistency implications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Replication and Persistence</a></div>
+      <div class="reading-desc">Redis documentation on replication modes, replica lag, and consistency guarantees.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener">Eventual Consistency — Wikipedia</a></div>
+      <div class="reading-desc">Explains the eventual consistency model that underpins asynchronous and multi-master replication.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="049-what-is-replication.html" class="nav-btn nav-prev">← What is Replication</a>
+  <a href="051-data-backup-vs-disaster-recovery.html" class="nav-btn nav-next">Data Backup vs Disaster Recovery →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

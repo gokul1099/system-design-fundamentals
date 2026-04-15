@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond CAP Theorem — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 056 of 103 &middot; 54% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:54%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › CAP & Consistency › Beyond CAP Theorem
+  </div>
+  <h1 class="hero-title">Beyond CAP Theorem</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 5 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">CAP Theorem</span> <span class="hero-tag">PACELC</span> <span class="hero-tag">Consistency</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>CAP is a simplified model that only considers a binary state (partition or no partition). In real systems, even when there’s no partition, there are still trade-offs — notably between consistency and <strong>latency/performance</strong>. To address this, researchers have proposed extensions and refinements to CAP.</p>
+<h2 id=h2-pacelc-theorem>PACELC Theorem</h2>
+<p>The most well-known extension is the <strong>PACELC theorem</strong>, introduced by Daniel Abadi around 2010. PACELC expands on CAP by asking: <em>not only what happens during a Partition (P), but also what happens Else (E) when there’s no partition.</em> In formal terms, PACELC says:</p>
+<ul>
+<li><strong>If a partition (P) occurs</strong>: the system must choose either <strong>Availability (A)</strong> or <strong>Consistency (C)</strong> (this is essentially the CAP theorem trade-off during a failure).</li>
+<li><strong>Else (no partition)</strong>: the system must choose between <strong>Latency (L)</strong> and <strong>Consistency (C)</strong>.</li>
+</ul>
+<p>In shorthand, <em>“if P then A or C; else L or C.”</em> This acknowledges that even in normal operation, there’s often a tension between giving responses quickly (low latency) and doing extra work to ensure consistency. For example, waiting for data to replicate to many nodes might ensure strong consistency but adds latency to each request. Or you can respond faster from one node’s data (lower latency) at the cost of maybe not being fully up-to-date (slightly weaker consistency).</p>
+<p>PACELC thus fills in the gap that CAP leaves: CAP is silent when the system is running well. PACELC says <em>even with no failures, you’re either prioritizing speed or consistency</em>. It effectively adds a second dimension to the design choices.</p>
+<p>Let’s illustrate PACELC with examples:</p>
+<ul>
+<li>
+<p><strong>Cassandra under PACELC:</strong> We said Cassandra is AP in CAP terms. Under PACELC, we classify it as <strong>PA/EL</strong> – Partition tolerant + Available, and Else (when no partition) it prefers low Latency over full consistency. Cassandra’s design optimizes for fast writes and reads (low latency) rather than blocking to synchronize every replica on each request. So it’s Available under partition, and in normal times it’s still favoring performance (with eventual consistency). In PACELC notation: <strong>PA/EL</strong>.</p>
+</li>
+<li>
+<p><strong>MongoDB under PACELC:</strong> MongoDB was CP in CAP. Under PACELC, it’s often described as <strong>PC/EC</strong> – Partition tolerant + Consistent, and Else Consistent. That means even with no partition, MongoDB (by default) chooses consistency over latency (it funnels writes through one primary and replicates synchronously to secondaries). During a partition, it sacrifices availability to keep data consistent (only a majority partition can accept writes). So MongoDB is <strong>PC/EC</strong> by default configuration.</p>
+</li>
+<li>
+<p><strong>Google Spanner:</strong> Google Spanner is a globally-distributed SQL database. It aims to be strongly consistent <strong>and</strong> highly available, by using synchronized clocks (TrueTime) to minimize uncertainty. According to PACELC, Spanner can be seen as <strong>PC/EC</strong> (much like MongoDB – it prioritizes consistency in all cases). In CAP terms, Spanner is technically a CP system (it will sacrifice availability if a major partition occurs), but through engineering (and controlling clock drift) Google made partitions rare and short, so in effect Spanner behaves like a CA system for practical use. Spanner chooses consistency even if that means a bit more latency (transactions wait out clock uncertainty), thus it fits PACELC’s PC/EC category (favoring consistency both during and outside partitions).</p>
+</li>
+</ul>
+<p>The PACELC theorem reminds us that <strong>performance (latency) is part of the equation</strong>. A system that is strongly consistent even without failures might incur higher response times, while a system that gives snappy responses might be doing so by not waiting on cross-node consensus.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">CAP theorem is like a three-legged stool — you can only pick two legs to be solid. But PACELC points out that even when there's no wobble (no partition), you still have to choose between a comfortable sit (low latency) and a perfectly level surface (consistency). Real systems aren't just about surviving disasters — they make tradeoffs every millisecond during normal operation too.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">⚡ Amazon</div>
+      <div class="example-text">DynamoDB's PACELC classification is PA/EL — during partitions it chooses availability, and even during normal operation it chooses low latency over strong consistency. This reflects Amazon's philosophy that speed matters as much as correctness for e-commerce workloads.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🌐 Google</div>
+      <div class="example-text">Google Spanner is classified as PC/EC — it chooses consistency during both partitions and normal operation. Using TrueTime and Paxos consensus, Spanner achieves external consistency globally, accepting higher latency as the price for correctness in financial and inventory systems.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔄 Cassandra (Facebook origin)</div>
+      <div class="example-text">Cassandra is PA/EL — partition-tolerant and available during partitions, and latency-optimized during normal operation. Its eventual consistency model means that during normal operation, reads may return stale data to keep latency low, which is an explicit EL tradeoff.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              PACELC Framework                       │
+├─────────────────────────────────────────────────────┤
+│  If Partition (P): choose Availability (A)          │
+│                      or Consistency (C)             │
+├─────────────────────────────────────────────────────┤
+│  Else (E): choose Latency (L)                       │
+│              or Consistency (C)                     │
+├─────────────────────────────────────────────────────┤
+│  Examples:                                          │
+│  ├─ DynamoDB:  PA / EL  (always fast)               │
+│  ├─ Cassandra: PA / EL  (tunable)                   │
+│  ├─ Spanner:   PC / EC  (always consistent)         │
+│  └─ PNUTS:     PA / EC  (Facebook's old system)     │
+├─────────────────────────────────────────────────────┤
+│  Eventual Consistency: all replicas converge        │
+│  given no new updates and sufficient time           │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Use PACELC to show you understand that latency vs. consistency is a constant tradeoff, not just a partition-time concern — this demonstrates depth beyond basic CAP knowledge.</li>
+<li><span class="tip-icon">💡</span> Explain eventual consistency precisely: a system is eventually consistent if, given no new updates, all replicas will converge to the same value — DNS is the classic everyday example.</li>
+<li><span class="tip-icon">💡</span> Mention that BASE (Basically Available, Soft state, Eventually consistent) is the philosophy underlying AP/EL systems and contrasts with ACID.</li>
+<li><span class="tip-icon">💡</span> When an interviewer asks about CAP, voluntarily mention PACELC as a more nuanced model — this shows you read beyond textbooks.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> PACELC extends CAP by acknowledging that latency vs. consistency is a tradeoff even when there is no network partition.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Eventual consistency guarantees that all replicas will converge to the same value given enough time without new writes.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Systems classified as PA/EL prioritize speed and availability; PC/EC systems prioritize correctness at the cost of latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> DNS is a widely understood real-world example of eventual consistency in everyday infrastructure.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> PACELC provides a more complete model for evaluating distributed database design decisions than CAP alone.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/CAP_theorem" target="_blank" rel="noopener">CAP Theorem - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's CAP article includes a section on PACELC and other extensions to the original CAP theorem.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Eventual_consistency" target="_blank" rel="noopener">Eventual Consistency - Wikipedia</a></div>
+      <div class="reading-desc">Detailed explanation of eventual consistency models, their guarantees, and real-world implementations.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS NoSQL Guide</a></div>
+      <div class="reading-desc">AWS discusses eventual consistency in the context of NoSQL database design and DynamoDB's consistency model.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="055-examples-of-cap-theorem-in-practice.html" class="nav-btn nav-prev">← Examples of CAP Theorem in Practice</a>
+  <a href="057-system-design-tradeoffs-in-interviews.html" class="nav-btn nav-next">System Design Tradeoffs in Interviews →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

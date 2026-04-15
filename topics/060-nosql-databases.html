@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoSQL Databases — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 060 of 103 &middot; 58% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:58%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › NoSQL Databases
+  </div>
+  <h1 class="hero-title">NoSQL Databases</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">NoSQL</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>NoSQL databases, also known as "Not Only SQL" databases, are a diverse group of non-relational databases designed to address the limitations of traditional SQL databases, particularly in terms of scalability, flexibility, and performance under specific workloads. NoSQL databases do not adhere to the relational model and typically do not use SQL as their primary query language. Instead, they employ various data models and query languages, depending on the specific type of NoSQL database being used.</p>
+<p>The key characteristics of NoSQL databases include their schema-less design, which allows for greater flexibility in handling data; horizontal scalability, which makes it easier to distribute data across multiple servers; and their ability to perform well under specific workloads, such as high write loads or large-scale data storage and retrieval.</p>
+<h2 id=h2-types-of-nosql-databases>Types of NoSQL Databases</h2>
+<p>NoSQL databases can be broadly categorized into the following six types, each with its unique data model and use cases:</p>
+<h3 id=h3-1-key-value-databases>1. Key-value databases</h3>
+<p>Key-value databases store data as key-value pairs, where the key is a unique identifier and the value is the associated data. These databases excel in scenarios requiring high write and read performance for simple data models, such as session management and real-time analytics.</p>
+<p><strong>Use cases:</strong> Session management, user preferences, and product recommendations.</p>
+<p><strong>Examples:</strong> Amazon DynamoDB (in the cloud), Azure Cosmos DB, Redis.</p>
+<h3 id=h3-2-in-memory-key-value-databases>2. In-memory key-value databases</h3>
+<p>The data is primarily stored in memory, unlike disk-based databases. By eliminating disk access, these databases enable minimal response times. Because all data is stored in main memory, in-memory databases risk losing data upon a process or server failure. In-memory databases can persist data on disks by storing each operation in a log or by taking snapshots.</p>
+<p><strong>Examples:</strong> Redis, Memcached, Amazon Elasticache.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">NoSQL databases are like different kinds of filing systems for different needs. A document store is like a filing cabinet of folders — each folder can contain anything and its own unique set of documents. A key-value store is like a coat check — you hand in an item, get a ticket number, and retrieve exactly your item by that number. A column-family store is like a spreadsheet where most cells are intentionally left empty. A graph database is like a social network map where the connections between people matter as much as the people themselves.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📘 Facebook/Meta</div>
+      <div class="example-text">Facebook uses multiple NoSQL systems: Cassandra (column-family) for inbox search and messaging, TAO (a graph-like store) for the social graph, and Memcached (key-value) for caching. Each NoSQL type was chosen because its data model perfectly matched the access pattern of that feature.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn uses a graph database concept for its connection recommendations — knowing that Alice is connected to Bob who is connected to Carol is a graph problem, and graph databases make traversing these relationships orders of magnitude faster than SQL JOINs across millions of users.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🚗 Uber</div>
+      <div class="example-text">Uber uses a document store (MongoDB) for certain microservices where schema flexibility matters — trip data can have varying attributes depending on product type (UberX, UberPool, Eats), and a document model accommodates these varying shapes without schema migrations.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│              NoSQL Database Types                   │
+├──────────────────┬──────────────────────────────────┤
+│  Type            │  Example  │  Use Case            │
+├──────────────────┼───────────┼──────────────────────┤
+│ Document         │ MongoDB   │ User profiles, CMS   │
+│ Key-Value        │ Redis     │ Cache, sessions      │
+│ Column-Family    │ Cassandra │ Time-series, logs    │
+│ Graph            │ Neo4j     │ Social networks      │
+├──────────────────┴───────────┴──────────────────────┤
+│  Common NoSQL Properties:                           │
+│  ├─ Schema-flexible (schema-less or schema-on-read) │
+│  ├─ Horizontal scaling (sharding native)            │
+│  ├─ BASE semantics (not always ACID)                │
+│  └─ Optimized for specific access patterns          │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know all four NoSQL types cold: document (MongoDB), key-value (Redis/DynamoDB), column-family (Cassandra/HBase), and graph (Neo4j) — interviewers test breadth here.</li>
+<li><span class="tip-icon">💡</span> For each type, immediately associate a canonical use case: key-value for caching, document for user profiles, column-family for time-series data, graph for recommendations.</li>
+<li><span class="tip-icon">💡</span> Point out that Redis serves double duty as both a key-value store and an in-memory cache — it's one of the most versatile tools in any system design interview.</li>
+<li><span class="tip-icon">💡</span> When choosing a NoSQL database, the deciding factor is always the access pattern: how will you query this data? Key-based? Range queries? Traversals? The answer determines the type.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> NoSQL encompasses four main types: document, key-value, column-family, and graph databases, each with distinct data models.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Document stores like MongoDB allow flexible, nested JSON-like records with no fixed schema.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Key-value stores like Redis provide O(1) lookup by key, making them ideal for caching and session storage.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Column-family stores like Cassandra excel at write-heavy time-series workloads with sparse, wide rows.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Graph databases like Neo4j are optimized for relationship traversal queries that would require expensive JOINs in SQL.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/NoSQL" target="_blank" rel="noopener">NoSQL - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's comprehensive overview of NoSQL database types, their histories, and the CAP theorem implications for each.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.mongodb.com/" target="_blank" rel="noopener">MongoDB Official Documentation</a></div>
+      <div class="reading-desc">MongoDB's documentation covers the document data model, schema design patterns, and aggregation framework.</div>
+      <div class="reading-url">docs.mongodb.com</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://aws.amazon.com/nosql/" target="_blank" rel="noopener">AWS NoSQL Guide</a></div>
+      <div class="reading-desc">AWS provides a practical guide comparing all four NoSQL database types with real-world use case guidance.</div>
+      <div class="reading-url">aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="059-sql-databases.html" class="nav-btn nav-prev">← SQL Databases</a>
+  <a href="061-sql-vs-nosql.html" class="nav-btn nav-next">SQL vs NoSQL →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

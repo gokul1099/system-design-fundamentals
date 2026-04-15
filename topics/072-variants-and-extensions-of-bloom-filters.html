@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variants and Extensions of Bloom Filters — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 072 of 103 &middot; 70% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:70%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Bloom Filters › Variants and Extensions of Bloom Filters
+  </div>
+  <h1 class="hero-title">Variants and Extensions of Bloom Filters</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">Bloom Filters</span> <span class="hero-tag">Data Structures</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Here are a few variants and extensions of Bloom filters:</p>
+<h2 id=h2-1-counting-bloom-filters>1. Counting Bloom Filters</h2>
+<p>Counting Bloom filters extend the standard Bloom filter by using an array of counters instead of a simple bit array. This modification allows for the deletion of elements from the filter, as each counter can be incremented or decremented when elements are added or removed, respectively. However, this added functionality comes at the cost of increased storage space and complexity.</p>
+<h2 id=h2-2-compressed-bloom-filters>2. Compressed Bloom Filters</h2>
+<p>Compressed Bloom filters aim to reduce the storage overhead of Bloom filters by compressing the underlying bit array. Several compression techniques, such as run-length encoding or Golomb coding, can be applied to achieve a more compact representation of the filter. However, these techniques may introduce additional computational overhead during insertion and query operations.</p>
+<h2 id=h2-3-spectral-bloom-filters>3. Spectral Bloom Filters</h2>
+<p>Spectral Bloom filters are designed to estimate the frequency of elements in a dataset. This variant uses multiple standard Bloom filters in parallel, each representing a different frequency range. By analyzing the presence of an element across these filters, the frequency of the element can be approximated. Spectral Bloom filters can be useful in applications such as data mining or network traffic analysis.</p>
+<h2 id=h2-4-scalable-bloom-filters>4. Scalable Bloom Filters</h2>
+<p>Scalable Bloom filters address the issue of dynamically growing datasets by automatically adjusting the filter's size and parameters as the number of elements increases. This variant maintains a series of Bloom filters, each with different parameters, and new filters are added as required. Scalable Bloom filters can maintain a target false positive rate while accommodating an unpredictable number of elements.</p>
+<h2 id=h2-5-cuckoo-filters>5. Cuckoo Filters</h2>
+<p>Cuckoo filters are a more recent variant of Bloom filters, designed to provide similar functionality with improved space efficiency and support for element removal. Cuckoo filters use a combination of cuckoo hashing and a compact fingerprint representation of elements to achieve these benefits. In many scenarios, cuckoo filters can outperform standard Bloom filters in terms of space efficiency and overall performance.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">The standard Bloom filter is like a checklist written in permanent ink — you can add items but never erase them. Variants are like improved versions: a Counting Bloom Filter uses a pencil with an eraser (you can add and remove), a Scalable Bloom Filter uses a notebook where you can add new pages when the current one fills up, and a Cuckoo Filter is a newer design that allows deletion and uses less memory than counting variants. Each variant solves a specific limitation of the original.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses Counting Bloom Filters for dynamic IP rate limiting — IPs can be added when flagged and removed when rate limit windows expire. The standard Bloom filter's no-deletion property would cause IP entries to accumulate indefinitely, making a counting variant essential for this use case.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🗄️ Amazon</div>
+      <div class="example-text">DynamoDB-style systems use Scalable Bloom Filters in storage engines where the number of keys is not known in advance. As the dataset grows, new filter layers are added with progressively tighter false positive rates, ensuring the overall false positive rate stays bounded as items accumulate over time.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Research at Google on Cuckoo Filters demonstrated that this variant achieves lower space overhead than Counting Bloom Filters while supporting deletion — a cuckoo filter can be up to 40% smaller than a comparable counting Bloom filter, making it the preferred choice for memory-constrained environments.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│            Bloom Filter Variants                    │
+├──────────────────────┬──────────────────────────────┤
+│  Variant             │  Key Feature                 │
+├──────────────────────┼──────────────────────────────┤
+│ Standard             │ Base version, no deletion    │
+│ Counting             │ Deletion via counters        │
+│ Scalable             │ Dynamic growth (new layers)  │
+│ Cuckoo Filter        │ Deletion + space-efficient   │
+│ Bloomier            │ Stores values, not just bits  │
+│ Blocked/Cache-aware  │ CPU cache-friendly layout    │
+├──────────────────────┴──────────────────────────────┤
+│  Counting Bloom Filter:                             │
+│  [ 0 2 0 1 0 0 0 3 0 0 ]  (counters, not bits)     │
+│  Insert: increment counters                         │
+│  Delete: decrement counters                         │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> When asked about Bloom filter limitations, immediately follow up with the relevant variant that addresses each: 'Deletions are not supported in standard Bloom filters, but Counting Bloom Filters use integer counters to enable deletion.'</li>
+<li><span class="tip-icon">💡</span> Cuckoo Filters are worth mentioning as a modern alternative that supports deletion with better space efficiency than Counting Bloom Filters — this shows awareness of recent developments.</li>
+<li><span class="tip-icon">💡</span> Scalable Bloom Filters demonstrate a sophisticated understanding: they solve the fixed-capacity problem by chaining multiple filters with geometric sizing, maintaining a bounded false positive rate.</li>
+<li><span class="tip-icon">💡</span> In interviews, it's usually sufficient to know two variants well: Counting (for deletion) and Scalable (for unknown-size sets) — don't memorize all variants superficially.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Counting Bloom Filters replace single bits with small integer counters, enabling element deletion by decrementing counters on removal.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Scalable Bloom Filters add new filter layers as capacity is exceeded, maintaining a bounded false positive rate for unbounded input sets.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Cuckoo Filters support deletion with lower memory overhead than Counting Bloom Filters, using cuckoo hashing for collision resolution.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> All Bloom filter variants preserve the fundamental property: no false negatives, with tunable false positive rates.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The choice of variant depends on whether deletions are needed (Counting/Cuckoo) and whether the dataset size is known in advance (Scalable).</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Bloom_filter" target="_blank" rel="noopener">Bloom Filter - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's Bloom filter article includes a section on all major variants including Counting, Scalable, and Cuckoo Filters.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://cassandra.apache.org/doc/latest/" target="_blank" rel="noopener">Apache Cassandra Documentation</a></div>
+      <div class="reading-desc">Cassandra uses Bloom filter variants in its storage engine; the documentation explains configuration and tuning parameters.</div>
+      <div class="reading-url">cassandra.apache.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE Book</a></div>
+      <div class="reading-desc">Google's SRE book discusses space-efficient data structures for large-scale production systems.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="071-benefits-and-limitations-of-bloom-filters.html" class="nav-btn nav-prev">← Benefits & Limitations of Bloom Filters</a>
+  <a href="073-applications-of-bloom-filters.html" class="nav-btn nav-next">Applications of Bloom Filters →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

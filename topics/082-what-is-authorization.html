@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What is Authorization — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 082 of 103 &middot; 80% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:80%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Security › What is Authorization
+  </div>
+  <h1 class="hero-title">What is Authorization</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Authorization</span> <span class="hero-tag">Security</span> <span class="hero-tag">RBAC</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Authorization in software systems is like getting a specific wristband at a festival that allows you access to certain areas. It's about granting or denying permissions to do something after your identity is verified.</p>
+<ul>
+<li>
+<p><strong>After Authentication</strong>: Authorization always comes after authentication. First, the system recognizes you (like the club knows who you are), and then it decides what you are allowed to do (like what areas of the club you can enter).</p>
+</li>
+<li>
+<p><strong>Roles and Permissions</strong>:</p>
+<ul>
+<li><strong>Roles</strong>: These are like different types of wristbands or badges. For example, an 'Admin' might have access to everything, while a 'User' has limited access.</li>
+<li><strong>Permissions</strong>: Specific actions you're allowed to perform, like viewing, editing, or deleting information. If you're at a festival, it's like being allowed to enter backstage areas, VIP sections, or just the general area.</li>
+</ul>
+</li>
+<li>
+<p><strong>Importance</strong>:</p>
+<ul>
+<li><strong>Security</strong>: It prevents users from accessing data or actions that they shouldn't. Like keeping regular festival-goers out of VIP areas.</li>
+<li><strong>Data Integrity</strong>: Helps ensure that data isn't wrongly modified or deleted.</li>
+<li><strong>Compliance</strong>: Many industries have regulations about who can access or modify certain data.</li>
+</ul>
+</li>
+<li>
+<p><strong>Examples</strong>:</p>
+<ul>
+<li><strong>File System Permissions</strong>: Like on your computer, where some files are only accessible by the administrator.</li>
+<li><strong>Database Roles</strong>: In a company's database, different employees have different levels of access based on their job.</li>
+<li><strong>Web Application Privileges</strong>: On a website, a regular user might only view content, while an editor can create and edit content, and an administrator can access user data and site settings.</li>
+</ul>
+</li>
+</ul>
+<p>Authorization is about having the right level of access to resources in a software system. It's crucial for maintaining order and security, much like different access levels are important in a well-organized event or facility.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Authorization is like access levels in an office building. Everyone has a badge (they're authenticated). But a visitor badge only opens the lobby. An employee badge opens floors 1-3. A manager badge opens the server room too. Same building, different permissions — that's authorization.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">☁️ AWS IAM</div>
+      <div class="example-text">AWS Identity and Access Management lets you write JSON policies that say exactly which AWS services and actions a user or role can perform. A Lambda function can have a role allowing it to read S3 but not write — least privilege in action.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🐙 GitHub</div>
+      <div class="example-text">GitHub repo permissions have read, write, and admin levels. Organization owners can grant teams access to specific repos with specific roles. Branch protection rules further restrict who can push to main.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">📁 Google Drive</div>
+      <div class="example-text">Drive lets you share files as Viewer, Commenter, or Editor. Owner controls persist even when shared. Organization admins can restrict sharing to within the company domain — multi-level authorization.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  Role-Based Access Control (RBAC)
+
+  User ──▶ Role ──▶ Permissions ──▶ Resources
+
+  alice  ──▶ editor  ──▶ [read, write] ──▶ /articles
+  bob    ──▶ viewer  ──▶ [read]         ──▶ /articles
+  carol  ──▶ admin   ──▶ [read, write,  ──▶ /articles
+                          delete]        ──▶ /settings
+
+  ABAC (Attribute-Based): even more granular
+  "allow if user.dept == doc.dept AND time < 18:00"
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Know the difference between RBAC (role-based), ABAC (attribute-based), and ACL (access control list) — mention which fits which scale.</li>
+<li><span class="tip-icon">💡</span> Principle of least privilege: every service and user should have only the minimum permissions required.</li>
+<li><span class="tip-icon">💡</span> Always check authorization server-side — never trust the client to enforce it.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Authorization answers: 'What are you allowed to do?' — it controls permissions.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> RBAC assigns permissions to roles, then roles to users — simpler to manage at scale.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> ABAC is more flexible but more complex — good for fine-grained access control.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Always enforce authorization on the server; client-side checks are UI convenience only.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html" target="_blank" rel="noopener">OWASP Authorization Cheat Sheet</a></div>
+      <div class="reading-desc">Best practices for implementing authorization in web applications.</div>
+      <div class="reading-url">cheatsheetseries.owasp.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Role-based_access_control" target="_blank" rel="noopener">Wikipedia: RBAC</a></div>
+      <div class="reading-desc">Role-based access control — the most widely used authorization model.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html" target="_blank" rel="noopener">AWS IAM Best Practices</a></div>
+      <div class="reading-desc">Practical guidance on implementing least-privilege authorization in AWS.</div>
+      <div class="reading-url">docs.aws.amazon.com</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="081-what-is-authentication.html" class="nav-btn nav-prev">← What is Authentication</a>
+  <a href="083-authentication-vs-authorization.html" class="nav-btn nav-next">Authentication vs Authorization →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

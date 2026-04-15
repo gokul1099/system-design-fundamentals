@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>In-Memory Database vs On-Disk Database — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 065 of 103 &middot; 63% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:63%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › In-Memory Database vs On-Disk Database
+  </div>
+  <h1 class="hero-title">In-Memory Database vs On-Disk Database</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 8 min read</span>
+    <span class="hero-tag">🟡 Intermediate</span>
+    <span class="hero-tag">In-Memory</span> <span class="hero-tag">Redis</span> <span class="hero-tag">Databases</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>In-memory databases and on-disk databases are two types of database systems designed for storing and managing data, but they fundamentally differ in how and where they store their data. Understanding these differences is key to choosing the right type of database for a specific application or workload.</p>
+<h2 id=h2-in-memory-database-imdb>In-Memory Database (IMDB)</h2>
+<h3 id=h3-storage-mechanism>Storage Mechanism:</h3>
+<ul>
+<li><strong>Data Storage</strong>: Primarily stores data in the main memory (RAM) of the server.</li>
+<li><strong>Persistence</strong>: Some in-memory databases can persist data on disk, but the primary data access and manipulation happen in memory.</li>
+</ul>
+<h3 id=h3-performance>Performance:</h3>
+<ul>
+<li><strong>Speed</strong>: Offers high performance and low latency, as accessing data in RAM is significantly faster than disk access.</li>
+<li><strong>Efficiency</strong>: Especially efficient for read-heavy operations and complex, real-time computations.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases:</h3>
+<ul>
+<li><strong>Real-Time Analytics</strong>: Ideal for applications that require real-time analysis and reporting.</li>
+<li><strong>Caching</strong>: Commonly used for caching where quick data retrieval is crucial.</li>
+<li><strong>Session Storage</strong>: Used in web applications for session management.</li>
+</ul>
+<h3 id=h3-limitations>Limitations:</h3>
+<ul>
+<li><strong>Cost</strong>: Generally more expensive due to the high cost of RAM.</li>
+<li><strong>Scalability</strong>: Scaling large volumes of data can be challenging and costly.</li>
+<li><strong>Data Volatility</strong>: In the event of power loss or system crash, data stored only in memory can be lost unless the database is designed with persistence mechanisms.</li>
+</ul>
+<h3 id=h3-examples-of-in-memory-databases>Examples of In-Memory Databases</h3>
+<ol>
+<li>
+<p><strong>Redis</strong>:</p>
+<ul>
+<li>A widely used in-memory data store, often employed as a distributed cache, message broker, and for quick read/write operations. Redis supports various data structures such as strings, hashes, lists, sets, and sorted sets.</li>
+</ul>
+</li>
+<li>
+<p><strong>Memcached</strong>:</p>
+<ul>
+<li>A high-performance, distributed memory caching system, originally intended for speeding up dynamic web applications by alleviating database load.</li>
+</ul>
+</li>
+<li>
+<p><strong>SAP HANA</strong>:</p>
+<ul>
+<li>An in-memory, column-oriented, relational database management system. HANA is known for advanced analytics processing, such as OLAP and OLTP processing on the same platform.</li>
+</ul>
+</li>
+<li>
+<p><strong>Apache Ignite</strong>:</p>
+<ul>
+<li>A memory-centric distributed database, caching, and processing platform for transactional, analytical, and streaming workloads.</li>
+</ul>
+</li>
+<li>
+<p><strong>Hazelcast IMDG</strong>:</p>
+<ul>
+<li>An in-memory data grid that offers distributed data structures and computing utilities. It's often used for scalable caching and in-memory data storage.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-on-disk-database>On-Disk Database</h2>
+<h3 id=h3-storage-mechanism>Storage Mechanism:</h3>
+<ul>
+<li><strong>Data Storage</strong>: Stores data on persistent disk storage (HDD or SSD).</li>
+<li><strong>Persistence</strong>: Data is inherently persistent and does not require additional mechanisms to survive system restarts.</li>
+</ul>
+<h3 id=h3-performance>Performance:</h3>
+<ul>
+<li><strong>Speed</strong>: Generally slower compared to in-memory databases due to the time required for disk I/O operations.</li>
+<li><strong>Suitability</strong>: More suited for applications where the speed of data access is less critical.</li>
+</ul>
+<h3 id=h3-use-cases>Use Cases:</h3>
+<ul>
+<li><strong>Transactional Systems</strong>: Widely used in transactional applications (OLTP systems), where data persistence is key.</li>
+<li><strong>Large Data Sets</strong>: Ideal for applications with large data sets that cannot be cost-effectively stored in memory.</li>
+<li><strong>General-Purpose Databases</strong>: Most traditional databases (like MySQL, PostgreSQL) are on-disk and cater to a wide range of applications.</li>
+</ul>
+<h3 id=h3-limitations>Limitations:</h3>
+<ul>
+<li><strong>Speed</strong>: The speed can be a limiting factor, especially for applications requiring real-time response.</li>
+<li><strong>I/O Bottlenecks</strong>: Performance can be bottlenecked by disk I/O, particularly in high-throughput scenarios.</li>
+</ul>
+<h3 id=h3-examples-of-on-disk-databases>Examples of On-Disk Databases</h3>
+<ol>
+<li>
+<p><strong>MySQL</strong>:</p>
+<ul>
+<li>One of the most popular open-source relational database management systems. MySQL is widely used for web applications and supports a broad array of features.</li>
+</ul>
+</li>
+<li>
+<p><strong>PostgreSQL</strong>:</p>
+<ul>
+<li>An advanced open-source relational database. PostgreSQL is known for its robustness, scalability, and support for advanced data types and features.</li>
+</ul>
+</li>
+<li>
+<p><strong>MongoDB</strong>:</p>
+<ul>
+<li>A leading NoSQL database that stores data in JSON-like documents. It is designed for ease of development and scaling.</li>
+</ul>
+</li>
+<li>
+<p><strong>Oracle Database</strong>:</p>
+<ul>
+<li>A multi-model database management system known for its feature-rich, enterprise-grade capabilities, widely used in large organizations.</li>
+</ul>
+</li>
+<li>
+<p><strong>Microsoft SQL Server</strong>:</p>
+<ul>
+<li>A relational database management system developed by Microsoft, offering a wide range of data analytics, business intelligence, and transaction processing capabilities.</li>
+</ul>
+</li>
+<li>
+<p><strong>SQLite</strong>:</p>
+<ul>
+<li>A C-language library that implements a small, fast, self-contained, high-reliability SQL database engine. It's widely used in applications where an embedded, lightweight database is needed.</li>
+</ul>
+</li>
+</ol>
+<h2 id=h2-key-differences>Key Differences</h2>
+<ol>
+<li>
+<p><strong>Data Storage Location</strong>:</p>
+<ul>
+<li>IMDB: Main memory (RAM).</li>
+<li>On-Disk Database: Persistent disk storage.</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance</strong>:</p>
+<ul>
+<li>IMDB: Faster read/write operations.</li>
+<li>On-Disk Database: Slower, depending on disk I/O.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cost and Scalability</strong>:</p>
+<ul>
+<li>IMDB: Higher cost, scaling large data sets is more challenging.</li>
+<li>On-Disk Database: More cost-effective for large data volumes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Persistence</strong>:</p>
+<ul>
+<li>IMDB: Requires mechanisms for data durability.</li>
+<li>On-Disk Database: Inherently persistent.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Cases</strong>:</p>
+<ul>
+<li>IMDB: Real-time processing, caching, session storage.</li>
+<li>On-Disk Database: Transactional systems, large data storage, general-purpose usage.</li>
+</ul>
+</li>
+</ol>
+<p>Each type of database serves different needs: in-memory databases are optimal for scenarios requiring rapid data access and processing, while on-disk databases are better suited for applications needing reliable data persistence and management of large data volumes. The choice depends on specific application requirements, including performance needs, data size, and persistence considerations.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">An in-memory database is like doing math on a whiteboard — blazing fast, visible immediately, but erased when you leave the room. An on-disk database is like writing calculations in a permanent notebook — much slower to read and write, but the answers are still there tomorrow morning. Modern systems often use both: a whiteboard for quick intermediate work and a notebook as the permanent record.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🐦 Twitter/X</div>
+      <div class="example-text">Twitter uses Redis (in-memory) to cache timelines, trending topics, and session tokens — data that must be retrieved in sub-millisecond time for millions of concurrent users. The in-memory storage trades durability for speed; if Redis restarts, the cache is rebuilt from the persistent database layer.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb uses Redis as a session store for user authentication tokens — sessions are ephemeral data that must be looked up on every API request, making in-memory storage the obvious choice for sub-millisecond lookup. Persistent session data (user preferences, booking history) lives in MySQL on disk.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare uses in-memory stores at their edge nodes for real-time rate limiting and DDoS protection decisions — a rate limit check must complete in microseconds to not add perceptible latency to every HTTP request worldwide. On-disk databases would be orders of magnitude too slow for this use case.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│       In-Memory vs On-Disk Database                 │
+├──────────────────────┬──────────────────────────────┤
+│  In-Memory (Redis)   │  On-Disk (PostgreSQL)        │
+├──────────────────────┼──────────────────────────────┤
+│ ~100ns latency       │ ~1-10ms latency              │
+│ RAM-limited storage  │ Disk-limited storage         │
+│ Data lost on crash*  │ ACID durability              │
+│ No complex queries   │ Full SQL support             │
+├──────────────────────┴──────────────────────────────┤
+│  *Redis Persistence Options:                        │
+│  ├─ RDB: point-in-time snapshots                    │
+│  └─ AOF: append-only log (near-durable)             │
+├─────────────────────────────────────────────────────┤
+│  Common Pattern: Redis cache + PostgreSQL source    │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Clarify that Redis can be made semi-durable with AOF (Append Only File) logging or RDB snapshots — it's not purely ephemeral, but recovery is slower than on-disk databases.</li>
+<li><span class="tip-icon">💡</span> Use the cache-aside pattern to describe how in-memory and on-disk databases work together: check cache first, fall through to disk on miss, populate cache on hit.</li>
+<li><span class="tip-icon">💡</span> Mention that in-memory databases shine for use cases with hot data: sessions, rate limiting, leaderboards, and pub/sub — all share the characteristic of requiring sub-millisecond access.</li>
+<li><span class="tip-icon">💡</span> Discuss memory cost: RAM is 10-100x more expensive per GB than SSD, so in-memory storage is reserved for truly hot data — typically less than 1% of total data volume.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> In-memory databases store data in RAM, providing sub-millisecond latency but limited by available memory and risking data loss on restarts.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> On-disk databases persist data durably to storage, providing ACID guarantees and unlimited capacity at the cost of millisecond-range latency.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Redis is the most widely used in-memory database and supports optional persistence via RDB snapshots or AOF logging.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The most common production pattern is layering an in-memory cache in front of an on-disk database, combining speed with durability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> In-memory databases are best for sessions, rate limiting, leaderboards, and frequently accessed hot data that fits in RAM.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://redis.io/docs/" target="_blank" rel="noopener">Redis Documentation</a></div>
+      <div class="reading-desc">Redis's official documentation covers all data structures, persistence options, and high-availability configurations.</div>
+      <div class="reading-url">redis.io</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/In-memory_database" target="_blank" rel="noopener">In-Memory Database - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's overview of in-memory databases, their history, persistence strategies, and tradeoffs versus disk-based systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL documentation explains buffer cache management, showing how it tries to keep hot data in memory even as a disk-based database.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="064-sql-normalization-and-denormalization.html" class="nav-btn nav-prev">← SQL Normalization and Denormalization</a>
+  <a href="066-data-replication-vs-data-mirroring.html" class="nav-btn nav-next">Data Replication vs Data Mirroring →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

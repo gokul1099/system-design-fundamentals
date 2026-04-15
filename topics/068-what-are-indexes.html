@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What are Indexes — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 068 of 103 &middot; 66% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:66%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Databases › What are Indexes
+  </div>
+  <h1 class="hero-title">What are Indexes</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 4 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Indexes</span> <span class="hero-tag">Databases</span> <span class="hero-tag">Performance</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Indexes are well known when it comes to databases. Sooner or later there comes a time when database performance is no longer satisfactory. One of the very first things you should turn to when that happens is database indexing.</p>
+<p>The goal of creating an index on a particular table in a database is to make it faster to search through the table and find the row or rows that we want. Indexes can be created using one or more columns of a database table, providing the basis for both rapid random lookups and efficient access of ordered records.</p>
+<h2 id=h2-example-a-library-catalog>Example: A library catalog</h2>
+<p>A library catalog is a register that contains the list of books found in a library. The catalog is organized like a database table generally with four columns: book title, writer, subject, and date of publication. There are usually two such catalogs: one sorted by the book title and one sorted by the writer name. That way, you can either think of a writer you want to read and then look through their books or look up a specific book title you know you want to read in case you don’t know the writer’s name. These catalogs are like indexes for the database of books. They provide a sorted list of data that is easily searchable by relevant information.</p>
+<p>Simply saying, an index is a data structure that can be perceived as a table of contents that points us to the location where actual data lives. So when we create an index on a column of a table, we store that column and a pointer to the whole row in the index. Let's assume a table containing a list of books, the following diagram shows how an index on the 'Title' column looks like:</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">A database index is like the index at the back of a textbook. Without it, finding all mentions of 'binary search' requires reading every page from cover to cover. With the index, you look up 'binary search,' find 'pages 47, 112, 203,' and jump directly to those pages. The index takes up extra space and must be updated every time the book is revised, but the speed benefit for lookup-heavy use is enormous.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">🔍 Google</div>
+      <div class="example-text">Google's search infrastructure is built on inverted indexes — for every word on the web, an index maps that word to all pages containing it. Without this index, searching the web would require scanning every page for each query, which is computationally impossible at scale. The entire premise of web search depends on indexing.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">🏠 Airbnb</div>
+      <div class="example-text">Airbnb indexes its listings on location, price, and availability. When a user searches for 'Paris listings under $100 available next weekend,' the database uses these indexes to quickly filter millions of listings down to hundreds of matches, rather than scanning every row.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💼 LinkedIn</div>
+      <div class="example-text">LinkedIn indexes its member database on skills, location, and industry to power the 'People You May Know' and search features. Without indexes on these columns, a query like 'software engineers in San Francisco' would require a full table scan across 900 million member profiles.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+┌─────────────────────────────────────────────────────┐
+│                 How Indexes Work                    │
+├─────────────────────────────────────────────────────┤
+│  Without Index: Full Table Scan                     │
+│  Row 1 → Row 2 → Row 3 → ... → Row N               │
+│  O(N) time                                          │
+├─────────────────────────────────────────────────────┤
+│  With B-tree Index on column 'email':               │
+│                                                     │
+│           [M]                                       │
+│          /   \                                      │
+│        [G]   [S]                                    │
+│       /  \  /  \                                   │
+│      [A][H][P][Z]   → O(log N) lookup               │
+├─────────────────────────────────────────────────────┤
+│  Tradeoff: Faster reads, slower writes, more space  │
+└─────────────────────────────────────────────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Always mention the tradeoff: indexes speed up reads but slow down writes (every insert/update must also update the index) and consume additional storage.</li>
+<li><span class="tip-icon">💡</span> Explain that a clustered index physically reorders table rows by index key — there can only be one per table (usually the primary key), and it determines the row storage order.</li>
+<li><span class="tip-icon">💡</span> Non-clustered indexes store a separate structure pointing back to row locations — you can have many per table, but each adds write overhead.</li>
+<li><span class="tip-icon">💡</span> Mention index selectivity: an index on a boolean column (true/false) has low selectivity and is largely useless; an index on email addresses has high selectivity and dramatically reduces scan size.</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> An index is a separate data structure that enables fast lookup of rows without scanning the entire table.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Indexes trade write performance and storage space for dramatically faster read queries.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> The primary key is automatically indexed in most databases, providing O(log N) lookup by ID.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Index selectivity measures how well an index narrows the search — high-cardinality columns (emails, IDs) benefit most from indexing.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Clustered indexes determine physical row storage order; non-clustered indexes are separate lookup structures pointing to row locations.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database_index" target="_blank" rel="noopener">Database Index - Wikipedia</a></div>
+      <div class="reading-desc">Wikipedia's database index article covers index types, B-trees, clustered vs non-clustered, and performance implications.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://www.postgresql.org/docs/" target="_blank" rel="noopener">PostgreSQL Documentation</a></div>
+      <div class="reading-desc">PostgreSQL's documentation covers all index types including B-tree, hash, GiST, SP-GiST, GIN, and BRIN with usage guidance.</div>
+      <div class="reading-url">postgresql.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Database_index" target="_blank" rel="noopener">MySQL Documentation via Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive coverage of index internals and the query planner's use of indexes in real database systems.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="067-database-federation.html" class="nav-btn nav-prev">← Database Federation</a>
+  <a href="069-types-of-indexes.html" class="nav-btn nav-next">Types of Indexes →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>

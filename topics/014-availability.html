@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Availability — System Design Fundamentals</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <a class="topbar-logo" href="../index.html">⚙️ System Design Fundamentals</a>
+  <span class="topbar-progress">Topic 014 of 103 &middot; 14% complete</span>
+</nav>
+<div class="progress-track">
+  <div class="progress-fill" style="width:14%"></div>
+</div>
+
+<!-- Hero -->
+<header class="topic-hero">
+  <div class="hero-breadcrumb">
+    <a href="../index.html">Home</a> › Core Concepts › Availability
+  </div>
+  <h1 class="hero-title">Availability</h1>
+  <div class="hero-meta">
+    <span class="hero-tag">⏱ 7 min read</span>
+    <span class="hero-tag">🟢 Beginner</span>
+    <span class="hero-tag">Availability</span> <span class="hero-tag">SLA</span> <span class="hero-tag">Core Concepts</span>
+  </div>
+</header>
+
+<!-- Content -->
+<main class="topic-content">
+
+  <h2 class="sec-title">Core Concept</h2>
+  <div class="core-content">
+<p>Availability is a measure of how accessible and reliable a system is to its users. In distributed systems, high availability is crucial to ensure that the system remains operational even in the face of failures or increased demand. It is the backbone that enables businesses to provide uninterrupted services to their users, regardless of any unforeseen circumstances. In today’s fast-paced digital world, where downtime can lead to significant financial losses and reputational damage, high availability has become a critical requirement for organizations across various industries.</p>
+<h2 id=h2-definition-of-high-availability>Definition of High Availability</h2>
+<p>High availability is often measured in terms of uptime, which is the ratio of time that a system is operational to the total time it is supposed to be operational. Achieving high availability involves minimizing planned and unplanned downtime, eliminating single points of failure, and implementing redundant systems and processes.</p>
+<p>When it comes to distributed systems, high availability goes beyond simply ensuring that the system is up and running. It also involves guaranteeing that the system can handle increased load and traffic without compromising its performance. This scalability aspect is crucial, especially in scenarios where the user base grows rapidly or experiences sudden spikes in demand.</p>
+<h2 id=h2-strategies-for-achieving-high-availability>Strategies for Achieving High Availability</h2>
+<p>To achieve high availability, organizations implement various strategies that focus on redundancy, replication, load balancing, distributed data storage, health monitoring, regular system maintenance, and geographic distribution.</p>
+<h3 id=h3-1-high-availability-through-redundancy-and-replication>1. High Availability through Redundancy and Replication</h3>
+<p>One of the most effective strategies for achieving high availability is redundancy and replication. By duplicating critical components or entire systems, organizations can ensure that if one fails, the redundant system takes over seamlessly, avoiding any interruption in service. Replication involves creating multiple copies of data, ensuring that it is available even if one copy becomes inaccessible.</p>
+<p>Redundancy and replication are commonly used in mission-critical systems such as data centers, where multiple servers are deployed to handle the workload. In the event of a hardware failure or system crash, the redundant server takes over, ensuring uninterrupted service for users.</p>
+<h3 id=h3-2-availability-through-load-balancing>2. Availability through Load Balancing</h3>
+<p>Load balancing involves distributing workloads across multiple servers, ensuring that no single server is overwhelmed. Through intelligent load-balancing algorithms, organizations can optimize resource utilization, prevent bottlenecks, and enhance high availability by evenly distributing traffic.</p>
+<p>Load balancing is particularly useful in web applications, where a large number of users access the system simultaneously. By distributing incoming requests across multiple servers, load balancers ensure that no single server becomes overloaded, leading to improved performance and availability.</p>
+<h3 id=h3-3-availability-through-distributed-data-storage>3. Availability through Distributed Data Storage</h3>
+<p>Storing data across multiple locations or data centers enhances high availability by reducing the risk of data loss or corruption. Distributed data storage systems replicate data across geographically diverse locations, ensuring that even if one site experiences an outage, data remains accessible from other locations.</p>
+<p>Distributed data storage is crucial for organizations that deal with large volumes of data and cannot afford to lose it. By replicating data across multiple sites, organizations can ensure that data is always available, even in the event of a catastrophic failure at one location.</p>
+<h3 id=h3-4-availability-and-consistency-models-strong-weak-eventual>4. Availability and Consistency Models (Strong, Weak, Eventual)</h3>
+<p>Consistency models define how a distributed system maintains a coherent and up-to-date view of its data across all replicas. Different consistency models provide different trade-offs between availability, performance, and data correctness. Strong consistency ensures that all replicas have the same data at all times, at the cost of reduced availability and performance. Weak consistency allows for temporary inconsistencies between replicas, with the advantage of improved availability and performance. Eventual consistency guarantees that all replicas will eventually converge to the same data, providing a balance between consistency, availability, and performance.</p>
+<h3 id=h3-5-availability-through-health-monitoring-and-alerts>5. Availability through Health Monitoring and Alerts</h3>
+<p>Implementing robust health monitoring systems ensures that organizations can proactively identify and address potential issues before they impact system availability. Real-time monitoring and automated alerts enable timely response and rapid resolution of problems, minimizing downtime.</p>
+<p>Health monitoring involves continuously monitoring system performance, resource utilization, and various metrics to detect any anomalies or potential issues. Alerts are triggered when predefined thresholds are exceeded, allowing IT teams to take immediate action and prevent service disruptions.</p>
+<h3 id=h3-6-availability-through-regular-system-maintenance-and-updates>6. Availability through Regular System Maintenance and Updates</h3>
+<p>Regular system maintenance and updates are crucial for achieving high availability. By keeping systems up to date with the latest patches, security enhancements, and bug fixes, organizations can mitigate the risk of failures and vulnerabilities that could compromise system availability.</p>
+<p>System maintenance involves tasks such as hardware inspections, software updates, and routine checks to ensure that all components are functioning correctly. By staying proactive and addressing any potential issues promptly, organizations can maintain high availability and minimize the impact of system failures.</p>
+<h3 id=h3-7-availability-through-geographic-distribution>7. Availability through Geographic Distribution</h3>
+<p>Geographic distribution is a strategy that involves deploying system components across multiple locations or data centers. This ensures that even if one region or data center experiences an outage, users can still access the system from other geographically dispersed locations.</p>
+<p>Geographic distribution is particularly important for organizations with a global presence or those that rely heavily on cloud infrastructure. By strategically placing system components in different geographical areas, organizations can ensure that users from various locations can access the system without any interruptions, regardless of localized incidents or natural disasters.</p>
+  </div>
+
+  <h2 class="sec-title">Beginner Analogy</h2>
+  <div class="analogy-card">
+    <div class="analogy-emoji">💡</div>
+    <div class="analogy-text">Availability is like a 24/7 convenience store. A store that is open 99.9% of the time is closed about 9 hours a year — that might be acceptable for a local shop. But a bank ATM network that is down for 9 hours a year is unacceptable. The higher the stakes of unavailability, the more investment is justified in keeping the service always on.</div>
+  </div>
+
+  <h2 class="sec-title">Real-World Examples</h2>
+  <div class="examples-grid">
+
+    <div class="example-card">
+      <div class="example-company">📦 Amazon</div>
+      <div class="example-text">Amazon targets five-nines (99.999%) availability for AWS S3, which underpins millions of applications worldwide. Each hour of S3 downtime can cause thousands of downstream application outages, making availability an existential business concern.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">💳 Stripe</div>
+      <div class="example-text">Stripe's payment API requires extremely high availability because every minute of downtime directly translates to lost merchant revenue. Stripe achieves this through multi-region active-active deployments with automatic failover and no scheduled maintenance windows.</div>
+    </div>
+
+    <div class="example-card">
+      <div class="example-company">☁️ Cloudflare</div>
+      <div class="example-text">Cloudflare maintains 100% theoretical uptime for its DNS resolution service by running a globally distributed Anycast network. No single data center failure can take down their DNS because hundreds of other locations continue serving queries.</div>
+    </div>
+  </div>
+
+  <h2 class="sec-title">Architecture Diagram</h2>
+<div class="diagram-box"><pre>
+  ┌─────────────────────────────────────────┐
+  │          AVAILABILITY NINES TABLE        │
+  ├────────────┬──────────────┬─────────────┤
+  │ Percentage │ Downtime/year│ Downtime/day│
+  ├────────────┼──────────────┼─────────────┤
+  │   99%      │  3.65 days   │  14.4 min   │
+  │   99.9%    │  8.76 hours  │  1.44 min   │
+  │   99.99%   │  52.56 min   │  8.64 sec   │
+  │   99.999%  │  5.26 min    │  0.86 sec   │
+  └────────────┴──────────────┴─────────────┘
+</pre></div>
+
+  <h2 class="sec-title">Interview Tips</h2>
+<ul class="tips-list">
+<li><span class="tip-icon">💡</span> Memorize the availability nines table — being able to state that 99.99% means 52 minutes of downtime per year shows quantitative preparation.</li>
+<li><span class="tip-icon">💡</span> Distinguish availability SLI (measurement), SLO (target), and SLA (contract) — these terms are often confused in interviews.</li>
+<li><span class="tip-icon">💡</span> Discuss how MTTR (Mean Time to Recovery) and MTBF (Mean Time Between Failures) combine to determine overall availability: A = MTBF / (MTBF + MTTR).</li>
+</ul>
+
+  <h2 class="sec-title">Key Takeaways</h2>
+<div class="takeaways-box">
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Availability measures what percentage of time a system is operational and able to serve requests.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Availability is typically measured in nines: 99.9% (three nines) to 99.999% (five nines) representing increasingly stringent uptime targets.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> Redundancy at every layer — servers, databases, network, load balancers — is required to achieve high availability targets.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> MTTR reduction is often more cost-effective than MTBF improvement for improving overall availability.</div>
+<div class="takeaway-item"><span class="takeaway-icon">✅</span> SLAs define contractual availability commitments, while SLOs are stricter internal targets that give teams a buffer before breaching SLAs.</div>
+</div>
+
+  <h2 class="sec-title">Further Reading</h2>
+<div class="reading-list">
+  <div class="reading-item">
+    <div class="reading-icon">📖</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/High_availability" target="_blank" rel="noopener">High Availability – Wikipedia</a></div>
+      <div class="reading-desc">Comprehensive coverage of availability measurement, nines, and redundancy strategies.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">📝</div>
+    <div>
+      <div class="reading-title"><a href="https://sre.google/sre-book/table-of-contents/" target="_blank" rel="noopener">Google SRE – Service Level Objectives</a></div>
+      <div class="reading-desc">Google SRE framework for defining and measuring availability via SLIs, SLOs, and SLAs.</div>
+      <div class="reading-url">sre.google</div>
+    </div>
+  </div>
+
+  <div class="reading-item">
+    <div class="reading-icon">🎓</div>
+    <div>
+      <div class="reading-title"><a href="https://en.wikipedia.org/wiki/Fault_tolerance" target="_blank" rel="noopener">Fault Tolerance – Wikipedia</a></div>
+      <div class="reading-desc">How fault tolerance engineering directly contributes to availability targets.</div>
+      <div class="reading-url">en.wikipedia.org</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- Nav footer -->
+<footer class="nav-footer">
+  <a href="013-scalability.html" class="nav-btn nav-prev">← Scalability</a>
+  <a href="015-latency-and-performance.html" class="nav-btn nav-next">Latency and Performance →</a>
+</footer>
+
+<script src="../assets/script.js"></script>
+</body>
+</html>
